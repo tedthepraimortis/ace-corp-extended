@@ -35,6 +35,7 @@ server bool hammerhead_allowBackpacks = true;
 server int hammerhead_chaingun_spawn_bias = 14;
 server int hammerhead_plasma_spawn_bias = 9;
 server bool hammerhead_persistent_spawning = false;
+server bool hhd_old_plasma_projectile = false;
 
 // Jackdaw
 server bool jackdaw_allowBackpacks = true;

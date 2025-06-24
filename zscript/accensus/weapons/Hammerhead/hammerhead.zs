@@ -360,12 +360,19 @@ class HDHammerhead : HDCellWeapon
 
 				A_MuzzleClimb(frandom(-shake.x, shake.x), frandom(-shake.y, shake.y), frandom(-shake.x, shake.x) * 0.5, frandom(-shake.y, shake.y) * 0.5);
 
-				let proj = HammerheadPlasmaProjectile(Spawn('HammerheadPlasmaProjectile', pos + GunPos((0, 0, -4))));
-				proj.angle = angle + frandom(-spread.x, spread.x);
-				proj.pitch = pitch + frandom(-spread.y, spread.y);
-				proj.target = self;
-				proj.master = self;
-				proj.Charge = active;
+				if (hhd_old_plasma_projectile)
+				{
+					let proj = HammerheadPlasmaProjectile(Spawn('HammerheadPlasmaProjectile', pos + GunPos((0, 0, -4))));
+					proj.angle = angle + frandom(-spread.x, spread.x);
+					proj.pitch = pitch + frandom(-spread.y, spread.y);
+					proj.target = self;
+					proj.master = self;
+					proj.Charge = active;
+				}
+				else
+				{
+					let bbb=HDBulletActor.FireBullet(self,"HDB_HHD",spread:18,speedfactor:frandom(0.97,1.03));
+				}
 
 				A_DrainActiveBatteries();
 			}
@@ -618,7 +625,7 @@ class HammerheadPlasmaProjectile : SlowProjectile
 		A_AlertMonsters(HDCONST_ONEMETRE * 10);
 		if (hitActor)
 		{
-			hitActor.DamageMobj(self, target, random(40, 50) * Charge, 'Plasma');
+			hitActor.DamageMobj(self, target, random(25, 35) * Charge, 'Plasma');
 			hitActor.A_GiveInventory('Heat', 25 * Charge);
 		}
 		ExplodeMissile(hitLine, null);
@@ -672,6 +679,86 @@ class HammerheadPlasmaProjectile : SlowProjectile
 			HMPL CD 2;
 			TNT1 A 10;
 			Stop;
+	}
+}
+
+class HDB_HHD:HDBulletActor
+{
+	int Charge;
+	default
+	{
+		pushfactor 0.4;
+        mass 175;
+        speed 250;
+        accuracy 666;
+        stamina 762;
+        woundhealth 30;
+        hdbulletactor.hardness 15;
+		Renderstyle "Add";
+		Gravity 0.035;
+		Scale 0.12;
+		Decal "HammerheadScorch";
+	}
+	override actor Puff()
+	{
+		if (max (abs(pos.x), abs(pos.y)) >=32768)
+		return null;
+		setorigin(pos-(2*(cos(angle),sin(angle)),0),false);
+		A_SprayDecal("PlasmaShock",16);
+		if(vel==(0,0,0))A_ChangeVelocity(cos(pitch),0,-sin(pitch),CVF_RELATIVE|CVF_REPLACE);
+		else vel*=0.01;
+		A_AlertMonsters();
+		bmissile=false;
+		if(!instatesequence(curstate,findstate("death")))setstatelabel("death");
+		return null;
+	} 
+	override void onhitactor(actor hitactor,vector3 hitpos,vector3 vu,int flags){
+		double bleed=0.4;
+		double impact=(speed*speed*0.000001)*0.1*mass;
+		double spbak=speed;
+		super.onhitactor(hitactor,hitpos,vu,flags);
+		HitActor.A_GiveInventory('Heat', 25 * Charge);
+		puff();
+		mass == mass * charge;
+		A_Log("Mass: "..mass.."; Charge: "..charge);
+		if(hd_debug)console.printf(hitactor.getclassname().." resisted, impact:  "..impact);
+		A_AlertMonsters();
+	}
+	override void Tick()
+	{
+		Super.Tick();
+
+		vector3 diff = Level.Vec3Diff(pos, Prev);
+		double dist = diff.length();
+		vector3 unit = diff.unit();
+
+		for (int i = 0; i < dist; ++i)
+		{
+			double chargeFac = 1.0 + Charge * 0.025;
+			A_SpawnParticle(0x55FF33, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
+				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
+				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
+				i * unit.z + frandom(-0.25, 0.25) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac);
+		}
+	}
+	states{
+	spawn:
+		HMPL A -1 bright;
+		stop;
+	Death:
+		HMPL B 2
+		{
+			bNOINTERACTION = true;
+			bMISSILE = false;
+			scale *= 4;
+			A_StartSound("Hammerhead/PlasmaHit");
+		}
+		HMPL CD 2;
+		TNT1 A 10;
+		Stop;
 	}
 }
 
