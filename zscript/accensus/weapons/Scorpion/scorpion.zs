@@ -29,7 +29,8 @@ class HDScorpion : HDWeapon
 		SCRProp_Heat,
 		SCRProp_LoadType,
 		SCRProp_Hand,
-		SCRProp_Dot
+		SCRProp_Dot,
+		SCRProp_Grime
 	}
 
 	override bool AddSpareWeapon(actor newowner) {return AddSpareWeaponRegular(newowner);}
@@ -38,6 +39,20 @@ class HDScorpion : HDWeapon
 	{
 		double Extra = 1.5 * WeaponStatus[SCRProp_Mag] + (WeaponStatus[SCRProp_Chamber] == 2 ? 1.5 : 0);
 		return 18 + Extra;
+	}
+	action void A_ChamberGrit(int amt,bool onlywhileempty=false){
+		int ibg = invoker.weaponstatus[SCRProp_Grime];
+		if(!onlywhileempty||invoker.weaponstatus[SCRProp_Chamber]<1)ibg+=amt;
+		else if(!random(0,4))ibg++;
+		invoker.weaponstatus[SCRProp_Grime]=clamp(ibg,0,100);
+		A_Log(string.format("Scorpion grit level: %i",invoker.weaponstatus[SCRProp_Grime]));
+	}
+	int jamchance(){
+		int jc=
+		weaponstatus[SCRProp_Grime]
+		+(weaponstatus[SCRProp_Heat]>>2)
+		+weaponstatus[SCRProp_Chamber];
+		return jc;
 	}
 	override double WeaponBulk()
 	{
@@ -250,6 +265,7 @@ class HDScorpion : HDWeapon
 				HDBulletActor.FireBullet(self, "HDB_bronto", speedfactor: 1.15);
 				invoker.WeaponStatus[SCRProp_Chamber] = 1;
 				invoker.WeaponStatus[SCRProp_Heat] += 32;
+				invoker.WeaponStatus[SCRProp_Grime] += 10;
 			}
 			#### A 1
 			{
@@ -271,6 +287,8 @@ class HDScorpion : HDWeapon
 					A_ChangeVelocity(-frandom(1.0, 1.6)  * cos(pitch), 0, frandom(1.0, 1.6) * sin(pitch), CVF_RELATIVE);
 					A_MuzzleClimb(RecoilSide * RecoilMult, -frandom(1.0, 1.2) * RecoilMult, RecoilSide * RecoilMult, -frandom(1.0, 1.2) * RecoilMult);
 					A_MuzzleClimb(RecoilSide * RecoilMult, -frandom(1.0, 1.2) * RecoilMult, RecoilSide * RecoilMult, -frandom(1.0, 1.2) * RecoilMult, wepdot: true);
+					GiveBody (max(0,11-health));
+					DamageMobJ (invoker, self, 10, "bashing");
 				}
  			}
 			Goto Nope;
@@ -285,10 +303,53 @@ class HDScorpion : HDWeapon
 		AltFire:
 			#### A 1 Offset(0, 34) A_WeaponBusy();
 			#### C 1 Offset(1, 35);
-			#### D 1 Offset(2, 36);
-			#### E 1 Offset(3, 37);
-			#### F 1 Offset(4, 38);
-			#### G 0 A_Refire("Chamber");
+			#### D 1 Offset (2, 36) A_JumpIf(invoker.weaponstatus[BOSSS_CHAMBER]>2,"startjamderp");
+			#### E 1 Offset(3, 37) A_MuzzleClimb(-frandom(0.06,0.1),-frandom(0.3,0.5));
+			#### F 1 Offset(4, 38) A_ChamberGrit(randompick(0,0,1,1,2,3,4),true);
+			#### G 0 A_Refire("chamber");
+			goto ready;
+
+		AltHold:
+			SCRP E 1 A_WeaponReady(WRF_NOFIRE);
+			#### E 1{
+				A_ClearRefire();
+				bool ChamberEmpty = invoker.WeaponStatus[SCRProp_Chamber]<1;
+				if (PressingUnload())
+				{
+					if(ChamberEmpty)
+					{
+						return resolvestate("altholdclean");
+					}
+					else
+					{
+						invoker.WeaponStatus[SCRProp_LoadType] = 0;
+						return resolvestate("loadchamber");
+					}
+				}
+				else if(PressingReload())
+				{
+					if(!ChamberEmpty)
+					{
+						invoker.WeaponStatus[SCRProp_LoadType] = 0;
+						return resolvestate("loadchamber");
+					}
+					else if (CheckInventory("BrontornisRound", 1))
+					{
+						invoker.WeaponStatus[SCRProp_LoadType] = 1;
+						return resolvestate("loadchamber");
+					}
+				}
+
+				if (PressingAltFire())
+				{
+					return ResolveState("AltHold");
+				}
+
+				return resolvestate("altholdend");
+			}
+		AltHoldEnd:
+			#### H 2 A_StartSound("Scorpion/BoltFwd", 8);
+			#### HGEDC 2;
 			Goto Ready;
 		Chamber:
 			#### G 4 Offset(4, 38);
@@ -330,34 +391,7 @@ class HDScorpion : HDWeapon
 			#### I 1 A_WeaponReady(WRF_NOFIRE);
 			#### I 0 A_Refire("AltHold");
 			Goto AltHoldEnd;
-		AltHold:
-			#### # 1 A_WeaponReady(WRF_NOFIRE);
-			#### # 1
-			{
-				A_ClearRefire();
-				bool ChamberEmpty = invoker.WeaponStatus[SCRProp_Chamber] < 1;
-				if (PressingReload())
-				{
-					if (!ChamberEmpty)
-					{
-						invoker.WeaponStatus[SCRProp_LoadType] = 0;
-						return ResolveState("LoadChamber");
-					}
-					else if (CheckInventory("BrontornisRound", 1))
-					{
-						invoker.WeaponStatus[SCRProp_LoadType] = 1;
-						return ResolveState("LoadChamber");
-					}
-				}
 
-				if (PressingAltFire())
-				{
-					return ResolveState("AltHold");
-				}
-
-				return ResolveState("AltHoldEnd");
-			}
-			Stop;
 		LoadChamber:
 			#### # 1 Offset(2, 36) A_ClearRefire();
 			#### # 1 Offset(3, 38);
@@ -388,13 +422,14 @@ class HDScorpion : HDWeapon
 						{
 							HDF.Give(self, "BrontornisRound", 1);
 						}
+						A_ChamberGrit(randompick(0,0,0,0,-1,1),true);
 						break;
 					case 1:
 						A_TakeInventory("BrontornisRound", 1, TIF_NOTAKEINFINITE);
 						invoker.WeaponStatus[SCRProp_Chamber] = 2;
 						break;
 				}
-			}
+			} 
 			SCRP # 2 Offset(6, 80);
 			#### # 2 Offset(7, 72);
 			#### # 2 Offset(8, 60);
@@ -403,10 +438,83 @@ class HDScorpion : HDWeapon
 			#### # 1 Offset(3, 38);
 			#### # 1 Offset(3, 35);
 			Goto AltHold;
-		AltHoldEnd:
-			#### H 2 A_StartSound("Scorpion/BoltFwd", 8);
-			#### HGEDC 2;
-			Goto Ready;
+		AltHoldClean:
+			SCRP E 1 offset(2,36) A_ClearRefire();
+			#### E 1 offset(3,38);
+			#### E 1 offset(5,41) A_Log(StringTable.Localize("$BOSS_CLEANS"),true);
+			#### E 1 offset(8,44) A_StartSound("weapons/pocket",9);
+			#### E 1 offset(7,50) A_MuzzleClimb(frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2,wepdot:false);
+			TNT1 A 3 A_StartSound("weapons/pocket",10);
+			TNT1 AAAA 4 A_MuzzleClimb(frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),wepdot:false);
+			TNT1 A 3 A_StartSound("weapons/pocket",9);
+			TNT1 AAAA 4 A_MuzzleClimb(frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),frandom(-0.2,0.2),wepdot:false);
+			TNT1 A 40{
+				A_StartSound("weapons/pocket",9);
+				int amt=invoker.weaponstatus[SCRProp_Grime];
+				string amts=StringTable.Localize("$BOSS_CLEAN1");
+				if(amt>80)amts=StringTable.Localize("$BOSS_CLEAN2");
+				else if(amt>60)amts=StringTable.Localize("$BOSS_CLEAN3");
+				else if(amt>40)amts=StringTable.Localize("$BOSS_CLEAN4");
+				else if(amt>20)amts=StringTable.Localize("$BOSS_CLEAN5");
+
+				/*static const */string cleanverbs[]={"$BOSS_EXTRACT","$BOSS_SCRAPEOFF","$BOSS_WIPEAWAY","$BOSS_CAREREMOVE","$BOSS_DUMPOUT","$BOSS_PICKOUT","$BOSS_BLOWOFF","$BOSS_SHAKEOUT","$BOSS_SCRUBOFF","$BOSS_FISH"};
+				/*static const */string contaminants[]={"$BOSS_SOMEDUST","$BOSS_ALODUST","$BOSS_ABOPOWDER","$BOSS_DAOPOWDER","$BOSS_SEXGREASE","$BOSS_ALOSOOT","$BOSS_SOMEIRON","$BOSS_HAIR","$BOSS_EYELASH","$BOSS_BLOOD","$BOSS_RUST","$BOSS_CRUMB","$BOSS_DEADSOME","$BOSS_ASHES","$BOSS_SKIN","$BOSS_FLUID","$BOSS_WOWSOME","$BOSS_BOOGER","$BOSS_FECAL","$BOSS_BULLETSIMPACT","$BOSS_JAM","$BOSS_HUSK","$BOSS_SFLESH","$BOSS_CRYSTAL","$BOSS_SPACEANT","$BOSS_TRANSISTOR","$BOSS_TINBOSS","$BOSS_FILM"};
+				/*static const */string actionparts[]={"$BOSS_BOLTCAR","$BOSS_MAINEXTRACTOR","$BOSS_AUXEXTRACTOR","$BOSS_CAMPIN","$BOSS_BOLTHEAD","$BOSS_STRIKER","$BOSS_SPRING","$BOSS_EJECTSLOT","$BOSS_STRIKERSPRING","$BOSS_EJSPRING"};
+				for(int i=amt;i>0;i-=random(16,32))amts.appendformat(StringTable.Localize("$BOSS_FINLINE"),
+					StringTable.Localize(cleanverbs[random(0,cleanverbs.size()-1)]),
+					StringTable.Localize(contaminants[random(0,random(0,contaminants.size()-1))]),
+					StringTable.Localize(actionparts[random(0,random((actionparts.size()>>1),actionparts.size()-1))])
+				);
+				amts=HDMath.BuildVariableString(amts);
+				amts.appendformat("\n");
+
+				amt=randompick(-3,-5,-5,-random(16,32));
+
+				A_ChamberGrit(amt,true);
+				amt=invoker.weaponstatus[SCRProp_Grime];
+				if(amt>40)amts.appendformat(StringTable.Localize("$BOSS_CLENF1"));
+				else if(amt>30)amts.appendformat(StringTable.Localize("$BOSS_CLENF2"));
+				else if(amt>20)amts.appendformat(StringTable.Localize("$BOSS_CLENF3"));
+				else if(amt>10)amts.appendformat(StringTable.Localize("$BOSS_CLENF4"));
+				else amts.appendformat(StringTable.Localize("$BOSS_CLENF5"));
+				A_Log(amts,true);
+			}
+			SCRP E 1 offset(7,52);
+			#### E 1 offset(8,48);
+			#### E 1 offset(5,42);
+			#### E 1 offset(3,38);
+			#### E 1 offset(2,36);
+			goto althold;
+		jam:
+			SCRP A 0{
+				int chm=invoker.weaponstatus[SCRProp_Chamber];
+				if(chm<1)setweaponstate("chamber");
+				else if(chm<3)invoker.weaponstatus[SCRProp_Chamber]+=2;
+			}
+		startjamderp:
+			#### C 0 A_StartSound("Scorpion/RifleClick2",8,CHANF_OVERLAP);
+			#### D 1 offset(0,34);
+			#### E 2 offset(1,35);
+			#### F 2 offset(3,37)A_MuzzleClimb(frandom(-0.5,0.6),frandom(-0.3,0.6));
+			#### G 0 SetWeaponState("jamderp");
+
+		jamderp:
+			#### G 0 A_StartSound("Scorpion/RifleClick2",8,CHANF_OVERLAP);
+			#### G 1 offset(0,34);
+			#### G 2 offset(1,35);
+			#### G 2 offset(3,37)A_MuzzleClimb(frandom(-0.5,0.6),frandom(-0.3,0.6));
+			#### G 3 offset(4,38){
+				A_MuzzleClimb(frandom(-0.5,0.6),frandom(-0.3,0.6));
+				if(random(0,invoker.jamchance())<12){
+					setweaponstate("chamber");
+					if(invoker.weaponstatus[SCRProp_Chamber]>2)  
+						invoker.weaponstatus[SCRProp_Chamber]-=2;
+				}
+			}
+			#### G 2 offset(4,38);
+			#### G 3 offset(2,36);
+			#### G 0 A_Refire("jamderp");
+			goto ready;
 		Reload:
 			#### A 0
 			{
