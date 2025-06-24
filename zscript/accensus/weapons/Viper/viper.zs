@@ -3,6 +3,7 @@ class HDViper : HDHandgun
 	enum ViperFlags
 	{
 		VPF_JustUnload = 1,
+		VPF_LightTrigger = 2,
 		VPF_HeavyFrame = 4,
 		VPF_ExtendedBarrel = 8
 	}
@@ -29,10 +30,10 @@ class HDViper : HDHandgun
 
 	override double GunMass()
 	{
-		double BaseMass = 7.0;
+		double BaseMass = 10.5;
 		if (WeaponStatus[VPProp_Flags] & VPF_ExtendedBarrel)
 		{
-			BaseMass += 1.0;
+			BaseMass += 1.5;
 		}
 		if (WeaponStatus[VPProp_Flags] & VPF_HeavyFrame)
 		{
@@ -43,11 +44,15 @@ class HDViper : HDHandgun
 
 	override double WeaponBulk()
 	{
-		double BaseBulk = 50;
+		double BaseBulk = 85;
 		int Mag = WeaponStatus[VPProp_Mag];
 		if (Mag >= 0)
 		{
 			BaseBulk += HDViperMag.EncMagLoaded + Mag * ENC_50AM_LOADED;
+		}
+		if (WeaponStatus[VPProp_Flags] & VPF_LightTrigger)
+		{
+			BaseBulk -= 2;
 		}
 		if (WeaponStatus[VPProp_Flags] & VPF_ExtendedBarrel)
 		{
@@ -82,6 +87,10 @@ class HDViper : HDHandgun
 
 	override void LoadoutConfigure(string input)
 	{
+		if (GetLoadoutVar(input, "trigger", 1) > 0)
+		{
+			WeaponStatus[VPProp_Flags] |= VPF_LightTrigger;
+		}
 		if (GetLoadoutVar(input, "hframe", 1) > 0)
 		{
 			WeaponStatus[VPProp_Flags] |= VPF_HeavyFrame;
@@ -117,13 +126,6 @@ class HDViper : HDHandgun
 		}
 	}
 
-	action void A_CheckViperHand()
-	{
-		bool right = !invoker.wronghand;
-		right = right && Wads.CheckNumForName("id", 0) != -1 || !right && Wads.CheckNumForName("id", 0) == -1;
-		player.GetPSprite(PSP_WEAPON).sprite = GetSpriteIndex(right ? "VPRGA0" : "VP2GA0");
-	}
-
 	override string GetHelpText()
 	{
 		LocalizeHelp();
@@ -140,8 +142,9 @@ class HDViper : HDHandgun
 	{
 		string HFrameStr = WeaponStatus[VPProp_Flags] & VPF_HeavyFrame ? Stringtable.localize("$PICKUP_VIPER_HEAVYFRAME") : "";
 		string ExBarrelStr = WeaponStatus[VPProp_Flags] & VPF_ExtendedBarrel ? Stringtable.localize("$PICKUP_VIPER_EXTENDEDBARREL") : "";
+		string LTriggerStr = WeaponStatus[VPProp_Flags] & VPF_LightTrigger ? Stringtable.Localize("$PICKUP_VIPER_LIGHTTRIGGER") : "";
 
-		return Stringtable.localize("$PICKUP_VIPER_PREFIX")..HFrameStr..ExBarrelStr..Stringtable.localize("$TAG_VIPER")..Stringtable.localize("$PICKUP_VIPER_SUFFIX");
+		return Stringtable.localize("$PICKUP_VIPER_PREFIX")..HFrameStr..ExBarrelStr..LTriggerStr..Stringtable.localize("$TAG_VIPER")..Stringtable.localize("$PICKUP_VIPER_SUFFIX");
 	}
 
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
@@ -183,8 +186,22 @@ class HDViper : HDHandgun
 		sb.DrawImage("VIPRBACK", bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, scale: (0.9, 0.7));
 	}
 
+	private action void A_UpdateSlideFrame()
+	{
+		let psp = player.GetPSprite(PSP_WEAPON);
+		psp.frame = invoker.WeaponStatus[VPProp_Chamber] == 0 ? 2 : 0;
+	}
+
+	private action void A_UpdateReloadSprite()
+	{
+		let psp = player.GetPSprite(PSP_WEAPON);
+		psp.sprite = GetSpriteIndex(invoker.WeaponStatus[VPProp_Chamber] == 0 ? "VPRE" : "VPRR");
+	}
+
+
 	Default
 	{
+		+WEAPON.NOAUTOFIRE
 		+HDWEAPON.FITSINBACKPACK
 		Weapon.SelectionOrder 300;
 		Weapon.SlotNumber 2;
@@ -201,6 +218,9 @@ class HDViper : HDHandgun
 
 	States
 	{
+		RegisterSprites:
+			VPRR A 0; VPRE A 0;
+
 		Spawn:
 			VPRX Y 0 NoDelay A_JumpIf(invoker.WeaponStatus[VPProp_Flags] & VPF_ExtendedBarrel, 2);
 			VPRG Y 0;
@@ -210,30 +230,17 @@ class HDViper : HDHandgun
 			}
 			Stop;
 		Ready:
-			VPRG A 0 A_CheckViperHand();
-			#### A 0 A_JumpIf(invoker.WeaponStatus[VPProp_Chamber] > 0, 2);
-			#### C 0;
-			#### # 1 A_WeaponReady(WRF_ALL);
+			VPRG A 1
+			{
+				A_UpdateSlideFrame();
+				A_WeaponReady(WRF_ALL);
+			}
 			Goto ReadyEnd;
 		Select0:
-			VPRG A 0
-			{
-				if (!CheckInventory("NulledWeapon", 1))
-				{
-					invoker.wronghand = false;
-				}
-				A_TakeInventory("NulledWeapon");
-				A_CheckViperHand();
-			}
-			#### A 0 A_JumpIf(invoker.WeaponStatus[VPProp_Chamber] > 0, 2);
-			#### C 0;
-			#### # 0;
+			VPRG A 0 A_UpdateSlideFrame();
 			Goto Select0Small;
 		Deselect0:
-			VPRG A 0 A_CheckViperHand();
-			#### A 0 A_JumpIf(invoker.WeaponStatus[VPProp_Chamber] > 0, 2);
-			#### C 0;
-			#### # 0;
+			VPRG A 0 A_UpdateSlideFrame();
 			Goto Deselect0Small;
 		User3:
 			#### A 0 A_MagManager("HDViperMag");
@@ -275,9 +282,13 @@ class HDViper : HDHandgun
 				}
 				HDBulletActor.FireBullet(self, "HDB_50AM", spread: 1.0, speedfactor: frandom(0.99, 1.03) * VelMult);
 				A_AlertMonsters();
-				A_ZoomRecoil(0.99);
+				A_ZoomRecoil(1.05);
 
 				double ClimbMult = 1.0;
+				if (invoker.WeaponStatus[VPProp_Flags] & VPF_LightTrigger)
+				{
+					ClimbMult -= 0.5;
+				}
 				if (ExtBarrel)
 				{
 					ClimbMult -= 0.12;
@@ -286,7 +297,7 @@ class HDViper : HDHandgun
 				{
 					ClimbMult *= 0.75;
 				}
-				A_MuzzleClimb(-frandom(0., 1.8) * ClimbMult, -frandom(3.0, 5.0) * ClimbMult);
+				A_MuzzleClimb(-frandom(0.9, 2.8) * ClimbMult, -frandom(5.0, 7.0) * ClimbMult);
 
 				invoker.WeaponStatus[VPProp_Chamber] = 1;
 			}
@@ -316,7 +327,7 @@ class HDViper : HDHandgun
 			Goto Nope;
 
 		Flash:
-			VPRF A 1 Bright
+			VPRF A 0 Bright
 			{
 				HDFlashAlpha(128);
 			}
@@ -364,10 +375,10 @@ class HDViper : HDHandgun
 			}
 			Goto Nope;
 		RemoveMag:
-			#### # 1 Offset(0, 34) A_SetCrosshair(21);
-			#### # 1 Offset(1, 38);
-			#### # 2 Offset(2, 42);
-			#### # 3 Offset(3, 46) A_StartSound("Viper/MagOut", 8, CHANF_OVERLAP);
+			#### # 2 Offset(0, 34) A_SetCrosshair(21);
+			#### # 2 Offset(1, 38);
+			#### # 3 Offset(2, 42);
+			#### # 4 Offset(3, 46) A_StartSound("Viper/MagOut", 8, CHANF_OVERLAP);
 			#### # 0
 			{
 				int Mag = invoker.WeaponStatus[VPProp_Mag];
@@ -388,7 +399,7 @@ class HDViper : HDHandgun
 				}
 			}
 		PocketMag:
-			#### ### 5 Offset(0, 46) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
+			#### ### 6 Offset(0, 46) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
 			Goto MagOut;
 		MagOut:
 			#### # 0
@@ -403,10 +414,10 @@ class HDViper : HDHandgun
 				}
 			}
 		LoadMag:
-			#### # 4 Offset(0, 46) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
-			#### # 0 A_StartSound("weapons/pocket", 9);
 			#### # 5 Offset(0, 46) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
-			#### # 3;
+			#### # 0 A_StartSound("weapons/pocket", 9);
+			#### # 6 Offset(0, 46) A_MuzzleClimb(frandom(-0.2, 0.8), frandom(-0.2, 0.4));
+			#### # 4;
 			#### # 0
 			{
 				let Mag = HDMagAmmo(FindInventory("HDViperMag"));
@@ -418,17 +429,17 @@ class HDViper : HDHandgun
 			}
 			Goto ReloadEnd;
 		ReloadEnd:
-			#### # 2 Offset(3, 46);
-			#### # 1 Offset(2, 42);
-			#### # 1 Offset(2, 38);
+			#### # 3 Offset(3, 46);
+			#### # 2 Offset(2, 42);
+			#### # 2 Offset(2, 38);
 			#### # 1 Offset(1, 34);
 			#### # 0 A_JumpIf(!(invoker.WeaponStatus[VPProp_Flags] & VPF_JustUnload), "ChamberManual");
 			Goto Nope;
 
 		ChamberManual:
 			#### # 0 A_JumpIf(!(invoker.WeaponStatus[VPProp_Flags] & VPF_JustUnload) && (invoker.WeaponStatus[VPProp_Chamber] == 2 || invoker.WeaponStatus[VPProp_Mag] <= 0), "Nope");
-			#### # 3 Offset(0, 34);
-			#### C 4 Offset(0, 37)
+			#### # 5 Offset(0, 34);
+			#### C 6 Offset(0, 37)
 			{
 				if (invoker.WeaponStatus[VPProp_Chamber] > 0)
 				{
@@ -450,19 +461,19 @@ class HDViper : HDHandgun
 					A_StartSound("Viper/SlideForward", 9);
 				}
 			}
-			#### # 3 Offset(0, 35);
+			#### # 4 Offset(0, 35);
 			Goto Nope;
 		LoadChamber:
 			#### # 0 A_JumpIf(invoker.WeaponStatus[VPProp_Chamber] > 0, "Nope");
 			#### C 1 Offset(0, 36) A_StartSound("weapons/pocket",9);
 			#### C 1 Offset(2, 40);
-			#### C 1 Offset(2, 50);
-			#### C 1 Offset(3, 60);
+			#### C 2 Offset(2, 50);
+			#### C 2 Offset(3, 60);
 			#### C 2 Offset(5, 90);
 			#### C 2 Offset(7, 80);
-			#### C 2 Offset(10, 90);
-			#### C 2 Offset(8, 96);
-			#### C 3 Offset(6, 88)
+			#### C 3 Offset(10, 90);
+			#### C 3 Offset(8, 96);
+			#### C 4 Offset(6, 88)
 			{
 				if (CheckInventory("HD50AM_Ammo", 1))
 				{
@@ -478,71 +489,6 @@ class HDViper : HDHandgun
 			#### A 2 Offset(1, 38);
 			#### A 3 Offset(0, 34);
 			Goto ReadyEnd;
-
-		AltReload:
-		Firemode:
-		SwapPistols:
-			#### A 0 A_SwapHandguns();
-			#### A 0 A_JumpIf(player.GetPSprite(PSP_WEAPON).sprite == GetSpriteIndex("VPRGA0"), "SwapPistols2");
-		SwapPistols1:
-			TNT1 A 0 A_Overlay(1026, "lowerleft");
-			TNT1 A 0 A_Overlay(1025, "raiseright");
-			TNT1 A 5;
-			VPRG A 0;
-			Goto Nope;
-		SwapPistols2:
-			TNT1 A 0 A_Overlay(1026, "lowerright");
-			TNT1 A 0 A_Overlay(1025, "raiseleft");
-			TNT1 A 5;
-			VP2G A 0;
-			Goto Nope;
-		LowerLeft:
-			VPRG # 0 A_WeaponBusy(true);
-			#### # 1 Offset(-6, 38);
-			#### # 1 Offset(-12, 48);
-			#### # 1 Offset(-20, 60);
-			#### # 1 Offset(-34, 76);
-			#### # 1 Offset(-50, 86);
-			stop;
-		LowerRight:
-			VP2G # 0 A_WeaponBusy(true);
-			#### # 1 Offset(6, 38);
-			#### # 1 Offset(12, 48);
-			#### # 1 Offset(20, 60);
-			#### # 1 Offset(34, 76);
-			#### # 1 Offset(50, 86);
-			Stop;
-		RaiseLeft:
-			VPRG # 0 A_WeaponBusy(false);
-			#### # 1 Offset(-50, 86);
-			#### # 1 Offset(-34, 76);
-			#### # 1 Offset(-20, 60);
-			#### # 1 Offset(-12, 48);
-			#### # 1 Offset(-6, 38);
-			Stop;
-		RaiseRight:
-			VP2G # 0 A_WeaponBusy(false);
-			#### # 1 Offset(50, 86);
-			#### # 1 Offset(34, 76);
-			#### # 1 Offset(20, 60);
-			#### # 1 Offset(12, 48);
-			#### # 1 Offset(6, 38);
-			Stop;
-		WhyAreYouSmiling:
-			#### A 0 A_WeaponBusy(true);
-			#### # 1 Offset(0, 48);
-			#### # 1 Offset(0, 60);
-			#### # 1 Offset(0, 76);
-			TNT1 A 7;
-			TNT1 A 0
-			{
-				invoker.wronghand = !invoker.wronghand;
-				A_CheckViperHand();
-			}
-			#### # 1 Offset(0, 76);
-			#### # 1 Offset(0, 60);
-			#### # 1 Offset(0, 48);
-			Goto Nope;
 	}
 }
 
@@ -562,6 +508,9 @@ class ViperRandom : IdleDummy
 				}
 
 				HDF.TransferSpecials(self, wpn);
+				if (!random(0, 3)){
+					wpn.WeaponStatus[wpn.VPProp_Flags] |= wpn.VPF_LightTrigger;
+				}
 				if (!random(0, 3))
 				{
 					wpn.WeaponStatus[wpn.VPProp_Flags] |= wpn.VPF_HeavyFrame;
@@ -593,15 +542,15 @@ class HDViperMag : HDMagAmmo
 		ItemsThatUseThis.Push("HDViper");
 	}
 
-	const EncMag = 12;
+	const EncMag = 17;
 	const EncMagEmpty = EncMag * 0.6;
 	const EncMagLoaded = EncMag * 0.2;
 
 	Default
 	{
 		HDMagAmmo.MaxPerUnit 7;
-		HDMagAmmo.InsertTime 9;
-		HDMagAmmo.ExtractTime 6;
+		HDMagAmmo.InsertTime 12;
+		HDMagAmmo.ExtractTime 12;
 		HDMagAmmo.RoundType "HD50AM_Ammo";
 		//HDMagAmmo.RoundBulk ENC_50AM;
 		HDMagAmmo.MagBulk EncMagEmpty;

@@ -306,6 +306,7 @@ PICKUP_SCORPION_SUFFIX                  = ".";
 PICKUP_VIPER_PREFIX                     = "You got the ";
 PICKUP_VIPER_HEAVYFRAME                 = "Heavy-Framed ";
 PICKUP_VIPER_EXTENDEDBARREL             = "extended ";
+PICKUP_VIPER_LIGHTTRIGGER               = " with a lighter trigger";
 PICKUP_VIPER_SUFFIX                     = ". Blast 'em.";
 PICKUP_VIPERMAG_PREFIX                  = "You got a ";
 PICKUP_VIPERMAG_SUFFIX                  = ".";
