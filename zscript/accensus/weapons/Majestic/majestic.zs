@@ -205,20 +205,31 @@ class HDMajestic : HDHandgun
 		int tier = invoker.Charge / (MaxCharge / Tiers);
 		HDB_500SWElectrified b = HDB_500SWElectrified(HDBulletActor.FireBullet(self, "HDB_500SWElectrified", speedfactor: frandom(0.98, 1.02) + 0.35 * tier));
 		b.Tier = tier;
+		DamageMobJ (invoker, self, 3, "bashing");
 
 		A_ResetCharges();
 		A_AlertMonsters();
 		A_ZoomRecoil(1.15);
 
 		double mult = invoker.ActualAmount > 1 ? 0.7 : 1.0;
+
+		if (tier == 2)
+		{
+			Actor.Spawn("MajesticExplosion", pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION);
+			invoker.WeaponStatus[MJProp_Battery]-=2;
+			mult++;
+		}
+		if (tier == 3)
+		{
+			Actor.Spawn("MajesticExplosion", pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION);
+			invoker.WeaponStatus[MJProp_Battery]-=4;
+			mult+=2;
+		}
+
 		A_MuzzleClimb(-frandom(0.25, 1.8) * mult, -frandom(4.0, 6.0) * mult);
 
 		invoker.WeaponStatus[MJProp_SpentRounds]++;
 		invoker.WeaponStatus[MJProp_Mag]--;
-		if (tier > 0)
-		{
-			invoker.WeaponStatus[MJProp_Battery]--;
-		}
 	}
 
 	action void A_CheckMajesticHand()
