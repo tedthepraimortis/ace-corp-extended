@@ -171,7 +171,7 @@ class HDWyvern : HDWeapon {
 			let rightChamber = invoker.weaponStatus[WYVS_CHAMBER2] > 1;
 			psp.frame = rightChamber ? 2 : 3;
 			flashFrame = rightChamber ? 0 : 1;
-			A_MuzzleClimb(0, 0, -0.2, -0.8, -frandom(0.5, 0.9), -frandom(3.2, 4.0), -frandom(0.5, 0.9), -frandom(3.2, 4.0));
+			A_MuzzleClimb(0, 0, -0.2, -0.8, -frandom(0.9, 1.5), -frandom(4.2, 5.0), -frandom(0.9, 1.5), -frandom(4.2, 5.0));
 			HDBulletActor.FireBullet(self, "HDB_50OMG");
 			invoker.weaponStatus[WYVS_CHAMBER1] = 1;
 			A_StartSound("Wyvern/Fire", CHAN_WEAPON, CHANF_OVERLAP);
@@ -182,10 +182,23 @@ class HDWyvern : HDWeapon {
 			let leftChamber = invoker.weaponStatus[WYVS_CHAMBER1] > 1;
 			psp.frame = leftChamber ? 1 : 3;
 			flashFrame = leftChamber ? 2 : 3;
-			A_MuzzleClimb(0, 0, 0.2, -0.8, frandom(0.5, 0.9), -frandom(3.2, 4.0), frandom(0.5, 0.9), -frandom(3.2, 4.0));
+			A_MuzzleClimb(0, 0, -0.2, -0.8, -frandom(0.9, 1.5), -frandom(4.2, 5.0), -frandom(0.9, 1.5), -frandom(4.2, 5.0));
 			HDBulletActor.FireBullet(self, "HDB_50OMG");
 			invoker.weaponStatus[WYVS_CHAMBER2] = 1;
 			A_StartSound("Wyvern/Fire", CHAN_WEAPON, CHANF_OVERLAP);
+		}
+
+		IsMoving.Give(self,gunbraced()?2:7);
+		if(
+			!binvulnerable
+			&&(
+				floorz<pos.z
+				||IsMoving.Count(self)>6
+			)
+		){
+			givebody(max(0,7-health));
+			damagemobj(invoker,self,6,"bashing");
+			IsMoving.Give(self,5);
 		}
 
 		// Fire Both Chambers
@@ -375,11 +388,11 @@ class HDWyvern : HDWeapon {
 			}Goto ReloadStart;
 		ReloadStart:
 		UnloadStart:
-			WYVG # 2 Offset(0, 34);
-			WYVG # 1 Offset(0, 40);
-			WYVG # 3 Offset(0, 46);
-			WYVR A 5 Offset(0, 47) A_StartSound("Wyvern/Open", 8);
-			WYVR B 4 Offset(0, 46) A_MuzzleClimb(
+			WYVG # 3 Offset(0, 34);
+			WYVG # 2 Offset(0, 40);
+			WYVG # 4 Offset(0, 46);
+			WYVR A 6 Offset(0, 47) A_StartSound("Wyvern/Open", 8);
+			WYVR B 5 Offset(0, 46) A_MuzzleClimb(
 				frandom(0.6, 1.2), frandom(0.6, 1.2),
 				frandom(0.6, 1.2), frandom(0.6, 1.2),
 				frandom(1.2, 2.4), frandom(1.2, 2.4)
@@ -485,12 +498,12 @@ class HDWyvern : HDWeapon {
 
 		ReloadSS:
 			WYVG # 0 A_JumpIf(invoker.weaponStatus[SHOTS_SIDESADDLE] >= MaxSideRounds,"Nope");
-			WYVG # 1 Offset(1, 34);
-			WYVG # 2 Offset(2, 34);
-			WYVG # 3 Offset(3, 36);
+			WYVG # 2 Offset(1, 34);
+			WYVG # 3 Offset(2, 34);
+			WYVG # 4 Offset(3, 36);
 		ReloadSSRestart:
 			WYVG # 6 Offset(3, 35);
-			WYVG # 9 Offset(4, 34) A_StartSound("weapons/pocket", 9);
+			WYVG # 10 Offset(4, 34) A_StartSound("weapons/pocket", 9);
 		ReloadSSLoop:
 			WYVG # 0 {
 				if (invoker.weaponStatus[SHOTS_SIDESADDLE] >= MaxSideRounds) SetWeaponState('ReloadSSEnd');
