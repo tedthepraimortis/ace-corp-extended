@@ -45,7 +45,7 @@ class HDBlackjack : HDWeapon
 	}
 	override double WeaponBulk()
 	{
-		double BaseBulk = 115;
+		double BaseBulk = 225;
 		int prim = WeaponStatus[BJProp_MagPrimary];
 		int sec = WeaponStatus[BJProp_MagSecondary];
 		if (prim >= 0)
