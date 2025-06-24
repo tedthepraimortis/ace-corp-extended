@@ -45,7 +45,7 @@ class HDScorpion : HDWeapon
 		if(!onlywhileempty||invoker.weaponstatus[SCRProp_Chamber]<1)ibg+=amt;
 		else if(!random(0,4))ibg++;
 		invoker.weaponstatus[SCRProp_Grime]=clamp(ibg,0,100);
-		A_Log(string.format("Scorpion grit level: %i",invoker.weaponstatus[SCRProp_Grime]));
+		//A_Log(string.format("Scorpion grit level: %i",invoker.weaponstatus[SCRProp_Grime]));
 	}
 	int jamchance(){
 		int jc=
