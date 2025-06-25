@@ -118,6 +118,10 @@ server bool ladderlauncher_persistent_spawning = false;
 server bool psg_allowBackpacks = true;
 server int psg_bluearmour_spawn_bias = 19;
 server bool psg_persistent_spawning = false;
+server bool psg_upgrade_1_enabled = true;
+server bool psg_upgrade_2_enabled = true;
+server bool psg_upgrade_3_enabled = true;
+server bool psg_upgrade_4_enabled = true;
 
 server bool secretfinder_allowBackpacks = true;
 server int secretfinder_map_spawn_bias = 19;

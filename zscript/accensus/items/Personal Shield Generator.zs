@@ -57,19 +57,19 @@ class HDPersonalShieldGenerator : HDWeapon
 		{
 			WeaponStatus[PSProp_UpgradePoints] = clamp(points, 1, Tiers);
 		}
-		if (GetLoadoutVar(input, "elem", 1) > 0)
+		if (GetLoadoutVar(input, "elem", 1) > 0 && psg_upgrade_1_enabled)
 		{
 			WeaponStatus[PSProp_Flags] |= PSF_Elemental;
 		}
-		if (GetLoadoutVar(input, "medical", 1) > 0)
+		if (GetLoadoutVar(input, "medical", 1) > 0 && psg_upgrade_2_enabled)
 		{
 			WeaponStatus[PSProp_Flags] |= PSF_Medical;
 		}
-		if (GetLoadoutVar(input, "shock", 1) > 0)
+		if (GetLoadoutVar(input, "shock", 1) > 0 && psg_upgrade_3_enabled)
 		{
 			WeaponStatus[PSProp_Flags] |= PSF_Shocking;
 		}
-		if (GetLoadoutVar(input, "cloak", 1) > 0)
+		if (GetLoadoutVar(input, "cloak", 1) > 0 && psg_upgrade_4_enabled)
 		{
 			WeaponStatus[PSProp_Flags] |= PSF_Cloaking;
 		}
@@ -731,10 +731,15 @@ class PsgRandom : IdleDummy
 				let psg = HDPersonalShieldGenerator(Spawn('HDPersonalShieldGenerator', pos));
 				HDF.TransferSpecials(self, psg);
 
-				if (!random[psgrand](0, 5))
-				{
-					psg.WeaponStatus[psg.PSProp_Flags] |= (1 << random[psgrand](0, 3));
-				}
+				if(!random(0,2) && psg_upgrade_1_enabled) psg.WeaponStatus[psg.PSProp_Flags] |= psg.PSF_Elemental;
+				if(!random(0,3) && psg_upgrade_2_enabled) psg.WeaponStatus[psg.PSProp_Flags] |= psg.PSF_Medical;
+				if(!random(0,2) && psg_upgrade_3_enabled) psg.WeaponStatus[psg.PSProp_Flags] |= psg.PSF_Shocking;
+				if(!random(0,5) && psg_upgrade_4_enabled) psg.WeaponStatus[psg.PSProp_Flags] |= psg.PSF_Cloaking;
+				
+				// Potential future things to randomize the amount of Flux it spawns with and the condition of the batteries. Not gonna think about it right now. - [Ted]
+				//if(!random(0,2))psg.weaponstatus[0]|=PSProp_HardFlux;
+				//if(!random(0,2))psg.weaponstatus[0]|=PSProp_Battery1;
+
 				psg.InitializeWepStats(false);
 			}
 			Stop;
@@ -774,7 +779,7 @@ class HDPersonalShield : HDDamageHandler
 			return damage, mod, flags, towound, toburn, tostun, tobreak;
 		}
 
-		double reductionFac = ShieldArc / 360.0;
+		double reductionFac = ShieldArc / 120.0;
 		int blocked = max(1, int(damage * reductionFac));
 
 		bool supereffective = (mod == 'BFGBallAttack' || mod == 'electrical' || mod == 'balefire' || mod == 'hot' || mod == 'cold');
@@ -801,7 +806,7 @@ class HDPersonalShield : HDDamageHandler
 			bulletpower = int(frandom(0, 1) < bulletpower);
 		}
 
-		double reductionFac = ShieldArc / 360.0;
+		double reductionFac = ShieldArc / 120.0;
 		int fluxAmt = max(1, int(bulletpower * reductionFac));
 
 		SGen.BuildUpFlux(fluxAmt, int(fluxAmt * 0.25));
@@ -1011,7 +1016,7 @@ class HDPersonalShield : HDDamageHandler
 		
 		sb.DrawImage(SGen.GetPickupSprite(), (100, -3), gzflags | sb.DI_ITEM_LEFT_BOTTOM, box: (20, -1));
 
-		sb.DrawString(sb.pNewSmallFont, SGen.WeaponStatus[SGen.PSProp_Mode] == 0 ? "\c[Green]360\c-" : "\c[Red]120\c-", (120, -18), gzflags | sb.DI_TEXT_ALIGN_LEFT, Font.CR_DARKBROWN, scale: (0.5, 0.5));
+		sb.DrawString(sb.pNewSmallFont, SGen.WeaponStatus[SGen.PSProp_Mode] == 0 ? "\c[Green]120\c-" : "\c[Red]90\c-", (120, -18), gzflags | sb.DI_TEXT_ALIGN_LEFT, Font.CR_DARKBROWN, scale: (0.5, 0.5));
 
 		string colSoft = SGen.Enabled ? "\c[DarkGreen]" : (SGen.WeaponStatus[SGen.PSProp_Flags] & SGen.PSF_Overloaded ? "\c[DarkRed]" : "\c[Yellow]");
 		string colHard = SGen.Enabled ? "\c[Green]" : (SGen.WeaponStatus[SGen.PSProp_Flags] & SGen.PSF_Overloaded ? "\c[Red]" : "\c[Gold]");

@@ -459,6 +459,13 @@ OptionMenu "psgSpawning" {
 	Option "$MENU_PERSISTENCY", "psg_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar psg_persistent_spawning"
  	StaticText ""
+
+	StaticText "$MENU_PSGCONFIG", "FAK_Blue"
+	Option "$MENU_PSG_UPGRADE1ENABLED", "psg_upgrade_1_enabled", "OnOff"
+	Option "$MENU_PSG_UPGRADE2ENABLED", "psg_upgrade_2_enabled", "OnOff"
+	Option "$MENU_PSG_UPGRADE3ENABLED", "psg_upgrade_3_enabled", "OnOff"
+	Option "$MENU_PSG_UPGRADE4ENABLED", "psg_upgrade_4_enabled", "OnOff"
+   	StaticText ""
    	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "FAK_Blue"

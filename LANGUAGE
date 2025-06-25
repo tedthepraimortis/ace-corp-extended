@@ -152,6 +152,12 @@ MENU_PSG_TITLE                          = "------ Personal Shield Generator Opti
 MENU_PSG_BLUEARMOR_SPAWNTEXT            = "Control the spawn rate of the Personal Shield Generator on Battle Armor:";
 MENU_PSG_BACKPACKS                      = "Control whether the Personal Shield Generator spawns in Backpacks:";
 
+MENU_PSGCONFIG                          = "Control which upgrades are available to spawn for the Personal Shield Generator:";
+MENU_PSG_UPGRADE1ENABLED                = "Elemental Module: ";
+MENU_PSG_UPGRADE2ENABLED                = "Medical Module: ";
+MENU_PSG_UPGRADE3ENABLED                = "Shocking Module: ";
+MENU_PSG_UPGRADE4ENABLED                = "Cloaking Module: ";
+
 // Secret Finder Options Text
 MENU_SECRETFINDER_TITLE                 = "------ Secret Finder Options ------";
 MENU_SECRETFINDER_MAP_SPAWNTEXT         = "Control the spawn rate of the Secret Finder on automaps:";
