@@ -248,21 +248,10 @@ class HDSupplyBeacon : HDWeapon
 		Spawn:
 			SPBC A 1
 			{
-				if (invoker.Active && invoker.vel.length() < 1 && ++invoker.ActivationDelay >= 10)
+				if (invoker.Active && ++invoker.ActivationDelay >= 10)
 				{
-					if (AceCore.IsSkyAbove(invoker))
-					{
-						SetStateLabel('WindUp');
-						return;
-					}
-					else
-					{
-						if (invoker.PrevOwner)
-						{
-							invoker.PrevOwner.A_Log("Insufficient space for drop pod to land. Please relocate beacon.", true);
-						}
-						invoker.Active = false;
-					}
+					SetStateLabel('WindUp');
+					return;
 				}
 			}
 			Loop;
@@ -282,17 +271,6 @@ class HDSupplyBeacon : HDWeapon
 		Speen:
 			SPBC CCDDEEFFGG 1
 			{
-				if (!AceCore.IsSkyAbove(invoker))
-				{
-					if (invoker.PrevOwner)
-					{
-						invoker.PrevOwner.A_Log("Insufficient space for drop pod to land. Please relocate beacon.", true);
-					}
-					invoker.Active = false;
-					SetStateLabel('Spawn');
-					return;
-				}
-
 				if (bINVISIBLE)
 				{
 					return;
