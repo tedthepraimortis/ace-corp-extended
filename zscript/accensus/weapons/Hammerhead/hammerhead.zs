@@ -619,12 +619,12 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	default{
 		+extremedeath
 		damagetype "balefire";
-		activesound "cyber/ballhum";
-		//seesound "weapons/plasmaf";
-		decal "scorch";
-		gravity 0;
-		height 6;radius 6;
-		speed 50;
+		decal "HammerheadScorch";
+		Renderstyle "Add";
+		gravity 0.035;
+		height 6;
+		radius 6;
+		speed HDCONST_MPSTODUPT * 50;
 		scale 0.25;
 		damagefunction(35 * Charge);
 		+hittracer;
@@ -663,12 +663,15 @@ class HammerHeadPlasmaProjectile:HDFireball{
 				hdm.stunned+=250 * Charge;
 			}
 			spawn("HDSmoke",pos,ALLOW_REPLACE);
-			A_StartSound("weapons/cbtballexpl",CHAN_BODY,CHANF_OVERLAP,volume:0.4);
-			damagetype="bashing";
+			A_StartSound("Hammerhead/PlasmaHit",CHAN_BODY,CHANF_OVERLAP,volume:0.4);
+			damagetype="balefire";
 			bextremedeath=false;
-			A_Explode(70,128,XF_HURTSOURCE,0,64);
+			if(Charge > 1)
+			{
+				A_Explode(35 * Charge,128,XF_HURTSOURCE,0,64);
+				DistantQuaker.Quake(self,2,35,512,10);
+			}
 			if(lite)lite.args[3]=128;
-			DistantQuaker.Quake(self,2,35,512,10);
 		}
 		HMPL CCDEEFFGH 2 bright A_FadeOut(0.05);
 		stop;
