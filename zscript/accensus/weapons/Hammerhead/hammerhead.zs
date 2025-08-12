@@ -360,19 +360,29 @@ class HDHammerhead : HDCellWeapon
 
 				A_MuzzleClimb(frandom(-shake.x, shake.x), frandom(-shake.y, shake.y), frandom(-shake.x, shake.x) * 0.5, frandom(-shake.y, shake.y) * 0.5);
 
-				if (hhd_old_plasma_projectile)
-				{
-					let proj = HammerheadPlasmaProjectile(Spawn('HammerheadPlasmaProjectile', pos + GunPos((0, 0, -4))));
-					proj.angle = angle + frandom(-spread.x, spread.x);
-					proj.pitch = pitch + frandom(-spread.y, spread.y);
-					proj.target = self;
-					proj.master = self;
-					proj.Charge = active;
+				/*let proj = HammerHeadPlasmaProjectile(Spawn('HammerHeadPlasmaProjectile', pos + GunPos((0, 0, -4))));
+				proj.angle = angle + frandom(-spread.x, spread.x);
+				proj.pitch = pitch + frandom(-spread.y, spread.y);
+				proj.target = self;
+				proj.master = self;
+				proj.Charge = active;*/
+
+				class<actor> grentype;
+				grentype="HammerHeadPlasmaProjectile";
+				vector3 gpos=pos+gunpos((0,0,-getdefaultbytype(grentype).height*0.6));
+				let ggg=HammerHeadPlasmaProjectile(spawn(grentype,gpos,ALLOW_REPLACE));
+				let hdp=hdplayerpawn(self);
+				if(hdp){
+					ggg.angle=hdp.gunangle;
+					ggg.pitch=hdp.gunpitch;
+				}else{
+					ggg.angle=angle;
+					ggg.pitch=pitch;
 				}
-				else
-				{
-					let bbb=HDBulletActor.FireBullet(self,"HDB_HHD",spread:18,speedfactor:frandom(0.97,1.03));
-				}
+				ggg.target=self;
+				ggg.master=self;
+				ggg.vel=vel+(cos(ggg.pitch)*(cos(ggg.angle),sin(ggg.angle)),-sin(ggg.pitch))*ggg.speed;
+				ggg.Charge = active;		
 
 				A_DrainActiveBatteries();
 			}
@@ -605,160 +615,63 @@ class HammerheadRandom : IdleDummy
 	}
 }
 
-class HammerheadPlasmaProjectile : SlowProjectile
-{
-	override void PostBeginPlay()
-	{
-		Super.PostBeginPlay();
-		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
-		Scale += (Charge, Charge) * 0.02;
+class HammerHeadPlasmaProjectile:HDFireball{
+	default{
+		+extremedeath
+		damagetype "balefire";
+		activesound "cyber/ballhum";
+		//seesound "weapons/plasmaf";
+		decal "scorch";
+		gravity 0;
+		height 6;radius 6;
+		speed 50;
+		scale 0.25;
+		damagefunction(35 * Charge);
+		+hittracer;
 	}
-	override void GunSmoke() { }
-	override void ExplodeSlowMissile(Line hitLine, Actor hitActor)
-	{
-		if (max(abs(pos.x), abs(pos.y)) >= 32768)
-		{
-			Destroy();
-			return;
-		}
-
-		A_AlertMonsters(HDCONST_ONEMETRE * 10);
-		if (hitActor)
-		{
-			hitActor.DamageMobj(self, target, random(25, 35) * Charge, 'Plasma');
-			hitActor.A_GiveInventory('Heat', 25 * Charge);
-		}
-		ExplodeMissile(hitLine, null);
-	}
-	override void Tick()
-	{
-		Super.Tick();
-
-		vector3 diff = Level.Vec3Diff(pos, Prev);
-		double dist = diff.length();
-		vector3 unit = diff.unit();
-
-		for (int i = 0; i < dist; ++i)
-		{
-			double chargeFac = 1.0 + Charge * 0.025;
-			A_SpawnParticle(0x55FF33, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
-				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
-				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
-				i * unit.z + frandom(-0.25, 0.25) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac);
-		}
-	}
-
+	actor lite;
+	string pcol;
 	int Charge;
-
-	Default
-	{
-		Speed HDCONST_MPSTODUPT * 50;
-		Gravity 0.035;
-		Renderstyle "Add";
-		Scale 0.12;
-		Mass 0;
-		Decal "HammerheadScorch";
-	}
-
-	States
-	{
-		Spawn:
-			HMPL A -1 Bright;
-			Stop;
-		Death:
-			HMPL B 2
-			{
-				bNOINTERACTION = true;
-				bMISSILE = false;
-				scale *= 4;
-				A_StartSound("Hammerhead/PlasmaHit");
-			}
-			HMPL CD 2;
-			TNT1 A 10;
-			Stop;
-	}
-}
-
-class HDB_HHD:HDBulletActor
-{
-	int Charge;
-	default
-	{
-		pushfactor 0.4;
-        mass 175;
-        speed 250;
-        accuracy 666;
-        stamina 762;
-        woundhealth 30;
-        hdbulletactor.hardness 15;
-		Renderstyle "Add";
-		Gravity 0.035;
-		Scale 0.12;
-		Decal "HammerheadScorch";
-	}
-	override actor Puff()
-	{
-		if (max (abs(pos.x), abs(pos.y)) >=32768)
-		return null;
-		setorigin(pos-(2*(cos(angle),sin(angle)),0),false);
-		A_SprayDecal("PlasmaShock",16);
-		if(vel==(0,0,0))A_ChangeVelocity(cos(pitch),0,-sin(pitch),CVF_RELATIVE|CVF_REPLACE);
-		else vel*=0.01;
-		A_AlertMonsters();
-		bmissile=false;
-		if(!instatesequence(curstate,findstate("death")))setstatelabel("death");
-		return null;
-	} 
-	override void onhitactor(actor hitactor,vector3 hitpos,vector3 vu,int flags){
-		double bleed=0.4;
-		double impact=(speed*speed*0.000001)*0.1*mass;
-		double spbak=speed;
-		super.onhitactor(hitactor,hitpos,vu,flags);
-		HitActor.A_GiveInventory('Heat', 25 * Charge);
-		puff();
-		mass == mass * charge;
-		A_Log("Mass: "..mass.."; Charge: "..charge);
-		if(hd_debug)console.printf(hitactor.getclassname().." resisted, impact:  "..impact);
-		A_AlertMonsters();
-	}
-	override void Tick()
-	{
-		Super.Tick();
-
-		vector3 diff = Level.Vec3Diff(pos, Prev);
-		double dist = diff.length();
-		vector3 unit = diff.unit();
-
-		for (int i = 0; i < dist; ++i)
-		{
-			double chargeFac = 1.0 + Charge * 0.025;
-			A_SpawnParticle(0x55FF33, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
-				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
-				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
-				i * unit.z + frandom(-0.25, 0.25) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac,
-				frandom(-0.35, 0.35) * chargeFac);
-		}
+	override void postbeginplay(){
+		super.postbeginplay();
+		lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
+		A_TakeFromTarget("HDMagicShield",5 * Charge);
+		pcol="67f26c";
 	}
 	states{
 	spawn:
-		HMPL A -1 bright;
-		stop;
-	Death:
-		HMPL B 2
-		{
-			bNOINTERACTION = true;
-			bMISSILE = false;
-			scale *= 4;
-			A_StartSound("Hammerhead/PlasmaHit");
+		HMPL A 0{
+			if(stamina>40||!target||target.health<1)return;  
+			stamina++;
+			actor tgt=target.target;
+			if(getage()>144)vel+=(frandom(-0.3,0.3),frandom(-0.3,0.3),frandom(0.1,-0.3));
 		}
-		HMPL CD 2;
-		TNT1 A 10;
-		Stop;
+		HMPL ABAB 1 bright{
+			for(int i=0;i<10;i++){
+				A_SpawnParticle(pcol,SPF_RELATIVE|SPF_FULLBRIGHT,35,frandom(1,4),0,
+					frandom(-8,8)-5*cos(pitch),frandom(-8,8),frandom(0,8)+sin(pitch)*5,
+					frandom(-1,1),frandom(-1,1),frandom(1,2),
+					-0.1,frandom(-0.1,0.1),-0.05
+				);
+			}
+			scale=(1,1)*frandom(0.35,0.45);
+		}loop;
+	death:
+		HMPL C 1 bright{
+			let hdm = hdmobbase(tracer);
+			if(hdm){
+				hdm.stunned+=250 * Charge;
+			}
+			spawn("HDSmoke",pos,ALLOW_REPLACE);
+			A_StartSound("weapons/cbtballexpl",CHAN_BODY,CHANF_OVERLAP,volume:0.4);
+			damagetype="bashing";
+			bextremedeath=false;
+			A_Explode(70,128,XF_HURTSOURCE,0,64);
+			if(lite)lite.args[3]=128;
+			DistantQuaker.Quake(self,2,35,512,10);
+		}
+		HMPL CCDEEFFGH 2 bright A_FadeOut(0.05);
+		stop;
 	}
 }
 
@@ -770,5 +683,27 @@ class HammerheadSteam : ACESmokeBase
 		ACESmokeBase.FadeSpeed 0.008, 0.009;
 		Gravity -0.04;
 		Scale 0.015;
+	}
+}
+
+class HammerHeadLight:PointLight{
+	override void postbeginplay(){
+		super.postbeginplay();
+		args[0]=52;
+		//bool freedoom=(Wads.CheckNumForName("FREEDOOM",0)!=-1);
+		args[1]=48;
+		args[2]=206;
+		args[3]=0;
+		args[4]=0;
+	}
+	override void tick(){
+		if(!target){
+			args[3]+=random(-10,1);
+			if(args[3]<1)destroy();
+		}else{
+			if(target.bmissile)args[3]=random(32,40);
+			else args[3]=random(48,64);
+			setorigin(target.pos,true);
+		}
 	}
 }
