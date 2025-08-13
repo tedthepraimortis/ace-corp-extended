@@ -471,8 +471,7 @@ class HDGungnir : HDCellWeapon
 		HDWeapon.loadoutcodes "
 			\cuaccel - 0/1, Increases charge speed.
 			\cucap - 0/1, Gives an extra shot.
-			\cuproc - 0/1, Makes battery consumption more efficient.
-		";
+			\cuproc - 0/1, Makes battery consumption more efficient.";
 	}
 
 	States

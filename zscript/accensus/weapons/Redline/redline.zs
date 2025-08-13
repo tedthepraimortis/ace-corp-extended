@@ -493,7 +493,7 @@ class RedlineRayImpact : HDActor
 		+NOBLOOD
 		+HITTRACER
 		Decal "RedlineScorch";
-		DamageType "Hot";
+		DamageType "Electrical";
 	}
 
 	States

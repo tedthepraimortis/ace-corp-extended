@@ -669,7 +669,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 			if(Charge > 1)
 			{
 				A_Explode(35 * Charge,128,XF_HURTSOURCE,0,64);
-				DistantQuaker.Quake(self,2,35,512,10);
+				DistantQuaker.Quake(self,2,8.75 * Charge,128 * Charge,2.5 * Charge);
 			}
 			if(lite)lite.args[3]=128;
 		}

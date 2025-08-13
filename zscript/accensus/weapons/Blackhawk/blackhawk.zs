@@ -287,8 +287,7 @@ class HDBlackhawk : HDWeapon
 			\cusemiauto - 0/1, Automatically pulls the string back after firing.
 			\cuNote: Only works when cycling to the next bolt.
 			\cubolts - <codes>, start with these specific bolts loaded. 
-			\cuExample: bolts:rneir for Regular, Nuclear, Electric, Incendiary, Regular in that order.
-		";
+			\cuExample: bolts:rneir for Regular, Nuclear, Electric, Incendiary, Regular in that order.";
 	}
 
 	States
