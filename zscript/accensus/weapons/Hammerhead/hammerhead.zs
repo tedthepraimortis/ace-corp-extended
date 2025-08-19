@@ -624,7 +624,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		gravity 0.035;
 		height 6;
 		radius 6;
-		speed HDCONST_MPSTODUPT * 50;
+		speed HDCONST_MPSTODUPT * 35;
 		scale 0.25;
 		damagefunction(35 * Charge);
 		+hittracer;
@@ -636,25 +636,33 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		super.postbeginplay();
 		lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
 		A_TakeFromTarget("HDMagicShield",5 * Charge);
+		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
+		Scale += (Charge, Charge) * 0.02;
 		pcol="67f26c";
 	}
 	states{
 	spawn:
 		HMPL A 0{
-			if(stamina>40||!target||target.health<1)return;  
+			if(stamina>40||!target||target.health<1)return;
 			stamina++;
 			actor tgt=target.target;
-			if(getage()>144)vel+=(frandom(-0.3,0.3),frandom(-0.3,0.3),frandom(0.1,-0.3));
 		}
 		HMPL ABAB 1 bright{
-			for(int i=0;i<10;i++){
-				A_SpawnParticle(pcol,SPF_RELATIVE|SPF_FULLBRIGHT,35,frandom(1,4),0,
-					frandom(-8,8)-5*cos(pitch),frandom(-8,8),frandom(0,8)+sin(pitch)*5,
-					frandom(-1,1),frandom(-1,1),frandom(1,2),
-					-0.1,frandom(-0.1,0.1),-0.05
-				);
+			vector3 diff = Level.Vec3Diff(pos, Prev);
+			double dist = diff.length();
+			vector3 unit = diff.unit();
+			
+			for (int i = 0; i < dist; ++i)
+			{
+				double chargeFac = 1.0 + Charge * 0.025;
+				A_SpawnParticle(0x55FF33, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
+					i * unit.x + frandom(-0.25, 0.25) * chargeFac,
+					i * unit.y + frandom(-0.25, 0.25) * chargeFac,
+					i * unit.z + frandom(-0.25, 0.25) * chargeFac,
+					frandom(-0.35, 0.35) * chargeFac,
+					frandom(-0.35, 0.35) * chargeFac,
+					frandom(-0.35, 0.35) * chargeFac);
 			}
-			scale=(1,1)*frandom(0.35,0.45);
 		}loop;
 	death:
 		HMPL C 1 bright{
@@ -692,11 +700,10 @@ class HammerheadSteam : ACESmokeBase
 class HammerHeadLight:PointLight{
 	override void postbeginplay(){
 		super.postbeginplay();
-		args[0]=52;
-		//bool freedoom=(Wads.CheckNumForName("FREEDOOM",0)!=-1);
-		args[1]=48;
-		args[2]=206;
-		args[3]=0;
+		args[0]=103;
+		args[1]=242;
+		args[2]=108;
+		args[3]=84;
 		args[4]=0;
 	}
 	override void tick(){
