@@ -630,8 +630,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		+hittracer;
 	}
 	actor lite;
-	string pcol;
-	string lcol;
+	Color pcol;
 	int Charge;
 	
 	override void Tick()
@@ -645,9 +644,8 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		for (int i = 0; i < dist; ++i)
 		{
 			double chargeFac = 1.0 + Charge * 0.025;
-			lcol="4c94de";
-			if(HDMath.PlayingId())lcol = "55ff33";
-			A_SpawnParticle(lcol, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
+			pcol = HDMath.PlayingId() ? 0x55ff33 : 0x4c94de;
+			A_SpawnParticle(pcol, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
 				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
 				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
 				i * unit.z + frandom(-0.25, 0.25) * chargeFac,
@@ -658,7 +656,8 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	}
 	override void postbeginplay(){
 		super.postbeginplay();
-		//lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
+		lite = HDMath.PlayingId() ? spawn("HammerHeadLight",pos,ALLOW_REPLACE) : spawn("HammerHeadLightFreedoom",pos,ALLOW_REPLACE);
+		lite.target=self;
 		A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
 		Scale += (Charge, Charge) * 0.02;
