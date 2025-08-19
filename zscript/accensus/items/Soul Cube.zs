@@ -155,30 +155,34 @@ class HDSoulCube : HDWeapon
 		baseYOffset += 10;
 
 		// [Ace] Spiritual armor.
-		// [Cryo] Will restore pending rework of Spiritual armor
-		/*
-		string protectionString = "\c[Red]You are not protected\c-";
-		switch (sb.GetAmount("SpiritualArmour"))
+		name spiritArmor = "SpiritualArmour";
+		if(HDCore.CheckClassExists(spiritArmor))
 		{
-			case 1: protectionString = "\c[Orange]You are protected by a thin veil\c-"; break;
-			case 2: protectionString = "\c[Yellow]The spirits guard your soul\c-"; break;
-			case 3: protectionString = "\c[Green]Your soul has transcended beyond harm\c-"; break;
-		}
-		sb.DrawString(sb.pSmallFont, protectionString, (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
-		baseYOffset += 20;
+			string protectionString = "\c[Red]You are not protected\c-";
+			switch (sb.GetAmount(spiritArmor))
+			{
+				case 1: protectionString = "\c[Orange]You are protected by a thin veil\c-"; break;
+				case 2: protectionString = "\c[Yellow]The spirits guard your soul\c-"; break;
+				case 3: protectionString = "\c[Green]Your soul has transcended beyond harm\c-"; break;
+			}
+			sb.DrawString(sb.pSmallFont, protectionString, (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
+			baseYOffset += 20;
 
-		sb.DrawString(sb.pSmallFont, ModeStrings[WeaponStatus[SCProp_Mode]], (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
-		*/
+			sb.DrawString(sb.pSmallFont, ModeStrings[WeaponStatus[SCProp_Mode]], (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
+		}
 		
-		string protectionString = "\c[Red]ERROR: SHIELD ITEM NOT FOUND.\c-";
-		switch (sb.GetAmount("ShieldCore"))
+		else
 		{
-			case 1: protectionString = "\c[Green]SHIELD ITEM READY FOR DEPLOYMENT.\c-"; break;
-		}
-		sb.DrawString(sb.pSmallFont, protectionString, (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
-		baseYOffset += 20;
+			string protectionString = "\c[Red]ERROR: SHIELD ITEM NOT FOUND.\c-";
+			switch (sb.GetAmount("ShieldCore"))
+			{
+				case 1: protectionString = "\c[Green]SHIELD ITEM READY FOR DEPLOYMENT.\c-"; break;
+			}
+			sb.DrawString(sb.pSmallFont, protectionString, (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
+			baseYOffset += 20;
 
-		sb.DrawString(sb.pSmallFont, ModeStrings[WeaponStatus[SCProp_Mode]], (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
+			sb.DrawString(sb.pSmallFont, ModeStrings[WeaponStatus[SCProp_Mode]], (0, baseYOffset) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER);
+		}
 	}
 
 	override int GetSbarNum(int flags)
@@ -705,20 +709,6 @@ class HDSoulCube : HDWeapon
 							continue;
 						}
 
-						let necro = necromancer(a);
-						if (necro && necro.tics > 105 && necro.InStateSequence(necro.CurState, necro.FindState('painedandgone')))
-						{
-							if (hdsc_archermode)
-							{
-								if (!invoker.HasAnnounced[2])
-								{
-									invoker.HasAnnounced[2] = true;
-									A_PlayArcherSound(invoker, !random(0, 16) ? "ArchHuntRare" : "ArchHuntNormal");
-								}
-							}
-							necro.tics -= 10;
-						}
-
 						if (hitThingCount < 3 && (a is 'BoneDrone' || a.bISMONSTER) && a.bSHOOTABLE && !a.bFRIENDLY && (!HDMobBase(a) || HDMobBase(a).bodydamage < a.SpawnHealth() * 1.2))
 						{
 							for (int i = 0; i < 2; ++i)
@@ -793,7 +783,7 @@ class HDSoulCube : HDWeapon
 							{
 								if (tList[i])
 								{
-									tList[i].DamageMobj(invoker, invoker.master, 150 + 25 * cubeLevel + 15 * int(overcharged), 'Holy', DMG_THRUSTLESS);
+									tList[i].DamageMobj(invoker, invoker.master, 150 + 25 * cubeLevel + 15 * int(overcharged), 'Balefire', DMG_THRUSTLESS);
 									A_GainExperience(1); // [Ace] Per enemy hit.
 									if (!tList[i])
 									{

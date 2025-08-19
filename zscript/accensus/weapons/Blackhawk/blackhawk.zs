@@ -268,7 +268,24 @@ class HDBlackhawk : HDWeapon
 
 	// [Ace] It's a high-tech crossbow, but it doesn't have sights. Intentional. Development was severely underbudgeted and AceCorp didn't have the resources to add various extras.
 	// Really I'm just lazy and out of ideas. One day I might add iron sights, but not for now. You don't really need to aim much anyway. 3/4 of the bolts are AoE.
-	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) { }
+	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) 
+	{
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=Screen.GetClipRect();
+		sb.SetClipRect(
+			-16+bob.x,-64+bob.y,32,76,
+			sb.DI_SCREEN_CENTER
+		);
+		sb.drawimage(
+			"bsfrntsit",bob*1.14,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP
+		);
+		sb.SetClipRect(cx,cy,cw,ch);
+
+		sb.drawimage(
+			"bsbaksit",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.9
+		);
+	}
 
 	Array<class<HDBlackhawkBolt> > BoltClasses;
 
@@ -329,7 +346,8 @@ class HDBlackhawk : HDWeapon
 			}
 			Goto Deselect0Big;
 		Fire:
-			BHKG # 0
+			// Originally not supposed to decloak with blur, but this is broken with the nuBlur so just going to avoid it. Maybe someday in the future. - [Ted]
+			/*BHKG # 0
 			{
 				// [Ace] Don't decloak if using blur, although the screen will definitely flicker and annoy you so idk why you'd even want to use this with stealth.
 				invoker.bWIMPY_WEAPON = true;
@@ -338,7 +356,7 @@ class HDBlackhawk : HDWeapon
 					SetWeaponState("Nope");
 					return;
 				}
-			}
+			}*/
 			BHKG B 1
 			{
 				A_StartSound("Blackhawk/Fire", CHAN_WEAPON);
