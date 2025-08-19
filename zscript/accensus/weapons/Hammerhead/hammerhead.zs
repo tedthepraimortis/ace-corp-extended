@@ -631,10 +631,34 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	}
 	actor lite;
 	string pcol;
+	string lcol;
 	int Charge;
+	
+	override void Tick()
+	{
+		Super.Tick();
+
+		vector3 diff = Level.Vec3Diff(pos, Prev);
+		double dist = diff.length();
+		vector3 unit = diff.unit();
+
+		for (int i = 0; i < dist; ++i)
+		{
+			double chargeFac = 1.0 + Charge * 0.025;
+			lcol="4c94de";
+			if(HDMath.PlayingId())lcol = "55ff33";
+			A_SpawnParticle(lcol, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
+				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
+				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
+				i * unit.z + frandom(-0.25, 0.25) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac,
+				frandom(-0.35, 0.35) * chargeFac);
+		}
+	}
 	override void postbeginplay(){
 		super.postbeginplay();
-		lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
+		//lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
 		A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
 		Scale += (Charge, Charge) * 0.02;
@@ -642,30 +666,14 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	}
 	states{
 	spawn:
-		HMPL A 0{
+		HMPL A -1 Bright{
 			if(stamina>40||!target||target.health<1)return;
 			stamina++;
 			actor tgt=target.target;
 		}
-		HMPL ABAB 1 bright{
-			vector3 diff = Level.Vec3Diff(pos, Prev);
-			double dist = diff.length();
-			vector3 unit = diff.unit();
-			
-			for (int i = 0; i < dist; ++i)
-			{
-				double chargeFac = 1.0 + Charge * 0.025;
-				A_SpawnParticle(0x55FF33, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
-					i * unit.x + frandom(-0.25, 0.25) * chargeFac,
-					i * unit.y + frandom(-0.25, 0.25) * chargeFac,
-					i * unit.z + frandom(-0.25, 0.25) * chargeFac,
-					frandom(-0.35, 0.35) * chargeFac,
-					frandom(-0.35, 0.35) * chargeFac,
-					frandom(-0.35, 0.35) * chargeFac);
-			}
-		}loop;
+		stop;
 	death:
-		HMPL C 1 bright{
+		HMPL B 1 bright{
 			let hdm = hdmobbase(tracer);
 			if(hdm){
 				hdm.stunned+=250 * Charge;
@@ -681,7 +689,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 			}
 			if(lite)lite.args[3]=128;
 		}
-		HMPL CCDEEFFGH 2 bright A_FadeOut(0.05);
+		HMPL CD 2 bright A_FadeOut(0.05);
 		stop;
 	}
 }
@@ -698,6 +706,27 @@ class HammerheadSteam : ACESmokeBase
 }
 
 class HammerHeadLight:PointLight{
+	override void postbeginplay(){
+		super.postbeginplay();
+		args[0]=103;
+		args[1]=242;
+		args[2]=108;
+		args[3]=84;
+		args[4]=0;
+	}
+	override void tick(){
+		if(!target){
+			args[3]+=random(-10,1);
+			if(args[3]<1)destroy();
+		}else{
+			if(target.bmissile)args[3]=random(32,40);
+			else args[3]=random(48,64);
+			setorigin(target.pos,true);
+		}
+	}
+}
+
+class HammerHeadLightFreedoom:PointLight{
 	override void postbeginplay(){
 		super.postbeginplay();
 		args[0]=103;

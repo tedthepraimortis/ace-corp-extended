@@ -212,7 +212,8 @@ class HDViper : HDHandgun
 		HDWeapon.Refid HDLD_VIPER;
 		HDWeapon.loadoutcodes "
 			\cuhframe - 0/1, Trades weight for lessened recoil.
-			\cuextended - 0/1, Higher projectile velocity but heavier gun.";
+			\cuextended - 0/1, Higher projectile velocity but heavier gun.
+			\cutrigger - 0/1, Lighter Trigger";
 	}
 
 	States
