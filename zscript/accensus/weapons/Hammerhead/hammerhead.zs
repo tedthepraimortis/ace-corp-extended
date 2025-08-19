@@ -640,11 +640,10 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		vector3 diff = Level.Vec3Diff(pos, Prev);
 		double dist = diff.length();
 		vector3 unit = diff.unit();
+		double chargeFac = 1.0 + Charge * 0.025;
 
 		for (int i = 0; i < dist; ++i)
 		{
-			double chargeFac = 1.0 + Charge * 0.025;
-			pcol = HDMath.PlayingId() ? 0x55ff33 : 0x4c94de;
 			A_SpawnParticle(pcol, SPF_FULLBRIGHT, random(3, 6), frandom(2.0, 3.5), angle,
 				i * unit.x + frandom(-0.25, 0.25) * chargeFac,
 				i * unit.y + frandom(-0.25, 0.25) * chargeFac,
@@ -661,7 +660,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
 		Scale += (Charge, Charge) * 0.02;
-		pcol="67f26c";
+		pcol = HDMath.PlayingId() ? 0x55ff33 : 0x0098ff;
 	}
 	states{
 	spawn:
@@ -728,9 +727,9 @@ class HammerHeadLight:PointLight{
 class HammerHeadLightFreedoom:PointLight{
 	override void postbeginplay(){
 		super.postbeginplay();
-		args[0]=103;
-		args[1]=242;
-		args[2]=108;
+		args[0]=0;
+		args[1]=152;
+		args[2]=255;
 		args[3]=84;
 		args[4]=0;
 	}
