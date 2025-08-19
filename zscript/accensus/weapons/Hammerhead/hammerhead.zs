@@ -626,7 +626,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		radius 6;
 		speed HDCONST_MPSTODUPT * 35;
 		scale 0.25;
-		damagefunction(35 * Charge);
+		damagefunction(30 * Charge);
 		+hittracer;
 	}
 	actor lite;
@@ -635,7 +635,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	override void postbeginplay(){
 		super.postbeginplay();
 		lite=spawn("HammerHeadLight",pos,ALLOW_REPLACE);lite.target=self;
-		A_TakeFromTarget("HDMagicShield",5 * Charge);
+		A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
 		Scale += (Charge, Charge) * 0.02;
 		pcol="67f26c";
@@ -676,8 +676,8 @@ class HammerHeadPlasmaProjectile:HDFireball{
 			bextremedeath=false;
 			if(Charge > 1)
 			{
-				A_Explode(35 * Charge,128,XF_HURTSOURCE,0,64);
-				DistantQuaker.Quake(self,2,8.75 * Charge,128 * Charge,2.5 * Charge);
+				A_Explode(15 * Charge,32 * Charge,XF_HURTSOURCE,0,64);
+				DistantQuaker.Quake(self,2,4.75 * Charge,64 * Charge,1 * Charge);
 			}
 			if(lite)lite.args[3]=128;
 		}
