@@ -52,6 +52,18 @@ class HDJackdaw : HDWeapon
 		}
 	}
 
+	override void DoEffect(){
+		let hdp=hdplayerpawn(owner);
+		if(hdp){
+			//droop downwards, similar to the vulc. - [Ted]
+			if(!hdp.gunbraced && !!hdp.player && hdp.player.readyweapon==self && hdp.strength && hdp.pitch<frandom(5,8))
+            {
+                hdp.A_MuzzleClimb((frandom(-0.05,0.05),frandom(0.1,clamp(1-pitch,0.06/hdp.strength,0.12))),(0,0),(0,0),(0,0));
+    		}
+        }
+		Super.DoEffect();
+	}
+
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
 	{
 		int cx, cy, cw, ch;
@@ -116,17 +128,17 @@ class HDJackdaw : HDWeapon
 
 	Default
 	{
-		+HDWEAPON.FITSINBACKPACK
+		-HDWEAPON.FITSINBACKPACK
+		+HDWEAPON.HINDERLEGS
 		Weapon.SelectionOrder 300;
 		Weapon.SlotNumber 4;
 		Weapon.SlotPriority 1.5;
-		HDWeapon.BarrelSize 25, 2, 4;
+		HDWeapon.BarrelSize 27, 2, 4;
 		Scale 0.28;
 		Tag "$TAG_JACKDAW";
 		HDWeapon.Refid HDLD_JACKDAW;
 		HDWeapon.loadoutcodes "
-			\curapid - 0/1, Locks the weapon to hyperburst RoF, though keeps it in full-auto.
-		";
+			\curapid - 0/1, Locks the weapon to hyperburst RoF, though keeps it in full-auto.";
 	}
 
 	States
@@ -156,7 +168,7 @@ class HDJackdaw : HDWeapon
 					return;
 				}
 			}
-			JDWG A 2
+			JDWG A 2 Offset(0, 36)
 			{
 				A_Overlay(PSP_FLASH, 'Flash');
 
@@ -165,15 +177,15 @@ class HDJackdaw : HDWeapon
 					A_SetTics(1);
 				}
 
-				let Proj = HDBulletActor.FireBullet(self, "HDB_9", spread: 2.0, speedfactor: 1.15);
+				let Proj = HDBulletActor.FireBullet(self, "HDB_9", spread: 2.5, speedfactor: 0.95);
 				if (frandom(24, ceilingz - floorz) < Proj.speed * 0.1)
 				{
-					A_AlertMonsters(250);
+					A_AlertMonsters(HDCONST_ONEMETRE * 5);
 				}
 				invoker.WeaponStatus[JDProp_Chamber] = 1;
 				A_StartSound("Jackdaw/Fire", CHAN_WEAPON, volume: 0.7);
 				A_ZoomRecoil(0.995);
-				A_MuzzleClimb(-frandom(0.1, 0.12), -frandom(0.15, 0.18), -frandom(0.1, 0.12),-frandom(0.15, 0.18));
+				A_MuzzleClimb(-frandom(0.1, 0.22), -frandom(0.15, 0.28), -frandom(0.1, 0.22),-frandom(0.15, 0.28));
 			}
 			JDWG A 0
 			{
