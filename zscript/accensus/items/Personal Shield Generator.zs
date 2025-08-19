@@ -193,12 +193,14 @@ class HDPersonalShieldGenerator : HDWeapon
 		vector2 pos = (23, -18 - fontHeight);
 
 		// Arc angle.
-		string str = String.Format("ARC "..ArcDegrees[WeaponStatus[PSProp_Mode]]);
+		string str = String.Format("Mode: "..ArcDegrees[WeaponStatus[PSProp_Mode]]);
 		sb.DrawString(sb.pSmallFont, str, pos + bob, sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_GOLD);
 		pos.y += 10;
 
 		// Capacity.
 		int fluxCap = GetFluxCapacity();
+		int arcWidthA = getArcWidthA();
+		int arcWidthB = getArcWidthB();
 		string colSoft = WeaponStatus[PSProp_Flags] & PSF_Overloaded ? "\c[DarkRed]" : "\c[DarkGreen]";
 		string colHard = WeaponStatus[PSProp_Flags] & PSF_Overloaded ? "\c[Red]" : "\c[Green]";
 
@@ -209,6 +211,7 @@ class HDPersonalShieldGenerator : HDWeapon
 		// Flux dissipation.
 		double baseRate = GetFluxDissipationRate(true);
 		double adjRate = GetFluxDissipationRate();
+		/*
 		string col = "\c[Green]";
 		if (adjRate < baseRate * 0.20)
 		{
@@ -225,7 +228,26 @@ class HDPersonalShieldGenerator : HDWeapon
 		else if (adjRate < baseRate * 0.80)
 		{
 			col = "\c[Yellow]";
+		}*/
+		
+		string col = "\c[Green]";
+		if (adjRate < baseRate * 0.10)
+		{
+			col = "\c[Black]";
 		}
+		else if (adjRate < baseRate * 0.25)
+		{
+			col = "\c[Red]";
+		}
+		else if (adjRate < baseRate * 0.65)
+		{
+			col = "\c[Orange]";
+		}
+		else if (adjRate < baseRate * 0.90)
+		{
+			col = "\c[Yellow]";
+		}
+
 
 		double relative = adjRate - baseRate;
 		str = String.Format("DSR: %s%.2f \c[DarkGray](%s%.2f)\c-", col, adjRate, (relative >= 0 ? "+" : ""), relative);
@@ -512,6 +534,7 @@ class HDPersonalShieldGenerator : HDWeapon
 		if (!(WeaponStatus[PSProp_Flags] & PSF_Overloaded) && WeaponStatus[PSProp_Flux] >= GetFluxCapacity())
 		{
 			WeaponStatus[PSProp_Flags] |= PSF_Overloaded;
+			A_Log("PSG Overload",true);
 			WeaponStatus[PSProp_Degradation]++;
 			for (int i = PSProp_Battery1; i <= PSProp_Battery3; ++i)
 			{
@@ -571,6 +594,16 @@ class HDPersonalShieldGenerator : HDWeapon
 		return BaseFluxCap + 250 * WeaponStatus[PSProp_UpgradePoints];
 	}
 
+	clearscope int GetArcWidthA() const
+	{
+		return baseArcWidthA + 12 * WeaponStatus[PSProp_UpgradePoints];
+	}
+
+	clearscope int GetArcWidthB() const
+	{
+		return baseArcWidthB;
+	}
+
 	clearscope double GetFluxDissipationRate(bool raw = false) const
 	{
 		double base = 1.0 + 0.25 * WeaponStatus[PSProp_UpgradePoints];
@@ -579,11 +612,11 @@ class HDPersonalShieldGenerator : HDWeapon
 			return base;
 		}
 
-		double minBatteryFac = ((WeaponStatus[PSProp_Battery1] + WeaponStatus[PSProp_Battery2] + WeaponStatus[PSProp_Battery3]) / 3.0) / 20.0;
+		double minBatteryFac = ((WeaponStatus[PSProp_Battery1] + WeaponStatus[PSProp_Battery2] + WeaponStatus[PSProp_Battery3]) / 3.0) / 10.0;
 		double overloadFac = WeaponStatus[PSProp_Flags] & PSF_Overloaded ? 2.0 : 1;
 		double enabledFac = Enabled ? 0.5 : 1.0;
 		double cloakFac = CanCloak() ? 0.75 : 1.0;
-		double degAmt = 0.15 * WeaponStatus[PSProp_Degradation];
+		double degAmt = 0.25 * WeaponStatus[PSProp_Degradation];
 		return max(0.05, base * minBatteryFac * overloadFac * enabledFac * cloakFac - degAmt);
 	}
 
@@ -594,12 +627,16 @@ class HDPersonalShieldGenerator : HDWeapon
 
 	clearscope int GetShieldArc() const
 	{
-		return WeaponStatus[PSProp_Mode] == 1 ? 90 : 120;
+		int widthA = getArcWidthA();
+		int widthB = getArcWidthB();
+		return WeaponStatus[PSProp_Mode] == 1 ? widthA : widthB;
 	}
 
 	const BaseFluxCap = 250;
+	const BaseArcWidthA = 240;
+	const BaseArcWidthB = 120;
 	const Tiers = 7; // [Ace] Actually Tiers + 1 because it's zero-based, so Tier 0 counts as Tier 1.
-	static const string ArcDegrees[] = { "([]------):\c[Green] 120 deg\c-", "(------[]):\c[Red] 90 deg\c-" };
+	static const string ArcDegrees[] = { "([]------):\c[Green]Narrow\c-", "(------[]):\c[Red]Wide\c-" };
 	bool Enabled;
 	private double DissipationFrac;
 	private bool IsCloaked;
@@ -621,8 +658,7 @@ class HDPersonalShieldGenerator : HDWeapon
 			\cuelem - 0/1, Adds elemental resistance to the psg.
 			\cumedical - 0/1, Makes the psg slowly heal you.
 			\cushock - 0/1, Makes the psg shock enemies attached to you.
-			\cucloak - 0/1, Makes the psg cloak you from enemies.
-		";
+			\cucloak - 0/1, Makes the psg cloak you from enemies.";
 	}
 
 	States
@@ -779,11 +815,11 @@ class HDPersonalShield : HDDamageHandler
 			return damage, mod, flags, towound, toburn, tostun, tobreak;
 		}
 
-		double reductionFac = ShieldArc / 120.0;
+		double reductionFac = ShieldArc / 90.0;
 		int blocked = max(1, int(damage * reductionFac));
 
 		bool supereffective = (mod == 'BFGBallAttack' || mod == 'electrical' || mod == 'balefire' || mod == 'hot' || mod == 'cold');
-		SGen.BuildUpFlux(blocked, int(blocked * (supereffective ? 0.75 : 0.25)));
+		SGen.BuildUpFlux(blocked, int(blocked * (supereffective ? 0.75 : 0.15)));
 
 		if (inflictor.bMISSILE)
 		{
@@ -1016,7 +1052,7 @@ class HDPersonalShield : HDDamageHandler
 		
 		sb.DrawImage(SGen.GetPickupSprite(), (100, -3), gzflags | sb.DI_ITEM_LEFT_BOTTOM, box: (20, -1));
 
-		sb.DrawString(sb.pNewSmallFont, SGen.WeaponStatus[SGen.PSProp_Mode] == 0 ? "\c[Green]120\c-" : "\c[Red]90\c-", (120, -18), gzflags | sb.DI_TEXT_ALIGN_LEFT, Font.CR_DARKBROWN, scale: (0.5, 0.5));
+		sb.DrawString(sb.pNewSmallFont, SGen.WeaponStatus[SGen.PSProp_Mode] == 0 ? "\c[Green]N\c-" : "\c[Red]W\c-", (120, -18), gzflags | sb.DI_TEXT_ALIGN_LEFT, Font.CR_DARKBROWN, scale: (0.5, 0.5));
 
 		string colSoft = SGen.Enabled ? "\c[DarkGreen]" : (SGen.WeaponStatus[SGen.PSProp_Flags] & SGen.PSF_Overloaded ? "\c[DarkRed]" : "\c[Yellow]");
 		string colHard = SGen.Enabled ? "\c[Green]" : (SGen.WeaponStatus[SGen.PSProp_Flags] & SGen.PSF_Overloaded ? "\c[Red]" : "\c[Gold]");
