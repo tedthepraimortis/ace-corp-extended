@@ -18,14 +18,18 @@ class HDGungnirRayZapper : HDFireball
 		radius 6;
 		speed 35;
 		gravity 0;
-		 ReactionTime 16;
+		ReactionTime 16;
+	}
+	override void postbeginplay(){
+		rcol = HDMath.PlayingID() ? 0x55ff88 : 0x0093FF;
+		pcol = HDMath.PlayingID() ? 0xAAFF42 : 0x0093FF;
 	}
 	void A_GungirBlastZap(){
 		if(pos.z-floorz<12)vel.z+=1;
 		else if(ceilingz-pos.z<19)vel.z-=1;
 
 		for(int i=0;i<10;i++){
-			A_SpawnParticle(0xAAFF42, SPF_FULLBRIGHT | SPF_RELATIVE, 0, 0, 0, 0, 12, sizestep: 4.0);
+			A_SpawnParticle(pcol, SPF_FULLBRIGHT | SPF_RELATIVE, 0, 0, 0, 0, 12, sizestep: 4.0);
 		}
 
 		vector2 oldaim=(angle,pitch);
@@ -40,7 +44,7 @@ class HDGungnirRayZapper : HDFireball
 				&&checksight(itt)
 			){
 				A_Face(itt,0,0);
-				A_CustomRailgun((0),0,"","55 ff 88",
+				A_CustomRailgun((0),0,"", rcol,
 					RGF_CENTERZ|RGF_SILENT|RGF_NOPIERCING|RGF_FULLBRIGHT,
 					0,50.0,"GungnirZAPRayPuff",0,0,2048,18,0.2,1.0
 				);
@@ -64,7 +68,7 @@ class HDGungnirRayZapper : HDFireball
 				A_Face(itt,0,0);
 				int hhh=min(itt.health,4096);
 				for(int i=0;i<hhh;i+=1024){
-					A_CustomRailgun((0),0,"","55 ff 88",
+					A_CustomRailgun((0),0,"",rcol,
 						RGF_CENTERZ|RGF_SILENT|RGF_NOPIERCING|RGF_FULLBRIGHT,
 						0,50.0,"GungnirZAPRayPuff",3,3,2048,18,0.2,1.0
 					);
@@ -72,6 +76,10 @@ class HDGungnirRayZapper : HDFireball
 			}
 		}
 	}
+
+	Color rcol;
+	Color pcol;
+
 	states{
 	spawn:
 		TNT1 A 0
@@ -146,7 +154,7 @@ class GungnirZAPRayPuff:IdleDummy{
 	states{
 	spawn:
 		BFE2 A 1 bright nodelay{
-			pcol=(Wads.CheckNumForName("FREEDOOM",0)!=-1)?"55 88 ff":"55 ff 88";
+			pcol = HDMath.PlayingID() ? "55 88 ff" : "00 93 FF";
 			if(target)target=target.target;
 			A_StartSound("misc/bfgrail",9005);
 		}
@@ -247,6 +255,7 @@ class HDGungnir : HDCellWeapon
 	override double GunMass() { return WeaponStatus[GNProp_Battery] >= 0 ? 13 : 12; }
 	override double WeaponBulk() { return 170 + (WeaponStatus[GNProp_Battery] >= 0 ? ENC_BATTERY_LOADED : 0); }
 	override string, double GetPickupSprite() { return "GNGRZ0", 0.7; }
+	override void PostBeginPlay() { bcol = HDMath.PlayingID() ? 0xDFFF66 : 0x0097FF; }
 	override void InitializeWepStats(bool idfa)
 	{
 		WeaponStatus[GNProp_Battery] = 20;
@@ -442,7 +451,7 @@ class HDGungnir : HDCellWeapon
 
 		A_Recoil((2.25 * tier) * (HDPlayerPawn(self).gunbraced ? 0.3 : 1.0));
 		A_AlertMonsters();
-		A_SetBlend(0xDFFF66, 0.33 * tier, 30);
+		A_SetBlend(invoker.bcol, 0.33 * tier, 30);
 		A_ZoomRecoil(1.00 - 0.2 * tier);
 		A_ResetWeapon();
 
@@ -457,6 +466,7 @@ class HDGungnir : HDCellWeapon
 	private int ChargeDelayTicker;
 	private PointLight DynLight;
 	private bool Locked;
+	Color bcol;
 
 	Default
 	{
@@ -489,13 +499,10 @@ class HDGungnir : HDCellWeapon
 				{
 					if (!invoker.DynLight)
 					{
-						invoker.DynLight = PointLight(Spawn("PointLight", pos + (0, 0, height / 2 + 2)));
+						invoker.DynLight = GungnirPointLight(Spawn("GungnirPointLight", pos + (0, 0, height / 2 + 2)));
 					}
 					else
 					{
-						invoker.DynLight.Args[0] = 0xDF;
-						invoker.DynLight.Args[1] = 0xFF;
-						invoker.DynLight.Args[2] = 0x66;
 						invoker.DynLight.Args[3] = int(128 * (invoker.Charge / double(reqCharge * Tiers)));
 						invoker.DynLight.SetOrigin(pos + (0, 0, height / 2 + 2), true);
 					}
@@ -769,10 +776,12 @@ class GungnirRayImpact : Actor abstract
 	protected abstract void OnBlast(bool miss);
 	protected void SpawnBlastEffects(int tier, bool miss)
 	{
+		pcol1 = HDMath.PlayingID() ? 0xAAFF42 : 0x0098ff;
+		pcol2 = HDMath.PlayingID() ? 0xDFFF66 : 0x0098ff;
 		// Horizontal ring.
 		for (int i = -180; i < 180; i += 4)
 		{
-			A_SpawnParticle(0xAAFF42, SPF_FULLBRIGHT | SPF_RELATIVE, 10 + 2 * tier, 32 + 8 * tier, i, 0, 0, 0, 12, sizestep: 4.0);
+			A_SpawnParticle(pcol1, SPF_FULLBRIGHT | SPF_RELATIVE, 10 + 2 * tier, 32 + 8 * tier, i, 0, 0, 0, 12, sizestep: 4.0);
 		}
 		
 		// Ball.
@@ -780,7 +789,7 @@ class GungnirRayImpact : Actor abstract
 		{
 			for (int j = -90 + 10; j < 90 - 9; j += 10)
 			{
-				A_SpawnParticle(0xDFFF66, SPF_FULLBRIGHT | SPF_RELATIVE, 15 + tier, 24 + 4 * tier, i, 0, 0, 0, 4 * cos(j) * level.pixelstretch, 0, 4 * sin(j), sizestep: 2.0);
+				A_SpawnParticle(pcol2, SPF_FULLBRIGHT | SPF_RELATIVE, 15 + tier, 24 + 4 * tier, i, 0, 0, 0, 4 * cos(j) * level.pixelstretch, 0, 4 * sin(j), sizestep: 2.0);
 			}
 		}
 
@@ -803,6 +812,9 @@ class GungnirRayImpact : Actor abstract
 			A_SpawnItemEx("HDGungnirRayZapper", frandom(-359, 359), frandom(-359, 359), frandom(-359, 359), 0, 0, 0, frandom(0, 359), SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
 		}
 	}
+
+	Color pcol1;
+	Color pcol2;
 
 	Default
 	{
@@ -887,9 +899,10 @@ class GungnirRaySegment : Actor
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
+		pcol = HDMath.PlayingId() ? 0xDFFF66 : 0x0098ff;
 		for (int i = 0; i < 2; ++i)
 		{
-			A_SpawnParticle(0xDFFF66, SPF_RELATIVE | SPF_FULLBRIGHT, random(100, 200), frandom(1.5, 3.0), 0,random(-10, 10), 0, 0,
+			A_SpawnParticle(pcol, SPF_RELATIVE | SPF_FULLBRIGHT, random(100, 200), frandom(1.5, 3.0), 0,random(-10, 10), 0, 0,
 				frandom(-0.10, 0.10), frandom(-0.10, 0.10), frandom(-0.10, 0.10),
 				frandom(-0.005, 0.005), frandom(-0.005, 0.005), frandom(-0.005, 0.005));
 		}
@@ -901,6 +914,7 @@ class GungnirRaySegment : Actor
 	}
 
 	private double FadeSpeed;
+	Color pcol;
 
 	Default
 	{
@@ -935,6 +949,8 @@ class GungnirRayImpactSpear : Actor
 		ReactionTime 70;
 	}
 
+	Name smoke;
+
 	States
 	{
 		Spawn:
@@ -949,7 +965,8 @@ class GungnirRayImpactSpear : Actor
 				vel *= 0.97;
 				vel.z -= 1.0 * Gravity;
 
-				A_SpawnItemEx("GungnirSmoke");
+				smoke = HDMath.PlayingID() ? "GungnirSmoke" : "GungnirSmokeFD";
+				A_SpawnItemEx(smoke);
 			}
 			Loop;
 	}
@@ -961,5 +978,29 @@ class GungnirSmoke : ACESmokeBase
 	{
 		Renderstyle "Shaded";
 		StencilColor "D1FF47";
+	}
+}
+
+class GungnirSmokeFD : ACESmokeBase
+{
+	Default
+	{
+		Renderstyle "Shaded";
+		StencilColor "0098ff";
+	}
+}
+
+class GungnirPointLight:PointLight{
+	Color col1;
+	Color col2;
+	Color col3;
+	override void postbeginplay(){
+		super.postbeginplay();
+		col1 = HDMath.PlayingID() ? 0xDF : 0x00;
+		col2 = HDMath.PlayingID() ? 0xFF : 0x09;
+		col3 = HDMath.PlayingID() ? 0x66 : 0xFF;
+		args[0]=col1;
+		args[1]=col2;
+		args[2]=col3;
 	}
 }
