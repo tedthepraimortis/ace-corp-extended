@@ -22,7 +22,7 @@ const HDLD_WYVERN             = "wyv";
 const HDLD_DSD                = "dsd";
 
 // Core
-#include "zscript/accensus/SpawnHandler.zs"
+#include "zscript/accensus/handlers/WeaponCrateHandler.zs"
 
 // Weapons
 #include "zscript/accensus/weapons/Blackhawk/blackhawk.zs"

@@ -11,13 +11,13 @@ OptionMenu "majesticSpawning" {
 
 	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
     StaticText "$MENU_MAJESTIC_PISTOL_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "majestic_pistol_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "majestic_pistol_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar majestic_pistol_spawn_bias"
     StaticText "$MENU_MAJESTIC_HUNTER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "majestic_hunter_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "majestic_hunter_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar majestic_hunter_spawn_bias"
     StaticText "$MENU_MAJESTIC_SLAYER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "majestic_slayer_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "majestic_slayer_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar majestic_slayer_spawn_bias"
  	StaticText ""
 
@@ -27,7 +27,7 @@ OptionMenu "majesticSpawning" {
 
 	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
     StaticText "$MENU_MAJESTICMAG_CLIPMAG_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_MAGSPAWNRATE", "majesticmag_clipmag_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_MAGSPAWNRATE", "majesticmag_clipmag_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETMAG", "resetcvar majesticmag_clipmag_spawn_bias"
     StaticText ""
 
@@ -58,13 +58,13 @@ OptionMenu "viperSpawning" {
 
 	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
     StaticText "$MENU_VIPER_PISTOL_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "viper_pistol_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "viper_pistol_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar viper_pistol_spawn_bias"
     StaticText "$MENU_VIPER_HUNTER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "viper_hunter_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "viper_hunter_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar viper_hunter_spawn_bias"
     StaticText "$MENU_VIPER_SLAYER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "viper_slayer_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "viper_slayer_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar viper_slayer_spawn_bias"
  	StaticText ""
 
@@ -74,7 +74,7 @@ OptionMenu "viperSpawning" {
 
 	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
     StaticText "$MENU_VIPERMAG_CLIPMAG_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_MAGSPAWNRATE", "vipermag_clipmag_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_MAGSPAWNRATE", "vipermag_clipmag_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETMAG", "resetcvar vipermag_clipmag_spawn_bias"
     StaticText ""
 	
@@ -114,13 +114,13 @@ OptionMenu "blackjackSpawning" {
 
 	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
     StaticText "$MENU_BLACKJACK_CLIPBOX_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "blackjack_clipbox_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "blackjack_clipbox_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar blackjack_clipbox_spawn_bias"
     StaticText "$MENU_BLACKJACK_HUNTER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "blackjack_hunter_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "blackjack_hunter_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar blackjack_hunter_spawn_bias"
     StaticText "$MENU_BLACKJACK_SLAYER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "blackjack_slayer_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "blackjack_slayer_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar blackjack_slayer_spawn_bias"
     StaticText ""
 	
@@ -130,7 +130,7 @@ OptionMenu "blackjackSpawning" {
 
 	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
     StaticText "$MENU_BLACKJACKMAG_355_CLIPMAG_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_MAGSPAWNRATE", "blackjack355mag_clipmag_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_MAGSPAWNRATE", "blackjack355mag_clipmag_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETMAG", "resetcvar blackjack355mag_clipmag_spawn_bias"
     StaticText ""
 
@@ -139,7 +139,7 @@ OptionMenu "blackjackSpawning" {
  	StaticText ""
 
     StaticText "$MENU_BLACKJACKMAG_SHELL_SHELL_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_MAGSPAWNRATE", "blackjackshellmag_shell_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_MAGSPAWNRATE", "blackjackshellmag_shell_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETMAG", "resetcvar blackjackshellmag_shell_spawn_bias"
     StaticText ""
 
@@ -171,7 +171,7 @@ OptionMenu "jackdawSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Green"
     StaticText "$MENU_JACKDAW_CLIPBOX_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "jackdaw_clipbox_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "jackdaw_clipbox_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar jackdaw_clipbox_spawn_bias"
     StaticText ""
 	
@@ -210,7 +210,7 @@ OptionMenu "blackhawkSpawning" {
 
 	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
     StaticText "$MENU_BLACKHAWK_LAUNCHER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "blackhawk_launcher_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "blackhawk_launcher_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar blackhawk_launcher_spawn_bias"
     StaticText ""
 	
@@ -220,7 +220,7 @@ OptionMenu "blackhawkSpawning" {
 
 	StaticText "$MENU_BOLTBUNDLE_SPAWNOPTIONS", "Orange"
     StaticText "$MENU_BOLTBUNDLE_ROCKET_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_BOLTBUNDLE_SPAWNRATE", "blackhawkBolts_rocket_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_BOLTBUNDLE_SPAWNRATE", "blackhawkBolts_rocket_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETBOLTBUNDLE", "resetcvar blackhawkBolts_rocket_spawn_bias"
     StaticText ""
 
@@ -251,7 +251,7 @@ OptionMenu "scorpionSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Orange"
     StaticText "$MENU_SCORPION_BFG_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "scorpion_bfg_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "scorpion_bfg_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar scorpion_bfg_spawn_bias"
     StaticText ""
 	
@@ -281,13 +281,13 @@ OptionMenu "wyvernSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Orange"
     StaticText "$MENU_WYVERN_HUNTER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "wyvern_hunter_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "wyvern_hunter_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar wyvern_hunter_spawn_bias"
     StaticText "$MENU_WYVERN_SLAYER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "wyvern_slayer_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "wyvern_slayer_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar wyvern_slayer_spawn_bias"
     StaticText "$MENU_WYVERN_PLASMA_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "wyvern_plasma_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "wyvern_plasma_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar wyvern_plasma_spawn_bias"
     StaticText ""
 	
@@ -319,7 +319,7 @@ OptionMenu "gungnirSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Cyan"
     StaticText "$MENU_GUNGNIR_BFG_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "gungnir_bfg_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "gungnir_bfg_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar gungnir_bfg_spawn_bias"
  	StaticText ""
 	
@@ -349,10 +349,10 @@ OptionMenu "hammerheadSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Cyan"
     StaticText "$MENU_HAMMERHEAD_CHAINGUN_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "hammerhead_chaingun_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "hammerhead_chaingun_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar hammerhead_chaingun_spawn_bias"
     StaticText "$MENU_HAMMERHEAD_PLASMA_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "hammerhead_plasma_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "hammerhead_plasma_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar hammerhead_plasma_spawn_bias"
  	StaticText ""
 	
@@ -382,7 +382,7 @@ OptionMenu "redlineSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "Cyan"
     StaticText "$MENU_REDLINE_PLASMA_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "redline_plasma_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "redline_plasma_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar redline_plasma_spawn_bias"
  	StaticText ""
 	
@@ -412,11 +412,11 @@ OptionMenu "ladlauncherSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_LADLAUNCHER_ROCKETBOX_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "ladderlauncher_rocketbox_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "ladderlauncher_rocketbox_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar ladderlauncher_rocketbox_spawn_bias"
  	StaticText ""
     StaticText "$MENU_LADLAUNCHER_CELLPACK_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "ladderlauncher_battery_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "ladderlauncher_battery_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar ladderlauncher_battery_spawn_bias"
  	StaticText ""
 	
@@ -446,7 +446,7 @@ OptionMenu "psgSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_PSG_BLUEARMOR_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "psg_bluearmour_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "psg_bluearmour_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar psg_bluearmour_spawn_bias"
  	StaticText ""
 	
@@ -483,7 +483,7 @@ OptionMenu "secretfinderSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_SECRETFINDER_MAP_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "secretfinder_map_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "secretfinder_map_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar secretfinder_map_spawn_bias"
  	StaticText ""
 	
@@ -513,7 +513,7 @@ OptionMenu "superstimSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_SUPERSTIM_STIMPACK_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "superstim_stimpack_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "superstim_stimpack_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar superstim_stimpack_spawn_bias"
  	StaticText ""
 	
@@ -582,7 +582,7 @@ OptionMenu "dsdSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_DSD_BACKPACK_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "dsd_backpack_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "dsd_backpack_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar dsd_backpack_spawn_bias"
 
 	StaticText "$MENU_DSD_BACKPACKS", "White"
@@ -679,7 +679,7 @@ OptionMenu "archerSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_SOULCUBE_CHAINSAW_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "soulcube_chainsaw_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "soulcube_chainsaw_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar soulcube_chainsaw_spawn_bias"
 
 	StaticText "$MENU_SOULCUBE_BACKPACKS", "White"
@@ -708,7 +708,7 @@ OptionMenu "crateSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_WEAPONCRATE_LAUNCHER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "weaponcrate_launcher_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "weaponcrate_launcher_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar weaponcrate_launcher_spawn_bias"
 	StaticText ""
 
@@ -734,7 +734,7 @@ OptionMenu "barricadeSpawning" {
 
 	StaticText "$MENU_SPAWNOPTIONS", "FAK_Blue"
     StaticText "$MENU_BARRICADE_LAUNCHER_SPAWNTEXT", "White"
-	ScaleSlider "$MENU_WEPSPAWNRATE", "deployablebarricade_launcher_spawn_bias", -1, 999, 1, "$MENU_REPLACEALL", "$MENU_DISABLED"
+	Slider "$MENU_WEPSPAWNRATE", "deployablebarricade_launcher_spawn_bias", 0.0, 100, .01, 2
 	SafeCommand "$MENU_RESETWEP", "resetcvar deployablebarricade_launcher_spawn_bias"
 	StaticText ""
 
@@ -854,7 +854,7 @@ OptionMenu "AceCorpMenuItems"{
 	StaticText ""
     Submenu "$TAG_LADDERLAUNCHER", "ladlauncherSpawning", 0, 1
 	StaticText ""
-    Submenu "$TAG_PSG", "psgSpawning", 0, 1
+    Submenu "$TAG_PSH", "psgSpawning", 0, 1
 	StaticText ""
     Submenu "$TAG_SECRETFINDER", "secretfinderSpawning", 0, 1
 	StaticText ""

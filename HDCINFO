@@ -1,0 +1,181 @@
+// Weapon Backpack Spawn Pool Filters
+addBPSpawnPoolFilter => { "name": "HDBlackhawk", "allowed": "#blackhawk_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackjack", "allowed": "#blackjack_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDGungnir", "allowed": "#gungnir_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDHammerhead", "allowed": "#hammerhead_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDJackdaw", "allowed": "#jackdaw_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDMajestic", "allowed": "#majestic_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDRedline", "allowed": "#redline_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDScorpion", "allowed": "#scorpion_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDViper", "allowed": "#viper_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDWyvern", "allowed": "#wyvern_allowBackpacks" }
+
+// Ammo Backpack Spawn Pool Filters
+addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltRegular", "allowed": "#blackhawkBolts_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltIncendiary", "allowed": "#blackhawkBolts_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltElectric", "allowed": "#blackhawkBolts_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltNuclear", "allowed": "#blackhawkBolts_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackjackMag355", "allowed": "#blackjack355mag_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBlackjackMagShells", "allowed": "#blackjackshellmag_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDMajesticMag", "allowed": "#majesticmag_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDViperMag", "allowed": "#vipermag_allowBackpacks" }
+
+// Item Backpack Spawn Pool Filters
+addBPSpawnPoolFilter => { "name": "LadderLauncher", "allowed": "#ladderlauncher_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDPersonalShieldGenerator", "allowed": "#psg_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDSecretFinder", "allowed": "#secretfinder_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "PortableSuperStimpack", "allowed": "#superstim_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDFieldAssemblyKit", "allowed": "#fak_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "AssemblyCore", "allowed": "#fak_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDBoosterJets", "allowed": "#boosterJets_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "DSDInterface", "allowed": "#dsd_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDRearviewMirror", "allowed": "#rearviewmirror_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDRoomba", "allowed": "#roomba_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDSupplyBeacon", "allowed": "#supplybeacon_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDTeleporter", "allowed": "#teleporter_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDSoulCube", "allowed": "#soulcube_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDMagazineReloader", "allowed": "#magreloader_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HackedReloader", "allowed": "#hackedreloader_allowBackpacks" }
+addBPSpawnPoolFilter => { "name": "HDArmorPatchKit", "allowed": "#armorpatchkit_allowBackpacks" }
+
+// Weapon Spawn Pools
+addSpawnTableSingleEntry => { "tableName": "RocketLauncherReplaces", "name": "BlackhawkRandom", "weight": "#blackhawk_launcher_spawn_bias", "persists": "#blackhawk_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ClipBoxReplaces", "name": "BlackjackRandom", "weight": "#blackjack_clipbox_spawn_bias", "persists": "#blackjack_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ShotgunReplaces", "name": "BlackjackRandom", "weight": "#blackjack_hunter_spawn_bias", "persists": "#blackjack_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "SuperShotgunReplaces", "name": "BlackjackRandom", "weight": "#blackjack_slayer_spawn_bias", "persists": "#blackjack_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "BFG9000Replaces", "name": "GungnirRandom", "weight": "#gungnir_bfg_spawn_bias", "persists": "#gungnir_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ChaingunReplaces", "name": "HammerheadRandom", "weight": "#hammerhead_chaingun_spawn_bias", "persists": "#hammerhead_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "PlasmaRifleReplaces", "name": "HammerheadRandom", "weight": "#hammerhead_plasma_spawn_bias", "persists": "#hammerhead_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ClipBoxReplaces", "name": "JackdawRandom", "weight": "#jackdaw_clipbox_spawn_bias", "persists": "#jackdaw_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "PistolReplaces", "name": "MajesticRandom", "weight": "#majestic_pistol_spawn_bias", "persists": "#majestic_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ShotgunReplaces", "name": "MajesticRandom", "weight": "#majestic_hunter_spawn_bias", "persists": "#majestic_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "SuperShotgunReplaces", "name": "MajesticRandom", "weight": "#majestic_slayer_spawn_bias", "persists": "#majestic_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "PlasmaRifleReplaces", "name": "RedlineRandom", "weight": "#redline_plasma_spawn_bias", "persists": "#redline_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "BFG9000Replaces", "name": "ScorpionSpawner", "weight": "#scorpion_bfg_spawn_bias", "persists": "#scorpion_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "PistolReplaces", "name": "ViperRandom", "weight": "#viper_pistol_spawn_bias", "persists": "#viper_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ShotgunReplaces", "name": "ViperRandom", "weight": "#viper_hunter_spawn_bias", "persists": "#viper_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "SuperShotgunReplaces", "name": "ViperRandom", "weight": "#viper_slayer_spawn_bias", "persists": "#viper_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ShotgunReplaces", "name": "WyvernRandom", "weight": "#wyvern_hunter_spawn_bias", "persists": "#wyvern_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "SuperShotgunReplaces", "name": "WyvernRandom", "weight": "#wyvern_slayer_spawn_bias", "persists": "#wyvern_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "PlasmaRifleReplaces", "name": "WyvernRandom", "weight": "#wyvern_plasma_spawn_bias", "persists": "#wyvern_persistent_spawning" }
+
+// Handgun Drop Table
+addSpawnTableSingleEntry => { "tableName": "HDHandgunRandomDrop", "name": "HDMajestic", "weight": "#majestic_pistol_spawn_bias", "chance": "16", "persists": "#majestic_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "HDHandgunRandomDrop", "name": "HDViper", "weight": "#viper_pistol_spawn_bias", "chance": "16", "persists": "#viper_persistent_spawning" }
+
+// Ammo Spawn Pools
+addSpawnTableSingleEntry => { "tableName": "RocketAmmoReplaces", "name": "HDBlackhawkBoltBundle", "weight": "#blackhawkBolts_rocket_spawn_bias", "persists": "#blackhawkBolts_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ClipReplaces", "name": "HDBlackjackMag355", "weight": "#blackjack355mag_clipmag_spawn_bias", "persists": "#blackjack355mag_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ShellReplaces", "name": "HDBlackjackMagShells", "weight": "#blackjackshellmag_shell_spawn_bias", "persists": "#blackjackshellmag_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ClipReplaces", "name": "HDMajesticMag", "weight": "#majesticmag_clipmag_spawn_bias", "persists": "#majesticmag_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ClipReplaces", "name": "HDViperMag", "weight": "#vipermag_clipmag_spawn_bias", "persists": "#vipermag_persistent_spawning" }
+
+// Item Spawn Pools
+addSpawnTableSingleEntry => { "tableName": "RocketLauncherReplaces", "name": "HDDeployableBarricade", "weight": "#deployablebarricade_launcher_spawn_bias", "persists": "#deployablebarricade_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "RocketBoxReplaces", "name": "LadderLauncher", "weight": "#ladderlauncher_rocketbox_spawn_bias", "persists": "#ladderlauncher_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "CellReplaces", "name": "LadderLauncher", "weight": "#ladderlauncher_battery_spawn_bias", "persists": "#ladderlauncher_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "BlueArmorReplaces", "name": "PsgRandom", "weight": "#psg_bluearmour_spawn_bias", "persists": "#psg_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "AllMapReplaces", "name": "HDSecretFinder", "weight": "#secretfinder_map_spawn_bias", "persists": "#secretfinder_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "ChainsawReplaces", "name": "HDSoulCube", "weight": "#soulcube_chainsaw_spawn_bias", "persists": "#soulcube_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "StimpackReplaces", "name": "PortableSuperStimpack", "weight": "#superstim_stimpack_spawn_bias", "persists": "#superstim_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "RocketLauncherReplaces", "name": "HDWeaponCrate", "weight": "#weaponcrate_launcher_spawn_bias", "persists": "#weaponcrate_persistent_spawning" }
+addSpawnTableSingleEntry => { "tableName": "BackpackReplaces", "name": "DSDInterface", "weight": "#dsd_backpack_spawn_bias", "persists": "#dsd_persistent_spawning" }
+
+// Ammo Usages
+addAmmoUser => { "ammoName": "HDPistolAmmo", "name": "HDJackdaw" }
+addAmmoUser => { "ammoName": "HDRevolverAmmo", "name": "HDBlackjack" }
+addAmmoUser => { "ammoName": "HDShellAmmo", "name": "HDBlackjack" }
+addAmmoUser => { "ammoName": "HDBattery", "name": "HDGungnir" }
+addAmmoUser => { "ammoName": "HDBattery", "name": "HDHammerhead" }
+addAmmoUser => { "ammoName": "HDBattery", "name": "HDRedline" }
+addAmmoUser => { "ammoName": "HDBattery", "name": "HDTeleporter" }
+addAmmoUser => { "ammoName": "BrontornisRound", "name": "HDScorpion" }
+addAmmoUser => { "ammoName": "HD50AM_Ammo", "name": "HDViper" }
+addAmmoUser => { "ammoName": "HD500SWLightAmmo", "name": "HDMajestic" }
+addAmmoUser => { "ammoName": "HD50OMGAmmo", "name": "HDWyvern" }
+
+newAmmo => { "ammoName": "HDBlackhawkBoltRegular" }
+newAmmo => { "ammoName": "HDBlackhawkBoltIncendiary" }
+newAmmo => { "ammoName": "HDBlackhawkBoltElectric" }
+newAmmo => { "ammoName": "HDBlackhawkBoltNuclear" }
+
+addAmmoUser => { "ammoName": "HDBlackhawkBoltRegular", "name": "HDBlackhawk" }
+addAmmoUser => { "ammoName": "HDBlackhawkBoltIncendiary", "name": "HDBlackhawk" }
+addAmmoUser => { "ammoName": "HDBlackhawkBoltElectric", "name": "HDBlackhawk" }
+addAmmoUser => { "ammoName": "HDBlackhawkBoltNuclear", "name": "HDBlackhawk" }
+
+// Weapon Crate Filtering
+addWeaponCrateBlacklist => { "name": "BFG9K" }
+addWeaponCrateBlacklist => { "name": "Blooper" }
+addWeaponCrateBlacklist => { "name": "BossRifle" }
+addWeaponCrateBlacklist => { "name": "Brontornis" }
+addWeaponCrateBlacklist => { "name": "HDPistol" }
+addWeaponCrateBlacklist => { "name": "HDRevolver" }
+addWeaponCrateBlacklist => { "name": "HDRL" }
+addWeaponCrateBlacklist => { "name": "HDSMG" }
+addWeaponCrateBlacklist => { "name": "Hunter" }
+addWeaponCrateBlacklist => { "name": "LiberatorRifle" }
+addWeaponCrateBlacklist => { "name": "Lumberjack" }
+addWeaponCrateBlacklist => { "name": "Slayer" }
+addWeaponCrateBlacklist => { "name": "Thunderbuster" }
+addWeaponCrateBlacklist => { "name": "Vulcanette" }
+addWeaponCrateBlacklist => { "name": "ZM66AssaultRifle" }
+
+addWeaponCrateFilter => { "name": "HDBlackhawk", "allowed": "#blackhawk_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDBlackjack", "allowed": "#blackjack_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDGungnir", "allowed": "#gungnir_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDHammerhead", "allowed": "#hammerhead_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDJackdaw", "allowed": "#jackdaw_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDMajestic", "allowed": "#majestic_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDRedline", "allowed": "#redline_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDScorpion", "allowed": "#scorpion_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDViper", "allowed": "#viper_allowBackpacks" }
+addWeaponCrateFilter => { "name": "HDWyvern", "allowed": "#wyvern_allowBackpacks" }
+addWeaponCrateFilter => { "name": "LadderLauncher", "allowed": "#ladderlauncher_allowBackpacks" }
+
+// Merchant Currencies
+newMerchantStoreCurrency => { "name": "AssemblyCore", "icon": "ASCRA0", "priceMult": "0.01" }
+
+// Merchant Store Entries
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackhawk", "type": "weapon", "category": "$MERCH_CAT_BLACKHAWK", "item": "HDBlackhawk", "icon": "BHKGZ0", "displayName": "$MERCH_TAG_BLACKHAWK", "basePrice": "600", "flavorText": "$MERCH_FLAVOR_BLACKHAWK" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackjack", "type": "weapon", "category": "$MERCH_CAT_BLACKJACK", "item": "HDBlackjack", "icon": "BJFFA0", "displayName": "$MERCH_TAG_BLACKJACK", "basePrice": "480", "flavorText": "$MERCH_FLAVOR_BLACKJACK" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_gungnir", "type": "weapon", "category": "$MERCH_CAT_GUNGNIR", "item": "HDGungnir", "icon": "GNGRZ0", "displayName": "$MERCH_TAG_GUNGNIR", "basePrice": "1200", "flavorText": "$MERCH_FLAVOR_GUNGNIR" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_hammerhead", "type": "weapon", "category": "$MERCH_CAT_HAMMERHEAD", "item": "HDHammerhead", "icon": "BLNGZ0", "displayName": "$MERCH_TAG_HAMMERHEAD", "basePrice": "700", "flavorText": "$MERCH_FLAVOR_HAMMERHEAD" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_jackdaw", "type": "weapon", "category": "$MERCH_CAT_JACKDAW", "item": "HDJackdaw", "icon": "JDWGZ0", "displayName": "$MERCH_TAG_JACKDAW", "basePrice": "400", "flavorText": "$MERCH_FLAVOR_JACKDAW" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_majestic", "type": "weapon", "category": "$MERCH_CAT_MAJESTIC", "item": "HDMajestic", "icon": "MJCGZ0", "displayName": "$MERCH_TAG_MAJESTIC", "basePrice": "400", "flavorText": "$MERCH_FLAVOR_MAJESTIC" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_redline", "type": "weapon", "category": "$MERCH_CAT_REDLINE", "item": "HDRedline", "icon": "RDLGZ0", "displayName": "$MERCH_TAG_REDLINE", "basePrice": "540", "flavorText": "$MERCH_FLAVOR_REDLINE" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_scorpion", "type": "weapon", "category": "$MERCH_CAT_SCORPION", "item": "HDScorpion", "icon": "SCRPZ0", "displayName": "$MERCH_TAG_SCORPION", "basePrice": "900", "flavorText": "$MERCH_FLAVOR_SCORPION" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_soulcube", "type": "weapon", "category": "$MERCH_CAT_SOULCUBE", "item": "HDSoulCube", "icon": "SLCBA3A7", "displayName": "$MERCH_TAG_SOULCUBE", "basePrice": "800", "flavorText": "$MERCH_FLAVOR_SOULCUBE" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_viper", "type": "weapon", "category": "$MERCH_CAT_VIPER", "item": "HDViper", "icon": "VPRGY0", "displayName": "$MERCH_TAG_VIPER", "basePrice": "240", "flavorText": "$MERCH_FLAVOR_VIPER" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_wyvern", "type": "weapon", "category": "$MERCH_CAT_WYVERN", "item": "HDWyvern", "icon": "WYVZA0", "displayName": "$MERCH_TAG_WYVERN", "basePrice": "480", "flavorText": "$MERCH_FLAVOR_WYVERN" }
+
+newMerchantStoreItem => { "enabled": "#hdm_enable_armourpatchkit", "type": "item", "category": "$MERCH_CAT_ARMOURPATCHKIT", "item": "HDArmorPatchKit", "icon": "APKTA0", "displayName": "$MERCH_TAG_ARMOURPATCHKIT", "basePrice": "250", "flavorText": "$MERCH_FLAVOR_ARMOURPATCHKIT" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_barricade", "type": "item", "category": "$MERCH_CAT_BARRICADE", "item": "HDDeployableBarricade", "icon": "DABRB0", "displayName": "$MERCH_TAG_BARRICADE", "basePrice": "700", "flavorText": "$MERCH_FLAVOR_BARRICADE" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_boosterjets", "type": "item", "category": "$MERCH_CAT_BOOSTERJETS", "item": "HDBoosterJets", "icon": "BSJTA0", "displayName": "$MERCH_TAG_BOOSTERJETS", "basePrice": "320", "flavorText": "$MERCH_FLAVOR_BOOSTERJETS" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_dsd", "type": "item", "category": "$MERCH_CAT_DSD", "item": "DSDInterface", "icon": "DSDDA0", "displayName": "$MERCH_TAG_DSD", "basePrice": "600", "flavorText": "$MERCH_FLAVOR_DSD" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_fak", "type": "item", "category": "$MERCH_CAT_FAK", "item": "HDFieldAssemblyKit", "icon": "FAKTA0", "displayName": "$MERCH_TAG_FAK", "basePrice": "400", "flavorText": "$MERCH_FLAVOR_FAK" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_hacked7mmreloader", "type": "item", "category": "$MERCH_CAT_HACKED7MMRELOADER", "item": "HackedReloader", "icon": "HRLDA0", "displayName": "$MERCH_TAG_HACKED7MMRELOADER", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_HACKED7MMRELOADER" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_ladderlauncher", "type": "item", "category": "$MERCH_CAT_LADDERLAUNCHER", "item": "HDLadderLauncher", "icon": "LLCHZ0", "displayName": "$MERCH_TAG_LADDERLAUNCHER", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_LADDERLAUNCHER" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_mrl", "type": "item", "category": "$MERCH_CAT_MRL", "item": "HDMagazineReloader", "icon": "MRLDA0", "displayName": "$MERCH_TAG_MRL", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_MRL" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_personalshieldgen", "type": "item", "category": "$MERCH_CAT_PERSONALSHIELDGEN", "item": "HDPersonalShieldGenerator", "icon": "PSH0A0", "displayName": "$MERCH_TAG_PERSONALSHIELDGEN", "basePrice": "1200", "flavorText": "$MERCH_FLAVOR_PERSONALSHIELDGEN" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_portableteleporter", "type": "item", "category": "$MERCH_CAT_PORTABLETELEPORTER", "item": "HDTeleporter", "icon": "TPRTZ0", "displayName": "$MERCH_TAG_PORTABLETELEPORTER", "basePrice": "500", "flavorText": "$MERCH_FLAVOR_PORTABLETELEPORTER" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_rearviewmirror", "type": "item", "category": "$MERCH_CAT_REARVIEWMIRROR", "item": "HDRearviewMirror", "icon": "RVMGZ0", "displayName": "$MERCH_TAG_REARVIEWMIRROR", "basePrice": "50", "flavorText": "$MERCH_FLAVOR_REARVIEWMIRROR" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_roomba", "type": "item", "category": "$MERCH_CAT_ROOMBA", "item": "HDRoomba", "icon": "RMBAA1", "displayName": "$MERCH_TAG_ROOMBA", "basePrice": "180", "flavorText": "$MERCH_FLAVOR_ROOMBA" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_secretfinder", "type": "item", "category": "$MERCH_CAT_SECRETFINDER", "item": "HDSecretFinder", "icon": "FNDRA0", "displayName": "$MERCH_TAG_SECRETFINDER", "basePrice": "400", "flavorText": "$MERCH_FLAVOR_SECRETFINDER" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_suicidevest", "type": "item", "category": "$MERCH_CAT_SUICIDEVEST", "item": "HDSuicideVest", "icon": "SVSTA0", "displayName": "$MERCH_TAG_SUICIDEVEST", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_SUICIDEVEST" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_superstim", "type": "item", "category": "$MERCH_CAT_SUPERSTIM", "item": "PortableSuperStimpack", "icon": "SSTMA0", "displayName": "$MERCH_TAG_SUPERSTIM", "basePrice": "40", "flavorText": "$MERCH_FLAVOR_SUPERSTIM" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_supplybeacon", "type": "item", "category": "$MERCH_CAT_SUPPLYBEACON", "item": "HDSupplyBeacon", "icon": "SPBCZ0", "displayName": "$MERCH_TAG_SUPPLYBEACON", "basePrice": "400", "flavorText": "$MERCH_FLAVOR_SUPPLYBEACON" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_weaponcrate", "type": "item", "category": "$MERCH_CAT_WEAPONCRATE", "item": "HDWeaponCrate", "icon": "WPCRT0", "displayName": "$MERCH_TAG_WEAPONCRATE", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_WEAPONCRATE" }
+
+newMerchantStoreItem => { "enabled": "#hdm_enable_assemblycore", "type": "ammo", "category": "$MERCH_CAT_ASSEMBLYCORE", "item": "AssemblyCore", "icon": "ASCRA0", "displayName": "$MERCH_TAG_ASSEMBLYCORE", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_ASSEMBLYCORE" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_battlearmourpatch", "type": "ammo", "category": "$MERCH_CAT_BATTLEARMOURPATCH", "item": "HDAPK_BattlePatch", "icon": "APCBA0", "displayName": "$MERCH_TAG_BATTLEARMOURPATCH", "basePrice": "25", "flavorText": "$MERCH_FLAVOR_BATTLEARMOURPATCH" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackhawkboltelec", "type": "ammo", "category": "$MERCH_CAT_BLACKHAWKBOLTELEC", "item": "HDBlackhawkBoltElectric", "amount": "6", "icon": "BHBLC0", "displayName": "$MERCH_TAG_BLACKHAWKBOLTELEC", "basePrice": "80", "flavorText": "$MERCH_FLAVOR_BLACKHAWKBOLTELEC" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackhawkboltincen", "type": "ammo", "category": "$MERCH_CAT_BLACKHAWKBOLTINCEN", "item": "HDBlackhawkBoltIncendiary", "amount": "3", "icon": "BHBLB0", "displayName": "$MERCH_TAG_BLACKHAWKBOLTINCEN", "basePrice": "50", "flavorText": "$MERCH_FLAVOR_BLACKHAWKBOLTINCEN" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackhawkboltnuclear", "type": "ammo", "category": "$MERCH_CAT_BLACKHAWKBOLTNUCLEAR", "item": "HDBlackhawkBoltNuclear", "amount": "2", "icon": "BHBLD0", "displayName": "$MERCH_TAG_BLACKHAWKBOLTNUCLEAR", "basePrice": "200", "flavorText": "$MERCH_FLAVOR_BLACKHAWKBOLTNUCLEAR" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackhawkboltreg", "type": "ammo", "category": "$MERCH_CAT_BLACKHAWKBOLTREG", "item": "HDBlackhawkBoltRegular", "amount": "24", "icon": "BHBLA0", "displayName": "$MERCH_TAG_BLACKHAWKBOLTREG", "basePrice": "30", "flavorText": "$MERCH_FLAVOR_BLACKHAWKBOLTREG" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_garrisonarmourpatch", "type": "ammo", "category": "$MERCH_CAT_GARRISONARMOURPATCH", "item": "HDAPK_GarrisonPatch", "icon": "APCGA0", "displayName": "$MERCH_TAG_GARRISONARMOURPATCH", "basePrice": "10", "flavorText": "$MERCH_FLAVOR_GARRISONARMOURPATCH" }
+
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackjackmag355", "type": "mag", "category": "$MERCH_CAT_BLACKJACKMAG355", "item": "HDBlackjackMag355", "icon": "BJM3A0", "displayName": "$MERCH_TAG_BLACKJACKMAG355", "basePrice": "11", "flavorText": "$MERCH_FLAVOR_BLACKJACKMAG355" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_blackjackmagshells", "type": "mag", "category": "$MERCH_CAT_BLACKJACKMAGSHELL", "item": "HDBlackjackMagShells", "icon": "BJMSA0", "displayName": "$MERCH_TAG_BLACKJACKMAGSHELL", "basePrice": "4", "flavorText": "$MERCH_FLAVOR_BLACKJACKMAGSHELL" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_majesticmag", "type": "mag", "category": "$MERCH_CAT_MAJESTICMAG", "item": "HDMajesticMag", "icon": "MJMGA0", "displayName": "$MERCH_TAG_MAJESTICMAG", "basePrice": "8", "flavorText": "$MERCH_FLAVOR_MAJESTICMAG" }
+newMerchantStoreItem => { "enabled": "#hdm_enable_vipermag", "type": "mag", "category": "$MERCH_CAT_VIPERMAG", "item": "HDViperMag", "icon": "VPMGA0", "displayName": "$MERCH_TAG_VIPERMAG", "basePrice": "6", "flavorText": "$MERCH_FLAVOR_VIPERMAG" }

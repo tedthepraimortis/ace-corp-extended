@@ -15,62 +15,62 @@ user bool bj_invert = false;
 
 // Blackhawk
 server bool blackhawk_allowBackpacks = true;
-server int  blackhawk_launcher_spawn_bias = 14;
+server float blackhawk_launcher_spawn_bias = 0.0666;
 server bool blackhawk_persistent_spawning = false;
 
 // Blackjack
 server bool blackjack_allowBackpacks = true;
-server int  blackjack_clipbox_spawn_bias  = 9;
-server int  blackjack_hunter_spawn_bias  = 9;
-server int  blackjack_slayer_spawn_bias  = 9;
+server float blackjack_clipbox_spawn_bias  = 2.8;
+server float blackjack_hunter_spawn_bias  = 1.0;
+server float blackjack_slayer_spawn_bias  = 1.4;
 server bool blackjack_persistent_spawning = false;
 
 // Gungnir
 server bool gungnir_allowBackpacks = true;
-server int gungnir_bfg_spawn_bias = 99;
+server float gungnir_bfg_spawn_bias = 0.01;
 server bool gungnir_persistent_spawning = false;
 
 // Hammerhead
 server bool hammerhead_allowBackpacks = true;
-server int hammerhead_chaingun_spawn_bias = 14;
-server int hammerhead_plasma_spawn_bias = 9;
+server float hammerhead_chaingun_spawn_bias = 0.8666;
+server float hammerhead_plasma_spawn_bias = 0.7;
 server bool hammerhead_persistent_spawning = false;
 server bool hhd_old_plasma_projectile = false;
 
 // Jackdaw
 server bool jackdaw_allowBackpacks = true;
-server int jackdaw_clipbox_spawn_bias = 49;
+server float jackdaw_clipbox_spawn_bias = 0.56;
 server bool jackdaw_persistent_spawning = false;
 
 // Majestic
 server bool majestic_allowBackpacks = true;
-server int majestic_pistol_spawn_bias = 49;
-server int majestic_hunter_spawn_bias = 9;
-server int majestic_slayer_spawn_bias = 4;
+server float majestic_pistol_spawn_bias = 0.12;
+server float majestic_hunter_spawn_bias = 1;
+server float majestic_slayer_spawn_bias = 2.8;
 server bool majestic_persistent_spawning = false;
 
 // Redline
 server bool redline_allowBackpacks = true;
-server int redline_plasma_spawn_bias = 9;
+server float redline_plasma_spawn_bias = 0.7;
 server bool redline_persistent_spawning = false;
 
 // Scorpion
 server bool scorpion_allowBackpacks = true;
-server int scorpion_bfg_spawn_bias = 9;
+server float scorpion_bfg_spawn_bias = 0.1;
 server bool scorpion_persistent_spawning = false;
 
 // Viper
 server bool viper_allowBackpacks = true;
-server int viper_pistol_spawn_bias = 19;
-server int viper_hunter_spawn_bias = 49;
-server int viper_slayer_spawn_bias = 49;
+server float viper_pistol_spawn_bias = 0.3;
+server float viper_hunter_spawn_bias = 0.2;
+server float viper_slayer_spawn_bias = 0.28;
 server bool viper_persistent_spawning = false;
 
 // Wyvern
 server bool wyvern_allowBackpacks = true;
-server int wyvern_hunter_spawn_bias = 99;
-server int wyvern_slayer_spawn_bias = 49;
-server int wyvern_plasma_spawn_bias = 24;
+server float wyvern_hunter_spawn_bias = 0.1;
+server float wyvern_slayer_spawn_bias = 0.28;
+server float wyvern_plasma_spawn_bias = 0.28;
 server bool wyvern_persistent_spawning = false;
 
 
@@ -80,43 +80,43 @@ server bool wyvern_persistent_spawning = false;
 
 // Blackhawk Bolts
 server bool blackhawkBolts_allowBackpacks = true;
-server int  blackhawkBolts_rocket_spawn_bias   = 19;
+server float blackhawkBolts_rocket_spawn_bias   = 0.05;
 server bool blackhawkBolts_persistent_spawning = false;
 
 // Blackjack .355 Mag
 server bool blackjack355mag_allowBackpacks = true;
-server int  blackjack355mag_clipmag_spawn_bias  = 14;
+server float blackjack355mag_clipmag_spawn_bias  = 2.2666;
 server bool blackjack355mag_persistent_spawning = false;
 
 // Blackjack Shell Mag
 server bool blackjackshellmag_allowBackpacks = true;
-server int  blackjackshellmag_shell_spawn_bias    = 14;
+server float blackjackshellmag_shell_spawn_bias    = 1.5333;
 server bool blackjackshellmag_persistent_spawning = false;
 
 // Majestic Magazine
 server bool majesticmag_allowBackpacks = true;
-server int majesticmag_clipmag_spawn_bias = 24;
+server float majesticmag_clipmag_spawn_bias = 1.36;
 server bool majesticmag_persistent_spawning = false;
 
 // Viper Magazine
 server bool vipermag_allowBackpacks = true;
-server int vipermag_clipmag_spawn_bias = 24;
+server float vipermag_clipmag_spawn_bias = 1.36;
 server bool vipermag_persistent_spawning = false;
 
 //------------
 // Items
 //------------
 
-server int deployablebarricade_launcher_spawn_bias = 24;
+server float deployablebarricade_launcher_spawn_bias = 0.04;
 server bool deployablebarricade_persistent_spawning = false;
 
 server bool ladderlauncher_allowBackpacks = true;
-server int ladderlauncher_rocketbox_spawn_bias = 24;
-server int ladderlauncher_battery_spawn_bias = 24;
+server float ladderlauncher_rocketbox_spawn_bias = 0.84;
+server float ladderlauncher_battery_spawn_bias = 0.52;
 server bool ladderlauncher_persistent_spawning = false;
 
 server bool psg_allowBackpacks = true;
-server int psg_bluearmour_spawn_bias = 19;
+server float psg_bluearmour_spawn_bias = 0.05;
 server bool psg_persistent_spawning = false;
 server bool psg_upgrade_1_enabled = true;
 server bool psg_upgrade_2_enabled = true;
@@ -124,22 +124,22 @@ server bool psg_upgrade_3_enabled = true;
 server bool psg_upgrade_4_enabled = true;
 
 server bool secretfinder_allowBackpacks = true;
-server int secretfinder_map_spawn_bias = 19;
+server float secretfinder_map_spawn_bias = 0.05;
 server bool secretfinder_persistent_spawning = false;
 
 server bool superstim_allowBackpacks = true;
-server int superstim_stimpack_spawn_bias = 19;
+server float superstim_stimpack_spawn_bias = 0.4;
 server bool superstim_persistent_spawning = false;
 
-server int weaponcrate_launcher_spawn_bias = 19;
+server float weaponcrate_launcher_spawn_bias = 0.05;
 server bool weaponcrate_persistent_spawning = false;
 
 server bool dsd_allowBackpacks = true;
-server int dsd_backpack_spawn_bias = 19;
+server float dsd_backpack_spawn_bias = 0.05;
 server bool dsd_persistent_spawning = false;
 
 server bool soulcube_allowBackpacks = true;
-server int soulcube_chainsaw_spawn_bias = 19;
+server float soulcube_chainsaw_spawn_bias = 0.05;
 server bool soulcube_persistent_spawning = false;
 
 server bool fak_allowBackpacks = true;
@@ -164,3 +164,49 @@ user int sb_skin = 0;
 
 server bool fak_giveCores_mapEnd = true;
 server float fak_coreRefund_ratio = 1.0;
+
+//------------
+// Merchant Store Filters
+//------------
+
+server bool hdm_enable_armourpatchkit       = true;
+server bool hdm_enable_assemblycore         = true;
+server bool hdm_enable_barricade            = true;
+server bool hdm_enable_battlearmourpatch    = true;
+server bool hdm_enable_blackhawk            = true;
+server bool hdm_enable_blackhawkboltelec    = true;
+server bool hdm_enable_blackhawkboltincen   = true;
+server bool hdm_enable_blackhawkboltnuclear = true;
+server bool hdm_enable_blackhawkboltreg     = true;
+server bool hdm_enable_blackjack            = true;
+server bool hdm_enable_blackjackmag355      = true;
+server bool hdm_enable_blackjackmagshells   = true;
+server bool hdm_enable_boosterjets          = true;
+server bool hdm_enable_ddzflashlight        = true;
+server bool hdm_enable_despfilter           = true;
+server bool hdm_enable_dsd                  = true;
+server bool hdm_enable_fak                  = true;
+server bool hdm_enable_garrisonarmourpatch  = true;
+server bool hdm_enable_gungnir              = true;
+server bool hdm_enable_hacked7mmreloader    = true;
+server bool hdm_enable_hammerhead           = true;
+server bool hdm_enable_jackdaw              = true;
+server bool hdm_enable_ladderlauncher       = true;
+server bool hdm_enable_majestic             = true;
+server bool hdm_enable_majesticmag          = true;
+server bool hdm_enable_mrl                  = true;
+server bool hdm_enable_personalshieldgen    = true;
+server bool hdm_enable_portableteleporter   = true;
+server bool hdm_enable_rearviewmirror       = true;
+server bool hdm_enable_redline              = true;
+server bool hdm_enable_roomba               = true;
+server bool hdm_enable_scorpion             = true;
+server bool hdm_enable_secretfinder         = true;
+server bool hdm_enable_soulcube             = true;
+server bool hdm_enable_suicidevest          = true;
+server bool hdm_enable_superstim            = true;
+server bool hdm_enable_supplybeacon         = true;
+server bool hdm_enable_viper                = true;
+server bool hdm_enable_vipermag             = true;
+server bool hdm_enable_weaponcrate          = true;
+server bool hdm_enable_wyvern               = true;

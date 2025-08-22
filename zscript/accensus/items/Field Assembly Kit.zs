@@ -72,7 +72,7 @@ class FAK_Upgrade abstract
 			let gaveCore = false;
 			let scaledChance = chance * fak_coreRefund_ratio;
 
-			if (hd_debug) console.printf('Original Chance: '..chance..', Scaled Chance: '..scaledChance);
+            HDCore.Log('AceCorpExtended', LOGGING_DEBUG, "Original Chance: "..chance..", Scaled Chance: "..scaledChance);
 
 			while (scaledChance > 1.0) {
 				other.A_GiveInventory('AssemblyCore', 1);

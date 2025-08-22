@@ -47,14 +47,14 @@ class FAK_Gungnir_AntiFrag : FAK_Upgrade
 	override bool CheckPrerequisites(HDWeapon wpn, HDPickup pkp)
 	{
 		Name cls = 'HDFoG';
-		return (class<Actor>)(cls) && wpn.owner.FindInventory(cls) && wpn.WeaponStatus[0] & 2;
+		return HDCore.CheckClassExists(cls) && wpn.owner.FindInventory(cls) && wpn.WeaponStatus[0] & 2;
 	}
 	override string GetFailMessage(HDWeapon wpn, HDPickup pkp, int type)
 	{
 		if (type == FMType_Requirements)
 		{
 			Name cls = 'HDFoG';
-			if ((class<Actor>)(cls))
+			if (HDCore.CheckClassExists(cls))
 			{
 				return wpn.WeaponStatus[0] & 2 ? "You need a Finger of God for this upgrade." : "You need to upgrade the capacitor first.";
 			}

@@ -456,3 +456,211 @@ WYVR_HELPTEXT_3 = "  Reload (side saddles first)\n";
 WYVR_HELPTEXT_4 = "  Reload (pockets only)\n";
 WYVR_HELPTEXT_5 = "  Hold to force double shot\n";
 WYVR_HELPTEXT_6 = "  Load side saddles\n";
+
+// Merchant Store Entries
+
+
+// Blackhawk
+MERCH_CAT_BLACKHAWK               = "AceCorp";
+MERCH_TAG_BLACKHAWK               = "Blackhawk";
+MERCH_FLAVOR_BLACKHAWK            = "Shhhhh... we're hunting demons.";
+
+// Blackjack
+MERCH_CAT_BLACKJACK               = "AceCorp";
+MERCH_TAG_BLACKJACK               = "'Blackjack' .355 Rifle";
+MERCH_FLAVOR_BLACKJACK            = "23. Bust.";
+
+// Blackjack .355 Mag
+MERCH_CAT_BLACKJACKMAG355         = "AceCorp";
+MERCH_TAG_BLACKJACKMAG355         = "'Blackjack' .355 Magazine";
+MERCH_FLAVOR_BLACKJACKMAG355      = "";
+
+// Blackjack 12ga Mag
+MERCH_CAT_BLACKJACKMAGSHELL       = "AceCorp";
+MERCH_TAG_BLACKJACKMAGSHELL       = "'Blackjack' 12ga Magazine";
+MERCH_FLAVOR_BLACKJACKMAGSHELL    = "";
+
+// Gungnir
+MERCH_CAT_GUNGNIR                 = "AceCorp";
+MERCH_TAG_GUNGNIR                 = "'Gungnir' Frag beam Rifle";
+MERCH_FLAVOR_GUNGNIR              = "Stole it right out of some deity's closet. I hope they don't need it.";
+
+// Hammerhead
+MERCH_CAT_HAMMERHEAD              = "AceCorp";
+MERCH_TAG_HAMMERHEAD              = "Hammerhead";
+MERCH_FLAVOR_HAMMERHEAD           = "Do you hate batteries? Do you hate imps more? This gun lets you get rid of both!";
+
+// Jackdaw
+MERCH_CAT_JACKDAW                 = "AceCorp";
+MERCH_TAG_JACKDAW                 = "'Jackdaw' 9mm SMG";
+MERCH_FLAVOR_JACKDAW              = "It's like five SMGs strapped together, but you can only fire one at a time.";
+
+// Majestic
+MERCH_CAT_MAJESTIC                = "AceCorp";
+MERCH_TAG_MAJESTIC                = "Majestic";
+MERCH_FLAVOR_MAJESTIC             = "Aliens may or may not have been involved in the production of this.";
+
+// Majestic Mag
+MERCH_CAT_MAJESTICMAG             = "AceCorp";
+MERCH_TAG_MAJESTICMAG             = "'Majestic' .500 S&W Magazine";
+MERCH_FLAVOR_MAJESTICMAG          = "";
+
+// Redline
+MERCH_CAT_REDLINE                 = "AceCorp";
+MERCH_TAG_REDLINE                 = "'Redline' Thermal Lance";
+MERCH_FLAVOR_REDLINE              = "Look here. Smile. Wait for flash.";
+
+// Scorpion
+MERCH_CAT_SCORPION                = "AceCorp";
+MERCH_TAG_SCORPION                = "'Scorpion' 35mm Sniper Cannon";
+MERCH_FLAVOR_SCORPION             = "Deletes just about anything.";
+
+// Soul Cube
+MERCH_CAT_SOULCUBE                = "AceCorp";
+MERCH_TAG_SOULCUBE                = "Soul Cube";
+MERCH_FLAVOR_SOULCUBE             = "I have no idea what this is, but it won't shut up.";
+
+// Viper
+MERCH_CAT_VIPER                   = "AceCorp";
+MERCH_TAG_VIPER                   = "'Viper' .50 AM Handgun";
+MERCH_FLAVOR_VIPER                = "Excellent for pretending to be the last action hero.";
+
+// Viper Mag
+MERCH_CAT_VIPERMAG                = "AceCorp";
+MERCH_TAG_VIPERMAG                = "'Viper' .50 AM Magazine";
+MERCH_FLAVOR_VIPERMAG             = "";
+
+// Wyvern
+MERCH_CAT_WYVERN                  = "AceCorp";
+MERCH_TAG_WYVERN                  = "Wyvern";
+MERCH_FLAVOR_WYVERN               = "No more \"WIIW\".";
+
+// Armour Patch Kit
+MERCH_CAT_ARMOURPATCHKIT          = "AceCorp";
+MERCH_TAG_ARMOURPATCHKIT          = "Armor Patch Kit";
+MERCH_FLAVOR_ARMOURPATCHKIT       = "Patch yerself up, soldier!";
+
+// Booster Jets
+MERCH_CAT_BOOSTERJETS             = "AceCorp";
+MERCH_TAG_BOOSTERJETS             = "Booster Jets";
+MERCH_FLAVOR_BOOSTERJETS          = "Wheeeeeeeeeeeee!";
+
+// Deployable Barricade
+MERCH_CAT_BARRICADE               = "AceCorp";
+MERCH_TAG_BARRICADE               = "Deployable Barricade";
+MERCH_FLAVOR_BARRICADE            = "Enjoy your safe space.";
+
+// Dimensional Storage Device
+MERCH_CAT_DSD                     = "AceCorp";
+MERCH_TAG_DSD                     = "Dimensional Storage Device";
+MERCH_FLAVOR_DSD                  = "This item is out of this world!";
+
+// Field Assembly Kit
+MERCH_CAT_FAK                     = "AceCorp";
+MERCH_TAG_FAK                     = "Field Assembly Kit";
+MERCH_FLAVOR_FAK                  = "Armor almost gone? Shield generator giving out? Well go FAK yourself.";
+
+// Gunsmith Pouch
+MERCH_CAT_GUNSMITHPOUCH           = "AceCorp";
+MERCH_TAG_GUNSMITHPOUCH           = "Gunsmith Pouch";
+MERCH_FLAVOR_GUNSMITHPOUCH        = "For when you just can't hold all of that gunpowder.";
+
+// Hacked Reloader
+MERCH_CAT_HACKED7MMRELOADER       = "AceCorp";
+MERCH_TAG_HACKED7MMRELOADER       = "Hacked Reloader";
+MERCH_FLAVOR_HACKED7MMRELOADER    = "BRBRBRBRBRBRBRBR *clack* but faster.";
+
+// Ladder Launcher
+MERCH_CAT_LADDERLAUNCHER          = "AceCorp";
+MERCH_TAG_LADDERLAUNCHER          = "Ladder Launcher";
+MERCH_FLAVOR_LADDERLAUNCHER       = "Aim for the top.";
+
+// Magazine Reloader
+MERCH_CAT_MRL                     = "AceCorp";
+MERCH_TAG_MRL                     = "Magazine Reloader";
+MERCH_FLAVOR_MRL                  = "Waste your enemies, not your time.";
+
+// Personal Shield Generator
+MERCH_CAT_PERSONALSHIELDGEN       = "AceCorp";
+MERCH_TAG_PERSONALSHIELDGEN       = "Personal Shield Generator";
+MERCH_FLAVOR_PERSONALSHIELDGEN    = "Guaranteed to make rocket marines sad.";
+
+// Portable Teleporter
+MERCH_CAT_PORTABLETELEPORTER      = "AceCorp";
+MERCH_TAG_PORTABLETELEPORTER      = "Portable Teleporter";
+MERCH_FLAVOR_PORTABLETELEPORTER   = "Ambush, you say?";
+
+// Rearview Mirror
+MERCH_CAT_REARVIEWMIRROR          = "AceCorp";
+MERCH_TAG_REARVIEWMIRROR          = "Rearview Mirror";
+MERCH_FLAVOR_REARVIEWMIRROR       = "They came from... BEHIND!";
+
+// Roomba
+MERCH_CAT_ROOMBA                  = "AceCorp";
+MERCH_TAG_ROOMBA                  = "Roomba";
+MERCH_FLAVOR_ROOMBA               = "Stop breaking your back trying to pick up brass.";
+
+// Secret Finder
+MERCH_CAT_SECRETFINDER            = "AceCorp";
+MERCH_TAG_SECRETFINDER            = "Secret Finder";
+MERCH_FLAVOR_SECRETFINDER         = "Do you hear that? It's the sound of a hidden BFG.";
+
+// Suicide Vest
+MERCH_CAT_SUICIDEVEST             = "AceCorp";
+MERCH_TAG_SUICIDEVEST             = "Suicide Vest";
+MERCH_FLAVOR_SUICIDEVEST          = "Does not work without saying the magic words first.";
+
+// Super Stimpack
+MERCH_CAT_SUPERSTIM               = "AceCorp";
+MERCH_TAG_SUPERSTIM               = "Super Stimpack";
+MERCH_FLAVOR_SUPERSTIM            = "I don't think that's the right dosage, doc.";
+
+// Supply Beacon
+MERCH_CAT_SUPPLYBEACON            = "AceCorp";
+MERCH_TAG_SUPPLYBEACON            = "Supply Beacon";
+MERCH_FLAVOR_SUPPLYBEACON         = "Intergalactic resupply.";
+
+// Weapon Crate
+MERCH_CAT_WEAPONCRATE             = "AceCorp";
+MERCH_TAG_WEAPONCRATE             = "Weapon Crate";
+MERCH_FLAVOR_WEAPONCRATE          = "Ammo sold separately.";
+
+// Portable Radar
+MERCH_CAT_ZRADAR                  = "AceCorp";
+MERCH_TAG_ZRADAR                  = "Portable Radar";
+MERCH_FLAVOR_ZRADAR               = "They're coming out of the god damn walls!";
+
+// Assembly Core
+MERCH_CAT_ASSEMBLYCORE            = "AceCorp";
+MERCH_TAG_ASSEMBLYCORE            = "Assembly Core";
+MERCH_FLAVOR_ASSEMBLYCORE         = "Avengers not included.";
+
+// Blackhawk Bolt (Regular)
+MERCH_CAT_BLACKHAWKBOLTREG        = "AceCorp";
+MERCH_TAG_BLACKHAWKBOLTREG        = "Bolts - Regular";
+MERCH_FLAVOR_BLACKHAWKBOLTREG     = "El cheapo bolts for everyday use. Nothing special about these.";
+
+// Blackhawk Bolt (Incendiary)
+MERCH_CAT_BLACKHAWKBOLTINCEN      = "AceCorp";
+MERCH_TAG_BLACKHAWKBOLTINCEN      = "Bolts - Incendiary";
+MERCH_FLAVOR_BLACKHAWKBOLTINCEN   = "Do not use at home.";
+
+// Blackhawk Bolts (Electric)
+MERCH_CAT_BLACKHAWKBOLTELEC       = "AceCorp";
+MERCH_TAG_BLACKHAWKBOLTELEC       = "Bolts - Electric";
+MERCH_FLAVOR_BLACKHAWKBOLTELEC    = "No shields - no problem.";
+
+// Blackhawk Bolts (Nuclear)
+MERCH_CAT_BLACKHAWKBOLTNUCLEAR    = "AceCorp";
+MERCH_TAG_BLACKHAWKBOLTNUCLEAR    = "Bolts - Nuclear";
+MERCH_FLAVOR_BLACKHAWKBOLTNUCLEAR = "To whom it may concern.";
+
+// Garrison Armour Patch
+MERCH_CAT_GARRISONARMOURPATCH     = "AceCorp";
+MERCH_TAG_GARRISONARMOURPATCH     = "Garrison Armor Patch";
+MERCH_FLAVOR_GARRISONARMOURPATCH  = "Light and stretchy.";
+
+// Battle Armour Patch
+MERCH_CAT_BATTLEARMOURPATCH       = "AceCorp";
+MERCH_TAG_BATTLEARMOURPATCH       = "Battle Armor Patch";
+MERCH_FLAVOR_BATTLEARMOURPATCH    = "Rigid and Sturdy.";
