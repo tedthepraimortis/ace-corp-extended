@@ -656,7 +656,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 	
 	override void postbeginplay(){
 		super.postbeginplay();
-		lite = HDMath.PlayingId() ? spawn("HammerHeadLight",pos,ALLOW_REPLACE) : spawn("HammerHeadLightFreedoom",pos,ALLOW_REPLACE);
+		lite = spawn("HammerHeadLight",pos,ALLOW_REPLACE);
 		lite.target=self;
 		//A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
@@ -683,7 +683,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 			bextremedeath=false;
 			if(Charge > 1)
 			{
-				A_Explode(15 * Charge,32 * Charge,XF_HURTSOURCE,0,64);
+				A_Explode(15 * Charge,15 * Charge,XF_HURTSOURCE,XF_CIRCULAR,XF_CIRCULARTHRUST,0,64);
 				DistantQuaker.Quake(self,2,4.75 * Charge,64 * Charge,1 * Charge);
 			}
 			if(lite)lite.args[3]=128;
@@ -705,32 +705,17 @@ class HammerheadSteam : ACESmokeBase
 }
 
 class HammerHeadLight:PointLight{
+	Color col1;
+	Color col2;
+	Color col3;
 	override void postbeginplay(){
 		super.postbeginplay();
-		args[0]=103;
-		args[1]=242;
-		args[2]=108;
-		args[3]=84;
-		args[4]=0;
-	}
-	override void tick(){
-		if(!target){
-			args[3]+=random(-10,1);
-			if(args[3]<1)destroy();
-		}else{
-			if(target.bmissile)args[3]=random(32,40);
-			else args[3]=random(48,64);
-			setorigin(target.pos,true);
-		}
-	}
-}
-
-class HammerHeadLightFreedoom:PointLight{
-	override void postbeginplay(){
-		super.postbeginplay();
-		args[0]=0;
-		args[1]=152;
-		args[2]=255;
+		col1 = HDMath.PlayingID()?103:0;
+		col2 = HDMath.PlayingID()?242:255;
+		col3 = HDMath.PlayingID()?108:152;
+		args[0]=col1;
+		args[1]=col2;
+		args[2]=col3;
 		args[3]=84;
 		args[4]=0;
 	}
