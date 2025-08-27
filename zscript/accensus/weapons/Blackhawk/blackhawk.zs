@@ -171,7 +171,7 @@ class HDBlackhawk : HDWeapon
 			WeaponStatus[BHProp_Flags] |= BHF_SemiAuto;
 		}
 
-		int boltKeyIndex = input.IndexOf("bolts:");
+		int boltKeyIndex = input.IndexOf("bolts;");
 		if (boltKeyIndex > -1)
 		{
 			// [Ace] Empty the crossbow first because we're overriding it.
@@ -268,6 +268,8 @@ class HDBlackhawk : HDWeapon
 
 	// [Ace] It's a high-tech crossbow, but it doesn't have sights. Intentional. Development was severely underbudgeted and AceCorp didn't have the resources to add various extras.
 	// Really I'm just lazy and out of ideas. One day I might add iron sights, but not for now. You don't really need to aim much anyway. 3/4 of the bolts are AoE.
+
+	// [Ted] Now has sights. Fuck your non-iron-having ass.
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot) 
 	{
 		int cx,cy,cw,ch;
@@ -303,8 +305,8 @@ class HDBlackhawk : HDWeapon
 		HDWeapon.loadoutcodes "
 			\cusemiauto - 0/1, Automatically pulls the string back after firing.
 			\cuNote: Only works when cycling to the next bolt.
-			\cubolts - <codes>, start with these specific bolts loaded. 
-			\cuExample: bolts:rneir for Regular, Nuclear, Electric, Incendiary, Regular in that order.";
+			\cubolts; - <codes>, start with these specific bolts loaded. 
+			\cuExample: bolts;rneir for Regular, Nuclear, Electric, Incendiary, Regular in that order.";
 	}
 
 	States
@@ -324,7 +326,15 @@ class HDBlackhawk : HDWeapon
 				invoker.bWIMPY_WEAPON = false;
 
 				int wrflags = stringPulled || invoker.WeaponStatus[BHProp_MagazineFirst] == -1 ? WRF_NOSECONDARY : WRF_NOPRIMARY;
-				A_WeaponReady(WRF_ALLOWUSER3 | WRF_ALLOWRELOAD | wrflags);
+				if(pressingaltfire()){
+					setweaponstate("ManualPull");
+					return;
+				}
+				else if(pressingfire()){
+					setweaponstate("deploy");
+					return;
+				}
+				A_WeaponReady(WRF_NOFIRE|WRF_ALLOWRELOAD|WRF_ALLOWUSER4|WRF_ALLOWUSER3|WRFLAGS);
 			}
 			Goto ReadyEnd;
 		Select0:
@@ -345,9 +355,8 @@ class HDBlackhawk : HDWeapon
 				}
 			}
 			Goto Deselect0Big;
-		Fire:
-			// Originally not supposed to decloak with blur, but this is broken with the nuBlur so just going to avoid it. Maybe someday in the future. - [Ted]
-			/*BHKG # 0
+		Deploy:
+			BHKG # 0
 			{
 				// [Ace] Don't decloak if using blur, although the screen will definitely flicker and annoy you so idk why you'd even want to use this with stealth.
 				invoker.bWIMPY_WEAPON = true;
@@ -356,7 +365,7 @@ class HDBlackhawk : HDWeapon
 					SetWeaponState("Nope");
 					return;
 				}
-			}*/
+			}
 			BHKG B 1
 			{
 				A_StartSound("Blackhawk/Fire", CHAN_WEAPON);
@@ -387,7 +396,7 @@ class HDBlackhawk : HDWeapon
 			BHKG B 3 A_StartSound("Blackhawk/StringPull", 6);
 			BHKG C 2 { invoker.WeaponStatus[BHProp_Flags] |= BHF_StringPulled; }
 			Goto Ready;
-		AltFire:
+		ManualPull:
 			BHKG A 2 Offset(2, 36) A_WeaponBusy(true);
 			BHKG A 2 Offset(3, 39);
 			BHKG B 3 Offset(5, 42) A_StartSound("Blackhawk/StringPull", 6);

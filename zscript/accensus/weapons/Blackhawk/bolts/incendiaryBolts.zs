@@ -26,6 +26,13 @@ class HDBlackhawkProjectileIncendiary : HDBlackhawkProjectile
 {
 	override void OnBoltHit(Line hitLine, Actor hitActor)
 	{
+		A_SprayDecal("BoltScorchRegular", 16);
+
+		if (hitLine)
+		{
+			Actor.Spawn("BulletPuffSmall", pos);
+		}
+
 		if (hitActor)
 		{
 			int dmg = random(50, 100);
@@ -44,28 +51,6 @@ class HDBlackhawkProjectileIncendiary : HDBlackhawkProjectile
 		{
 			DoorDestroyer.DestroyDoor(self, maxdepth: 4);
 		}
-
-		if (!inthesky)
-		{
-			// [Ace] Absolutely fuck singular targets.
-			if (hitActor)
-			{
-				A_HDBlast(fragradius: HDCONST_ONEMETRE * 2, fragtype: "HDB_frag", immolateradius: random(24, 64), immolateamount: 3000);
-			}
-			else
-			{
-				A_HDBlast(fragradius: HDCONST_ONEMETRE * 10, immolateradius: random(256, 384), immolateamount: random(1000, 2000), immolatechance: 90);
-			}
-			A_SprayDecal("BoltScorch", 16);
-			Actor xpl = Spawn("Gyrosploder", pos - (0, 0, 1), ALLOW_REPLACE);
-			xpl.target = target;
-			xpl.master = master;
-			xpl.stamina = 3;
-		}
-		else
-		{
-			DistantNoise.Make(self, "world/rocketfar");
-		}
 	}
 
 	Default
@@ -79,7 +64,7 @@ class HDBlackhawkProjectileIncendiary : HDBlackhawkProjectile
 	States
 	{
 		Spawn:
-			BHBP B 0;
+			BHBP B 0 A_GiveInventory('Heat', random(150, 400), AAPTR_TRACER);
 			Goto Super::Spawn;
 	}
 }

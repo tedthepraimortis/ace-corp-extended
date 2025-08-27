@@ -336,6 +336,8 @@ class HDRedline : HDCellWeapon
 					spawnClass: "RedlineRaySegment"..(overheated ? "Overheated" : ""),
 					spawnOfs_Z: player.crouchfactor < 1.0 ? 1.1 : 2
 				);
+
+				if(overheated) invoker.owner.damagemobj(invoker.owner, invoker.owner, random(4,10), "electrical");
 				
 				invoker.WeaponStatus[RDProp_Heat] += int((dmg / 4) * frandom(0.925, 1.05));
 				invoker.WeaponStatus[RDProp_Battery] -= overheated ? 2 : 1;

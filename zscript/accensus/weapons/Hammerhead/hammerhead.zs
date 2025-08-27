@@ -658,9 +658,8 @@ class HammerHeadPlasmaProjectile:HDFireball{
 		super.postbeginplay();
 		lite = spawn("HammerHeadLight",pos,ALLOW_REPLACE);
 		lite.target=self;
-		//A_TakeFromTarget("HDMagicShield",2.5 * Charge);
 		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
-		Scale += (Charge, Charge) * 0.02;
+		Scale += (Charge, Charge) * 0.25;
 		pcol = HDMath.PlayingId() ? 0x55ff33 : 0x0098ff;
 	}
 	states{
