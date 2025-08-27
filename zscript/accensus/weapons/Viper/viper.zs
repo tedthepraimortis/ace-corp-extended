@@ -247,26 +247,12 @@ class HDViper : HDHandgun
 			Goto Ready;
 
 		Fire:
-			#### # 0
-			{
-				if (invoker.WeaponStatus[VPProp_Chamber] == 2)
-				{
-					SetWeaponState("Shoot");
-				}
-				else if (invoker.WeaponStatus[VPProp_Mag] > 0)
-				{
-					SetWeaponState("ChamberManual");
-				}
-			}
-			Goto Nope;
+			#### A 0 A_JumpIf(invoker.weaponstatus[0]&VPF_LightTrigger,"shoot");
+			#### A 1 offset(0,34);
+			#### A 2 offset(0,36);
+			#### A 0 offset(0,32);
 		Shoot:
-			#### B 1
-			{
-				if (HDPlayerPawn(self))
-				{
-					HDPlayerPawn(self).gunbraced = false;
-				}
-			}
+			#### A 0 A_JumpIf(invoker.WeaponStatus[VPProp_Chamber] < 2, "ChamberManual");
 			#### B 1 Offset(0, 36)
 			{
 				A_Overlay(PSP_FLASH, 'Flash');
@@ -320,6 +306,13 @@ class HDViper : HDHandgun
 					invoker.WeaponStatus[VPProp_Chamber] = 2;
 					invoker.WeaponStatus[VPProp_Mag]--;
 					A_Refire();
+				}
+			}
+			#### B 1
+			{
+				if (HDPlayerPawn(self))
+				{
+					HDPlayerPawn(self).gunbraced = false;
 				}
 			}
 			Goto Ready;

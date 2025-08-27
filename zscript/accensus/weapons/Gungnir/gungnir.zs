@@ -338,14 +338,7 @@ class HDGungnir : HDCellWeapon
 		{
 			for (int i = 0; i < batCharge / GetBatteryCost(); ++i)
 			{
-				if (hdw.WeaponStatus[GNProp_Flags] & GNF_Processor)
-				{
-					sb.DrawRect(-16 - 5 * (i / 2), (i % 2 == 0) ? -4 : -7, -4, 2);
-				}
-				else
-				{
 					sb.DrawRect(-16 - 5 * i, -7, -4, 4);
-				}
 			}
 		}
 		else if (batCharge == 0)
