@@ -326,7 +326,7 @@ class HDBlackhawk : HDWeapon
 				invoker.bWIMPY_WEAPON = false;
 
 				int wrflags = stringPulled || invoker.WeaponStatus[BHProp_MagazineFirst] == -1 ? WRF_NOSECONDARY : WRF_NOPRIMARY;
-				if(pressingaltfire()){
+				if(pressingaltfire() && !stringPulled){
 					setweaponstate("ManualPull");
 					return;
 				}

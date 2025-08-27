@@ -46,6 +46,8 @@ class HDBlackhawkProjectileIncendiary : HDBlackhawkProjectile
 				dmg += random(20, 30);
 			}
 			hitActor.DamageMobj(self, target, dmg, 'Piercing');
+			hitActor.DamageMobj(self, target, dmg/2, 'Electrical');
+			hitActor.A_GiveInventory("Heat", 7*dmg);
 		}
 		else
 		{
@@ -64,7 +66,7 @@ class HDBlackhawkProjectileIncendiary : HDBlackhawkProjectile
 	States
 	{
 		Spawn:
-			BHBP B 0 A_GiveInventory('Heat', random(150, 400), AAPTR_TRACER);
+			BHBP B 0;
 			Goto Super::Spawn;
 	}
 }
