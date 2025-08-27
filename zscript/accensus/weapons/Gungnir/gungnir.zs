@@ -301,12 +301,12 @@ class HDGungnir : HDCellWeapon
 
 	protected clearscope int GetMaxCharge()
 	{
-		return WeaponStatus[GNProp_Flags] & GNF_Capacitor ? 3 : 2;
+		return WeaponStatus[GNProp_Flags] & GNF_Capacitor ? 2 : 1;
 	}
 
 	protected clearscope int GetBatteryCost()
 	{
-		return WeaponStatus[GNProp_Flags] & GNF_Processor ? 2 : 4;
+		return WeaponStatus[GNProp_Flags] & GNF_Processor ? 5 : 10;
 	}
 
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
@@ -443,10 +443,6 @@ class HDGungnir : HDCellWeapon
 		}
 
 		string puff = "GungnirRayImpactT"..tier;
-		if (invoker.WeaponStatus[GNProp_Flags] & GNF_AntiFrag && tier == 3)
-		{
-			puff = puff.."OP";
-		}
 		A_RailAttack(random(minDamage, maxDamage), 0, false, "", "", RGF_NORANDOMPUFFZ | RGF_SILENT | RGF_NOPIERCING, 0, puff, 0, 0, HDCONST_ONEMETRE * 300, 0, 10.0, 0, "GungnirRaySegment", player.crouchfactor < 1.0 ? 0.9 : 1.8);
 
 		A_Recoil((2.25 * tier) * (HDPlayerPawn(self).gunbraced ? 0.3 : 1.0));
@@ -878,19 +874,6 @@ class GungnirRayImpactT3 : GungnirRayImpact
 		DistantQuaker.Quake(self, 6, 50, HDCONST_ONEMETRE * 200, 10, 256, 512, 128);
 		SpawnZapper(12);
 		SpawnBlastEffects(2, miss);
-	}
-}
-
-class GungnirRayImpactT3OP : GungnirRayImpactT3
-{
-	override void OnBlast(bool miss)
-	{
-		DoorDestroyer.DestroyDoor(self, 384, 96, dedicated: true); 
-		A_Explode(random(2500, 3500), int(HDCONST_ONEMETRE * 5), XF_HURTSOURCE, false, damageType: 'Electrical');
-		A_StartSound("Gungnir/RayHit", 8, attenuation: ATTN_NONE, pitch: 0.6);
-		DistantQuaker.Quake(self, 6, 50, HDCONST_ONEMETRE * 200, 10, 256, 512, 128);
-		SpawnZapper(16);
-		Super.OnBlast(miss);
 	}
 }
 
