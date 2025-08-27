@@ -273,7 +273,7 @@ class HDViper : HDHandgun
 				double ClimbMult = 1.0;
 				if (invoker.WeaponStatus[VPProp_Flags] & VPF_LightTrigger)
 				{
-					ClimbMult -= 0.09;
+					ClimbMult += 0.12;
 				}
 				if (ExtBarrel)
 				{
