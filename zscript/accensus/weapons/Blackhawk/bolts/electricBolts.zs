@@ -46,7 +46,7 @@ class HDBlackhawkProjectileElectric : HDBlackhawkProjectile
 		DistantNoise.Make(self, "world/tbfar2", 2.0);
 		DistantQuaker.Quake(self, 3, 35, 768);
 
-		int zapsLeft = 8;
+		int zapsLeft = 6;
 		BlockThingsIterator it = BlockThingsIterator.Create(self, EffectRange);
 		while (it.Next() && zapsLeft > 0)
 		{
@@ -72,17 +72,17 @@ class HDBlackhawkProjectileElectric : HDBlackhawkProjectile
 			{
 				if (next.GetClassName() == 'HDPersonalShieldGenerator')
 				{
-					AceCoreHandler.CreateRequest('InflictEmpDamage', self, next, "500");
+					AceCoreHandler.CreateRequest('InflictEmpDamage', self, next, "50");
 				}
 				else if (next is 'HDMagicShield')
 				{
-					HDMagicShield.Deplete(it.thing, 20000, HDMagicShield(next), true);
+					HDMagicShield.Deplete(it.thing, 200, HDMagicShield(next), true);
 				}
 			}
 		}
 	}
 
-	const EffectRange = HDCONST_ONEMETRE * 10;
+	const EffectRange = HDCONST_ONEMETRE * 7;
 
 	Default
 	{
