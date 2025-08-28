@@ -684,6 +684,7 @@ class HammerHeadPlasmaProjectile:HDFireball{
 			{
 				A_Explode(15 * Charge,15 * Charge,XF_HURTSOURCE,XF_CIRCULAR,XF_CIRCULARTHRUST,0,64);
 				DistantQuaker.Quake(self,2,4.75 * Charge,64 * Charge,1 * Charge);
+				DoorDestroyer.DestroyDoor(self, maxdepth: 0.5 * Charge);
 			}
 			if(lite)lite.args[3]=128;
 		}
