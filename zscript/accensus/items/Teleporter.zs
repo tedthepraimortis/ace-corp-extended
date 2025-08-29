@@ -346,7 +346,7 @@ class HDTeleporter : HDWeaponGrabber
 				FLineTraceData data;
 				LineTrace(angle, HDCONST_ONEMETRE * 300, pitch, TRF_NOSKY | TRF_THRUACTORS | TRF_THRUBLOCK | TRF_THRUHITSCAN, height - 6, data: data);
 
-				bool inReloadingRoom = level.MapName ~== "LOTSAGUN";
+				bool inReloadingRoom = level.MapName ~== "LOTSAGUN" && "RANGE";
 				bool canSupercharge = invoker.WeaponStatus[TProp_Battery] >= 20 && (inReloadingRoom || CheckInventory('HDBlursphere', 1)) && CheckInventory('WornRadsuit', 1) && CheckInventory("SquadSummoner", 7) && (!inReloadingRoom && LevelInfo.MapExists("LOTSAGUN") && data.HitType == data.TRACE_HitNone || inReloadingRoom && invoker.TeleThinker.LastLevel != "");
 				if (!PressingZoom() || !PressingFire() || invoker.WeaponStatus[TProp_Charge] == MaxCharge && !canSupercharge || invoker.WeaponStatus[TProp_Battery] <= 0)
 				{
