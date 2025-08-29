@@ -301,7 +301,7 @@ class HDSoulCube : HDWeapon
 				A_PlayArcherSound(other, "ConsumeNormal");
 			}
 			Cube.WeaponStatus[SCProp_CubeLevel] = min(ExperienceReqs.Size(), Cube.WeaponStatus[SCProp_CubeLevel] + WeaponStatus[SCProp_CubeLevel]);
-			Cube.A_GainExperience(WeaponStatus[SCProp_CubeExperience] + 200);
+			Cube.A_GainExperience(WeaponStatus[SCProp_CubeExperience] + 50);
 			Cube.WeaponStatus[SCProp_Frag] += WeaponStatus[SCProp_Frag] + 20;
 			Destroy();
 			return;
@@ -601,7 +601,7 @@ class HDSoulCube : HDWeapon
 	}
 
 	static const string modeStrings[] = { "\c[Fire]Attack\c-", "\c[Red]Heal\c-", "\c[Blue]Convert frag\c-", "\c[Green]Spiritual armor\c-", "\c[DarkGreen]Charge batteries\c-" };
-	static const int ExperienceReqs[] = { 400, 1250, 2500, 5000 };
+	static const int ExperienceReqs[] = { 200, 550, 1000, 1750 };
 	const MinFrag = 5;
 	const MaxRange = 512;
 	const PetCooldown = -(35 * 60 * 15);
@@ -632,8 +632,7 @@ class HDSoulCube : HDWeapon
 		Tag "$TAG_SOULCUBE";
 		HDWeapon.loadoutcodes "
 			\culevel - 0/1, Sets what level the Soul Cube starts at.
-			\cufrag - 0/1, Sets how much frag the Soul Cube starts with.
-		";
+			\cufrag - 0/1, Sets how much frag the Soul Cube starts with.";
 	}
 
 	States
@@ -783,7 +782,7 @@ class HDSoulCube : HDWeapon
 							{
 								if (tList[i])
 								{
-									tList[i].DamageMobj(invoker, invoker.master, 150 + 25 * cubeLevel + 15 * int(overcharged), 'Balefire', DMG_THRUSTLESS);
+									tList[i].DamageMobj(invoker, invoker.master, 150 + 50 * cubeLevel + 25 * int(overcharged), 'Balefire', DMG_THRUSTLESS);
 									A_GainExperience(1); // [Ace] Per enemy hit.
 									if (!tList[i])
 									{
