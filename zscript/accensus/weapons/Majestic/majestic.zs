@@ -181,7 +181,6 @@ class HDMajestic : HDHandgun
 		[cx, cy, cw, ch] = Screen.GetClipRect();
 		sb.SetClipRect(-16 + bob.x, -4 + bob.y, 32, 13, sb.DI_SCREEN_CENTER);
 		vector2 bob2 = bob * 1.14;
-		//bob2.y = clamp(bob2.y, -8, 8);
 		sb.DrawImage("MJTCFRNT", bob2, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, alpha: 0.9, scale: (0.8, 0.6));
 		sb.SetClipRect(cx, cy, cw, ch);
 		sb.DrawImage("MJTCBACK", bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, scale: (0.6, 0.7));
@@ -208,7 +207,7 @@ class HDMajestic : HDHandgun
 		DamageMobJ (invoker, self, 3 * tier, "bashing");
 
 		A_ResetCharges();
-		A_AlertMonsters();
+		A_AlertMonsters(HDCONST_ONEMETRE * (10 + 2 * tier));
 		A_ZoomRecoil(1.15);
 
 		double mult = invoker.ActualAmount > 1 ? 0.7 : 1.0;
@@ -248,8 +247,7 @@ class HDMajestic : HDHandgun
 		Tag "$TAG_MAJESTIC";
 		HDWeapon.Refid HDLD_MAJESTIC;
 		HDWeapon.loadoutcodes "
-			\cuaccel - 0/1, Makes the gun charge faster.
-		";
+			\cuaccel - 0/1, Makes the gun charge faster.";
 	}
 
 	States
