@@ -215,16 +215,16 @@ class HDMajestic : HDHandgun
 
 		if (tier == 2)
 		{
-			Actor.Spawn("MajesticExplosion", pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION);
 			invoker.WeaponStatus[MJProp_Battery]-=2;
 			mult++;
 		}
 		if (tier == 3)
 		{
-			Actor.Spawn("MajesticExplosion", pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION);
 			invoker.WeaponStatus[MJProp_Battery]-=4;
 			mult+=2;
 		}
+
+		HDActor.ArcZap(invoker, maxdamage: 32 * tier, indiscriminate: true);
 
 		A_MuzzleClimb(-frandom(0.25, 1.8) * mult, -frandom(4.0, 6.0) * mult);
 
