@@ -622,7 +622,7 @@ class HDGungnir : HDCellWeapon
 					return;
 				}
 
-				if (++invoker.WeaponStatus[GNProp_Timer] > (invoker.WeaponStatus[GNProp_Flags] & GNF_Accelerator ? 4 : 12) - (HDCore.CheckForItem(self, 'HDRedline') ? 2 : 0))
+				if (++invoker.WeaponStatus[GNProp_Timer] > (invoker.WeaponStatus[GNProp_Flags] & GNF_Accelerator ? 4 : 12))
 				{
 					invoker.WeaponStatus[GNProp_Timer] = 0;
 					invoker.WeaponStatus[GNProp_Battery] -= invoker.GetBatteryCost();
@@ -884,7 +884,7 @@ class GungnirRaySegment : Actor
 		}
 		if (target)
 		{
-			double dist = Distance3DSquared(target);
+			double dist = Distance3D(target);
 			alpha += 0.00075 * dist;
 		}
 	}
