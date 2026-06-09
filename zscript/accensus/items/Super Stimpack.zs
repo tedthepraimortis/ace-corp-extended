@@ -40,10 +40,10 @@ class InjectSuperStimDummy : InjectStimDummy {
 				}
 
 				// [Ace] Standard dosage. Thanks, doc.
-				tg.A_GiveInventory('HDStim', HDStim.HDSTIM_DOSE);
+				HDF.give(tg, 'HDStim', HDStim.HDSTIM_DOSE);
 				tg.fatigue += 20;
 				tg.bloodpressure += 30;
-				tg.A_GiveInventory('HDSuperStim', 200);
+				HDF.give(tg, 'HDSuperStim', 200);
 				
 				Accuracy--;
 			} stop;

@@ -182,7 +182,6 @@ server bool hdm_enable_blackjack            = true;
 server bool hdm_enable_blackjackmag355      = true;
 server bool hdm_enable_blackjackmagshells   = true;
 server bool hdm_enable_boosterjets          = true;
-server bool hdm_enable_ddzflashlight        = true;
 server bool hdm_enable_despfilter           = true;
 server bool hdm_enable_dsd                  = true;
 server bool hdm_enable_fak                  = true;

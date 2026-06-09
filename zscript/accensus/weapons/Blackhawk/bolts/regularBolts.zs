@@ -21,59 +21,47 @@ class HDBlackhawkBoltRegular : HDBlackhawkBolt
 	}
 }
 
-class HDBlackhawkProjectileRegular : HDBlackhawkProjectile
-{
-	override void OnBoltHit(Line hitLine, Actor hitActor)
-	{
+class HDBlackhawkProjectileRegular : HDBlackhawkProjectile {
+
+	Default {
+		+AMBUSH
+		+NOEXTREMEDEATH
+
+		Mass 40;
+		Speed HDCONST_MPSTODUPT * 180;
+		Obituary "$OB_BLACKHAWKBOLT";
+	}
+
+	override void OnBoltHit(Line hitLine, Actor hitActor) {
 		A_SprayDecal("BoltScorchRegular", 16);
 
-		if (hitLine)
-		{
-			Actor.Spawn("BulletPuffSmall", pos);
-		}
+		if (hitLine) Actor.Spawn("BulletPuffSmall", pos);
 		
-		if (!hitActor)
-		{
-			return;
-		}
+		if (!hitActor) return;
 
 		// [Ace] Don't pierce ceramic armor. Not always at least.
 		let arm = HDArmourWorn(hitActor.FindInventory('HDArmourWorn'));
 
-		bool ignoreArmor = false;
+		// Check if we should ignore armor (head shot)
 		let mob = HDMobBase(hitActor);
-		if (mob && !mob.bHasHelmet && pos.z - mob.pos.z >= mob.height * 0.8)
-		{
-			ignoreArmor = true;
-		}
+		bool ignoreArmor = mob && !mob.bHasHelmet && pos.z - mob.pos.z >= mob.height * 0.8;
 
-		if (ignoreArmor || !arm || !arm.Mega || arm.Mega && random(0, HDCONST_BATTLEARMOUR) <= arm.Durability << 1)
-		{
+		// If we're ignoring armor, or the target isn't wearing armor, or their armor isn't Battle Armor, or a random chance, damage target.
+		if (ignoreArmor || !arm || !HDCore.isChildClass(arm.getClass(), 'HDBattleArmorWorn') || random(0, HDCONST_BATTLEARMOUR) <= arm.Durability << 1) {
 			int dmg = random(50, 100);
+
 			double ang = AbsAngle(angle, AngleTo(hitActor));
-			if (ang < 20)
-			{
+			if (ang < 20) {
 				dmg += random(60, 120);
-			}
-			else if (ang < 40)
-			{
+			} else if (ang < 40) {
 				dmg += random(30, 60);
 			}
+
 			hitActor.DamageMobj(self, target, dmg, 'Piercing');
 		}
 	}
 
-	Default
-	{
-		Mass 40;
-		Speed HDCONST_MPSTODUPT * 180;
-		Obituary "$OB_BLACKHAWKBOLT";
-		+AMBUSH
-		+NOEXTREMEDEATH
-	}
-
-	States
-	{
+	States {
 		Spawn:
 			BHBP A 0;
 			Goto Super::Spawn;

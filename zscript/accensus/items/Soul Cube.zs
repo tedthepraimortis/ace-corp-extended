@@ -590,7 +590,7 @@ class HDSoulCube : HDWeapon
 
 	private action clearscope int A_GetMaxFrag()
 	{
-		int extra = AceCore.CheckForItem(invoker.owner, "HDArcanumTome") ? 10 : 5;
+		int extra = HDCore.checkForItem(invoker.owner, 'HDArcanumTome') ? 10 : 5;
 		return 20 + extra * A_GetCubeLevel();
 	}
 
@@ -650,7 +650,7 @@ class HDSoulCube : HDWeapon
 					double oldAngle = invoker.Angle;
 					if (invoker.Destination)
 					{
-						if (invoker.Distance2D(invoker.Destination) > 40 || abs(invoker.pos.z - invoker.Destination.pos.z) > 20)
+						if (invoker.Distance2DSquared(invoker.Destination) > 40 ** 2 || abs(invoker.pos.z - invoker.Destination.pos.z) > 20)
 						{
 							double pToDest = AceCore.PitchTo(invoker, invoker.Destination);
 
@@ -703,7 +703,7 @@ class HDSoulCube : HDWeapon
 					while (it.Next())
 					{
 						Actor a = it.thing;
-						if (Distance3D(a) > MaxRange || a.Health <= 0 || !CheckSight(a, SF_SEEPASTSHOOTABLELINES | SF_IGNOREVISIBILITY))
+						if (Distance3DSquared(a) > MaxRange**2 || a.Health <= 0 || !CheckSight(a, SF_SEEPASTSHOOTABLELINES | SF_IGNOREVISIBILITY))
 						{
 							continue;
 						}
@@ -738,7 +738,7 @@ class HDSoulCube : HDWeapon
 					for (int i = 0; i < pList.Size(); ++i)
 					{
 						let plr = pList[i];
-						plr.A_GiveInventory("HDFireDouse", 20);
+						HDF.give(plr, 'HDFireDouse', 20);
 						if (plr.incaptimer > 0)
 						{
 							plr.incaptimer = max(plr.incaptimer - (cubeLevel + 1), 0);
@@ -870,16 +870,8 @@ class HDSoulCube : HDWeapon
 				if (PressingFire() || PressingAltfire())
 				{
 					int cubeLevel = A_GetCubeLevel() + 1;
-					bool hasTome = AceCore.CheckForItem(self, "HDArcanumTome");
-					bool overcharged = invoker.WeaponStatus[SCProp_Frag] > A_GetMaxFrag();
-					if (overcharged)
-					{
-						cubeLevel++;
-					}
-					if (hasTome)
-					{
-						cubeLevel++;
-					}
+					if (invoker.WeaponStatus[SCProp_Frag] > A_GetMaxFrag()) cubeLevel++;
+					if (HDCore.checkForItem(self, 'HDArcanumTome')) cubeLevel++;
 
 					switch (invoker.WeaponStatus[SCProp_Mode])
 					{
@@ -930,7 +922,7 @@ class HDSoulCube : HDWeapon
 								for (int i = 0; i < MAXPLAYERS; ++i)
 								{
 									let plr = players[i].mo;
-									if (!plr || plr != self && (plr.Distance3D(self) > MaxRange || !CheckSight(plr, SF_SEEPASTSHOOTABLELINES | SF_IGNOREVISIBILITY)))
+									if (!plr || plr != self && (plr.Distance3DSquared(self) > MaxRange ** 2 || !CheckSight(plr, SF_SEEPASTSHOOTABLELINES | SF_IGNOREVISIBILITY)))
 									{
 										continue;
 									}
@@ -938,7 +930,7 @@ class HDSoulCube : HDWeapon
 									{
 										plr.A_SpawnParticle(0x44FF44, SPF_RELATIVE, random(35, 70), random(2, 4), random(0, 359), random(8, 42), 0, frandom(0, plr.height), 0, 0, frandom(0.5, 3), 0, 0, frandom(-0.05, 0));
 									}
-									plr.A_GiveInventory("ShieldCore", 1);
+									HDF.give(plr, 'ShieldCore');
 									A_GainExperience(20);
 								}
 

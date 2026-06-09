@@ -24,13 +24,7 @@ class FAK_Handler : EventHandler
 			&& level.total_secrets > 0 && level.found_secrets == level.total_secrets
 			&& level.total_monsters > 0 && level.killed_monsters >= level.total_monsters * 0.9
 		) {
-			for (int i = 0; i < MAXPLAYERS; ++i) {
-				let plr = players[i].mo;
-
-				if (!plr) continue;
-
-				plr.A_GiveInventory('AssemblyCore', 1);
-			}
+			HDCore.giveToPlayers('AssemblyCore');
 			GaveCore = true;
 		}
 	}
@@ -75,13 +69,13 @@ class FAK_Upgrade abstract
             HDCore.Log('AceCorpExtended', LOGGING_DEBUG, "Original Chance: "..chance..", Scaled Chance: "..scaledChance);
 
 			while (scaledChance > 1.0) {
-				other.A_GiveInventory('AssemblyCore', 1);
+				HDF.give(other, 'AssemblyCore');
 				scaledChance -= 1.0;
 				gaveCore = true;
 			}
 	
 			if (frandom(0.01, 1.00) <= scaledChance) {
-				other.A_GiveInventory('AssemblyCore', 1);
+				HDF.give(other, 'AssemblyCore');
 				gaveCore = true;
 			}
 
@@ -184,7 +178,7 @@ class HDFieldAssemblyKit : HDWeapon
 		if (kit)
 		{
 			other.A_Log("Assembly kit was converted to an assembly core.", true);
-			other.A_GiveInventory('AssemblyCore', 1);
+			HDF.give(other, 'AssemblyCore');
 			Destroy();
 			return;
 		}

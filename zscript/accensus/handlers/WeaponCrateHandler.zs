@@ -1,19 +1,17 @@
-class AceCorpsWeaponCrateHandler : HDCoreEventHandler {
+// const HDCONST_WCSPAWNPOOLEVENT = HDCONST_BPSPAWNPOOLEVENT + 1;
 
-    // List of Inventory Classes to add to Weapon Crate Spawns
-    Array< Class<HDWeapon> > weaponCrateWhitelist;
+class WCSpawnPool : HDCoreEventHandler {
 
-    // List of Inventory Classes to remove from Weapon Crate Spawns
-    Array< Class<HDWeapon> > weaponCrateBlacklist;
+    Array<name> weaponWhiteList;
+    Array<name> weaponBlackList;
 
-    private WCSpawnPool sp;
+    private Array<class <HDWeapon> > ValidWeapons;
 
     override void beforeProcessCommands() {
-        weaponCrateWhitelist.clear();
-        weaponCrateBlacklist.clear();
-        
-        // If the Weapon Crate Spawn Pool hasn't been cached, attempt to get it.
-		if (!sp) sp = WCSpawnPool(EventHandler.Find("WCSpawnPool"));
+        weaponWhiteList.clear();
+        weaponBlackList.clear();
+
+        ValidWeapons.clear();
     }
 
     override void processCommand(HDCoreCommand cmd) {
@@ -22,69 +20,54 @@ class AceCorpsWeaponCrateHandler : HDCoreEventHandler {
                 // FIXME: Find a better command/logic to handle existing CVARs
 
                 let weapon = cmd.getNameParam("name");
-                Class<HDWeapon> wpnCls = weapon;
-
-                if (!wpnCls) break;
 
                 // If the filter entry is allowed, remove from blacklist,
                 // Otherwise add to blacklist.
-                let index = weaponCrateBlacklist.find(wpnCls);
+                let index = weaponBlackList.find(weapon);
                 if (cmd.getBoolParam("allowed")) {
-                    if (index < weaponCrateBlacklist.size()) weaponCrateBlacklist.delete(index);
+                    if (index < weaponBlackList.size()) weaponBlackList.delete(index);
                 } else {
-                    if (index >= weaponCrateBlacklist.size()) weaponCrateBlacklist.push(wpnCls);
+                    if (index >= weaponBlackList.size()) weaponBlackList.push(weapon);
                 }
 
                 break;
             }
             case 'addWeaponCrateWhitelist': {
                 let weapon = cmd.getNameParam("name");
-                Class<HDWeapon> wpnCls = weapon;
 
-                if (!wpnCls) break;
-
-                if (weaponCrateWhitelist.find(wpnCls) >= weaponCrateWhitelist.size()) weaponCrateWhitelist.push(wpnCls);
+                if (weaponWhiteList.find(weapon) >= weaponWhiteList.size()) weaponWhiteList.push(weapon);
 
                 break;
             }
             case 'removeWeaponCrateWhitelist': {
                 let weapon = cmd.getNameParam("name");
-                Class<HDWeapon> wpnCls = weapon;
 
-                if (!wpnCls) break;
-
-                let index = weaponCrateWhitelist.find(wpnCls);
-                if (index < weaponCrateWhitelist.size()) weaponCrateWhitelist.delete(index);
+                let index = weaponWhiteList.find(weapon);
+                if (index < weaponWhiteList.size()) weaponWhiteList.delete(index);
 
                 break;
             }
             case 'clearWeaponCrateWhitelist': {
-                weaponCrateWhitelist.clear();
+                weaponWhiteList.clear();
                 break;
             }
             case 'addWeaponCrateBlacklist': {
                 let weapon = cmd.getNameParam("name");
-                Class<HDWeapon> wpnCls = weapon;
 
-                if (!wpnCls) break;
-
-                if (weaponCrateBlacklist.find(wpnCls) >= weaponCrateBlacklist.size()) weaponCrateBlacklist.push(wpnCls);
+                if (weaponBlackList.find(weapon) >= weaponBlackList.size()) weaponBlackList.push(weapon);
 
                 break;
             }
             case 'removeWeaponCrateBlacklist': {
                 let weapon = cmd.getNameParam("name");
-                Class<HDWeapon> wpnCls = weapon;
 
-                if (!wpnCls) break;
-
-                let index = weaponCrateBlacklist.find(wpnCls);
-                if (index < weaponCrateBlacklist.size()) weaponCrateBlacklist.delete(index);
+                let index = weaponBlackList.find(weapon);
+                if (index < weaponBlackList.size()) weaponBlackList.delete(index);
 
                 break;
             }
             case 'clearWeaponCrateBlacklist': {
-                weaponCrateBlacklist.clear();
+                weaponBlackList.clear();
                 break;
             }
             default:
@@ -97,49 +80,158 @@ class AceCorpsWeaponCrateHandler : HDCoreEventHandler {
 
             let msg = "Weapon Crate Spawn Pool Whitelist:\n";
 
-            forEach(wl : weaponCrateWhitelist) msg = msg.." * "..wl.getClassName().."\n";
+            forEach(wl : weaponWhiteList) msg = msg.." * "..wl.."\n";
 
-            HDCore.Log('AceCorpExtended', LOGGING_DEBUG, msg);
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, msg);
 
 
             msg = "Weapon Crate Spawn Pool Blacklist:\n";
 
-            forEach(bl : weaponCrateBlacklist) msg = msg.." * "..bl.getClassName().."\n";
+            forEach(bl : weaponBlackList) msg = msg.." * "..bl.."\n";
 
-            HDCore.Log('AceCorpExtended', LOGGING_DEBUG, msg);
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, msg);
         }
     }
 
-    override void worldLoaded(WorldEvent e) {
+    override void WorldLoaded(worldevent e) {
+        super.WorldLoaded(e);
 
-        super.worldLoaded(e);
-
-        // If the Weapon Crate Whitelist and Blacklist are both empty, quit.
-        if (!weaponCrateWhitelist.size() && !weaponCrateBlacklist.size()) return;
-
-        handleWeaponCrateLootTable();
+        BuildValidItemList();
     }
 
-    private void handleWeaponCrateLootTable() {
+    private void BuildValidItemList() {
+        if (ValidWeapons.Size() > 0) { return; } // don't rebuild
+        Initialized = true;
+        for (int i = 0; i < AllActorClasses.Size(); ++i) {
+            let invitem = (class<HDWeapon>)(AllActorClasses[i]);
+            if (!invitem) { continue; }
+            AddItem(invitem);
+        }
+    }
 
-        // If we don't have the Weapon Crate Spawn Pool, quit.
-        if (!sp) return;
+    // Runs all normal checks and adds the passed item class to the spawn pool.
+    //   Returns TRUE if the item class was successfully added.
+    //   Returns FALSE if the item class could not be added.
+    static bool AddItem(class<HDWeapon> cls) {
+        WCSpawnPool sp = WCSpawnPool(EventHandler.Find("WCSpawnPool"));
+        if (!(sp && sp.Initialized)) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_ERROR, "AddItem(): Weapon Crate spawn pool not found or initialized!");
 
-        // If the spawn pool hasn't been initialized yet, do so.
-        // if (!sp.initialized) sp.BuildValidItemList();
-
-        // Add all "whitelisted" entries
-        foreach (wl : weaponCrateWhitelist) {
-            HDCore.Log('AceCorpExtended', LOGGING_DEBUG, "Adding "..wl.getClassName().." to Weapon Crate Spawn Pool");
-
-            WCSpawnPool.AddItem(wl);
+            return false;
         }
 
-        // Remove all "blacklisted" entries
-        foreach (bl : weaponCrateBlacklist) {
-            HDCore.Log('AceCorpExtended', LOGGING_DEBUG, "Removing "..bl.getClassName().." from Weapon Crate Spawn Pool");
+        if (cls.isAbstract()) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." is abstract");
 
-            WCSpawnPool.removeItem(bl);
+            return false;
         }
+
+        if (CheckItem(cls) != -1) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." already in weapon crate spawn pool");
+
+            return false;
+        }
+
+        forEach (bl : sp.weaponBlackList) if (cls is bl) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." blacklisted");
+
+            return false;
+        }
+
+        let whitelisted = false;
+        forEach (wl : sp.weaponWhiteList) if (cls is wl) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." whitelisted");
+
+            whitelisted = true;
+            break;
+        }
+
+        if (sp.weaponWhiteList.size() && !whitelisted) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." whitelist exists, not whitelisted");
+
+            return false;
+        }
+
+        let CurrWeapon = HDWeapon(GetDefaultByType(cls));
+        if (
+            !sp.weaponWhiteList.size()
+            && !(
+                cls
+                && !CurrWeapon.bWIMPY_WEAPON
+                && !CurrWeapon.bCHEATNOTWEAPON
+                && !CurrWeapon.bDONTNULL
+                && CurrWeapon.WeaponBulk() > 0
+                && !CurrWeapon.bINVBAR
+                && CurrWeapon.Refid != ""
+            )
+        ) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "AddItem(): "..cls.GetClassName().." not a valid HDWeapon");
+
+            return false;
+        }
+
+        // All checks passed
+        sp.ValidWeapons.Push(cls);
+
+        HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_INFO, "AddItem(): added "..cls.GetClassName().." to weapon crate spawn pool");
+
+        return true;
+    }
+
+    // Removes an item class from the spawn pool if it exists.
+    //   Returns TRUE if the item class was successfully removed.
+    //   Returns FALSE if for some reason the removal failed.
+    static bool RemoveItem(class<HDWeapon> cls) {
+        WCSpawnPool sp = WCSpawnPool(EventHandler.Find("WCSpawnPool"));
+        if (!(sp && sp.Initialized)) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_ERROR, "RemoveItem(): Weapon Crate spawn pool not found or initialized!");
+            
+            return false;
+        }
+
+        int index = CheckItem(cls);
+        if (index != -1) {
+            sp.ValidWeapons.Delete(index);
+            
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_DEBUG, "RemoveItem(): removed "..cls.GetClassName().." from weapon crate spawn pool");
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // Checks if an item class already exists in the spawn pool
+    //   Returns ARRAY INDEX if the item class is found in the spawn pool
+    //   Returns -1 if the item class is not found in the spawn pool
+    static int CheckItem(class<HDWeapon> cls) {
+        WCSpawnPool sp = WCSpawnPool(EventHandler.Find("WCSpawnPool"));
+        if (!(sp && sp.Initialized)) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_ERROR, "CheckItem(): Weapon Crate spawn pool not found or initialized!");
+            
+            return false;
+        }
+
+        for (int i=0; i<sp.ValidWeapons.Size(); i++) if (sp.ValidWeapons[i] is cls) return i;
+
+        return -1;
+    }
+
+    // Returns a random valid item class from the weapon crate spawn pool.
+    static class<HDWeapon> GetValidItem() {
+        WCSpawnPool sp = WCSpawnPool(EventHandler.Find("WCSpawnPool"));
+        if (!(sp && sp.Initialized)) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_ERROR, "GetValidItem(): Weapon Crate spawn pool not found or initialized!");
+            
+            return null;
+        }
+
+        if (sp.ValidWeapons.Size() <= 0) {
+            HDCore.Log('AceCorpExtended.WCSpawnPool', LOGGING_WARN, "GetValidItem(): Weapon Crate spawn pool empty!");
+            
+            return null;
+        }
+
+        return sp.ValidWeapons[random(0, sp.ValidWeapons.Size() - 1)];
     }
 }

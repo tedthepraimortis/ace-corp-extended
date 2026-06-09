@@ -63,7 +63,7 @@ class HDRoombaHover : HDUPK
 
 		while (it.Next())
 		{
-			if (Distance3D(it.thing) > 192 || !CheckSight(it.thing)) continue;
+			if (Distance3DSquared(it.thing) > 192**2 || !CheckSight(it.thing)) continue;
 
 			if (it.thing is 'HDUPK')
 			{
@@ -223,7 +223,7 @@ class HDRoombaHover : HDUPK
 						A_SpawnParticle(fillcolor, SPF_RELATIVE | SPF_FULLBRIGHT, 15, 2, i, radius - 4, 0, 0, 0.2, 0, -frandom(0.45, 0.5));
 					}
 				}
-				if (invoker.Destination && (invoker.Distance2D(invoker.Destination) > 40 || abs(invoker.pos.z - invoker.Destination.pos.z) > 20))
+				if (invoker.Destination && (invoker.Distance2DSquared(invoker.Destination) > 40**2 || abs(invoker.pos.z - invoker.Destination.pos.z) > 20))
 				{
 					double pToDest = AceCore.PitchTo(invoker, invoker.Destination);
 

@@ -67,7 +67,7 @@ class HDMajestic : HDHandgun
 	{
 		owner.A_TakeInventory("HD500SWLightAmmo");
 		owner.A_TakeInventory("HDMajesticMag");
-		owner.A_GiveInventory("HDMajesticMag");
+		ForceOneBasicAmmo("HDMajesticMag");
 	}
 
 	override void DropOneAmmo(int amt)

@@ -165,13 +165,9 @@ class HDRedline : HDCellWeapon
 	private clearscope action int A_GetMaxHeat(bool raw = false)
 	{
 		double mult = 1.0;
-		if (!raw)
-		{
-			if (AceCore.CheckForItem(invoker.owner, 'HDGungnir'))
-			{
-				mult += 0.5;
-			}
-		}
+
+		if (!raw && HDCore.CheckForItem(invoker.owner, 'HDGungnir')) mult += 0.5;
+
 		return int(100 * mult);
 	}
 

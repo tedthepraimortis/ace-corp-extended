@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.4.0] - 2026-05-15
+
+### Added
+
+-   Added BPX Sight System FAK Upgrades (#40).
+-   Added X-Pulse Thunderbuster FAK Upgrades (#44).
+-   Add CVARs to tweak how often players receive Assembly Cores (#48).
+-   Add PSG Service for addons (#52).
+
+### Changed
+
+-   Update Build Scripts (#41).
+-   Update Viper Mag Loadout Code in readme (#43).
+-   Fix Redline's Railgun offset not being tied to weapon bob (#46).
+-   Convert Spawn Configs from enums to sliders (#47).
+-   MENUDEF fixes (#49).
+-   Rename No-Scope Boss FAK Upgrades to prevent clash with PG's version (#53).
+-   Enhance Roomba to pick up more casings, MercBucks, etc. (#54, #55, #57).
+-   Fix PD-42 FAK Upgrades (#58).
+-   Localize Helptexts (#59).
+-   Implement HDCoreLib (#60).
+
 ## [v1.3.0] - 2024-02-09
 
 ### Added
@@ -94,7 +116,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     -   Viper, added in (#9).
     -   Wyvern, added in (#10).
 
-[Unreleased]: https://github.com/HDest-Community/ace-corp-extended/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/HDest-Community/ace-corp-extended/compare/v1.4.0...HEAD
+
+[v1.4.0]: https://github.com/HDest-Community/ace-corp-extended/compare/v1.3.0...v1.4.0
 
 [v1.3.0]: https://github.com/HDest-Community/ace-corp-extended/compare/v1.2.0...v1.3.0
 

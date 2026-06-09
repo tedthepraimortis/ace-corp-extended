@@ -107,7 +107,7 @@ class HDViper : HDHandgun
 	{
 		owner.A_TakeInventory("HD50AM_Ammo");
 		owner.A_TakeInventory("HDViperMag");
-		owner.A_GiveInventory("HDViperMag");
+		ForceOneBasicAmmo("HDViperMag");
 	}
 
 	override void DropOneAmmo(int amt)

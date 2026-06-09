@@ -1,42 +1,42 @@
 // Weapon Backpack Spawn Pool Filters
-addBPSpawnPoolFilter => { "name": "HDBlackhawk", "allowed": "#blackhawk_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackjack", "allowed": "#blackjack_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDGungnir", "allowed": "#gungnir_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDHammerhead", "allowed": "#hammerhead_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDJackdaw", "allowed": "#jackdaw_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDMajestic", "allowed": "#majestic_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDRedline", "allowed": "#redline_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDScorpion", "allowed": "#scorpion_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDViper", "allowed": "#viper_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDWyvern", "allowed": "#wyvern_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackhawk", "allowed": "#blackhawk_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackjack", "allowed": "#blackjack_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDGungnir", "allowed": "#gungnir_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDHammerhead", "allowed": "#hammerhead_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDJackdaw", "allowed": "#jackdaw_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDMajestic", "allowed": "#majestic_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDRedline", "allowed": "#redline_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDScorpion", "allowed": "#scorpion_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDViper", "allowed": "#viper_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDWyvern", "allowed": "#wyvern_allowBackpacks" }
 
 // Ammo Backpack Spawn Pool Filters
-addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltRegular", "allowed": "#blackhawkBolts_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltIncendiary", "allowed": "#blackhawkBolts_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltElectric", "allowed": "#blackhawkBolts_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackhawkBoltNuclear", "allowed": "#blackhawkBolts_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackjackMag355", "allowed": "#blackjack355mag_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBlackjackMagShells", "allowed": "#blackjackshellmag_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDMajesticMag", "allowed": "#majesticmag_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDViperMag", "allowed": "#vipermag_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackhawkBoltRegular", "allowed": "#blackhawkBolts_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackhawkBoltIncendiary", "allowed": "#blackhawkBolts_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackhawkBoltElectric", "allowed": "#blackhawkBolts_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackhawkBoltNuclear", "allowed": "#blackhawkBolts_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackjackMag355", "allowed": "#blackjack355mag_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBlackjackMagShells", "allowed": "#blackjackshellmag_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDMajesticMag", "allowed": "#majesticmag_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDViperMag", "allowed": "#vipermag_allowBackpacks" }
 
 // Item Backpack Spawn Pool Filters
-addBPSpawnPoolFilter => { "name": "LadderLauncher", "allowed": "#ladderlauncher_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDPersonalShieldGenerator", "allowed": "#psg_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDSecretFinder", "allowed": "#secretfinder_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "PortableSuperStimpack", "allowed": "#superstim_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDFieldAssemblyKit", "allowed": "#fak_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "AssemblyCore", "allowed": "#fak_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDBoosterJets", "allowed": "#boosterJets_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "DSDInterface", "allowed": "#dsd_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDRearviewMirror", "allowed": "#rearviewmirror_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDRoomba", "allowed": "#roomba_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDSupplyBeacon", "allowed": "#supplybeacon_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDTeleporter", "allowed": "#teleporter_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDSoulCube", "allowed": "#soulcube_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDMagazineReloader", "allowed": "#magreloader_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HackedReloader", "allowed": "#hackedreloader_allowBackpacks" }
-addBPSpawnPoolFilter => { "name": "HDArmorPatchKit", "allowed": "#armorpatchkit_allowBackpacks" }
+addStorageItemListFilter => { "name": "LadderLauncher", "allowed": "#ladderlauncher_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDPersonalShieldGenerator", "allowed": "#psg_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDSecretFinder", "allowed": "#secretfinder_allowBackpacks" }
+addStorageItemListFilter => { "name": "PortableSuperStimpack", "allowed": "#superstim_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDFieldAssemblyKit", "allowed": "#fak_allowBackpacks" }
+addStorageItemListFilter => { "name": "AssemblyCore", "allowed": "#fak_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDBoosterJets", "allowed": "#boosterJets_allowBackpacks" }
+addStorageItemListFilter => { "name": "DSDInterface", "allowed": "#dsd_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDRearviewMirror", "allowed": "#rearviewmirror_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDRoomba", "allowed": "#roomba_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDSupplyBeacon", "allowed": "#supplybeacon_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDTeleporter", "allowed": "#teleporter_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDSoulCube", "allowed": "#soulcube_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDMagazineReloader", "allowed": "#magreloader_allowBackpacks" }
+addStorageItemListFilter => { "name": "HackedReloader", "allowed": "#hackedreloader_allowBackpacks" }
+addStorageItemListFilter => { "name": "HDArmorPatchKit", "allowed": "#armorpatchkit_allowBackpacks" }
 
 // Weapon Spawn Pools
 addSpawnTableSingleEntry => { "tableName": "RocketLauncherReplaces", "name": "BlackhawkRandom", "weight": "#blackhawk_launcher_spawn_bias", "persists": "#blackhawk_persistent_spawning" }

@@ -32,7 +32,7 @@ class HDHammerhead : HDCellWeapon
 		double heatFac = WeaponStatus[HHProp_Heat] / double(A_GetMaxHeat());
 		if (heatFac > 1.0 && owner && random(1, 100) <= 100 * (heatFac - 1))
 		{
-			owner.A_GiveInventory('Heat', 5);
+			HDF.give(owner, 'Heat', 5);
 		}
 
 		/*int active = A_GetActiveBatteryCount(true);
@@ -615,24 +615,31 @@ class HammerheadRandom : IdleDummy
 	}
 }
 
-class HammerHeadPlasmaProjectile:HDFireball{
-	default{
-		+extremedeath
-		damagetype "balefire";
-		decal "HammerheadScorch";
-		Renderstyle "Add";
-		gravity 0.035;
-		height 6;
-		radius 6;
-		speed HDCONST_MPSTODUPT * 35;
-		scale 0.25;
-		damagefunction(30 * Charge);
-		+hittracer;
+class HammerheadPlasmaProjectile : SlowProjectile
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		A_ChangeVelocity(speed * cos(pitch), 0, speed * sin(-pitch), CVF_RELATIVE);
+		Scale += (Charge, Charge) * 0.02;
 	}
-	actor lite;
-	Color pcol;
-	int Charge;
-	
+	override void GunSmoke() { }
+	override void ExplodeSlowMissile(Line hitLine, Actor hitActor)
+	{
+		if (max(abs(pos.x), abs(pos.y)) >= 32768)
+		{
+			Destroy();
+			return;
+		}
+
+		A_AlertMonsters(HDCONST_ONEMETRE * 10);
+		if (hitActor)
+		{
+			hitActor.DamageMobj(self, target, random(40, 50) * Charge, 'Plasma');
+			hitActor.A_GiveInventory('Heat', 25 * Charge);
+		}
+		ExplodeMissile(hitLine, null);
+	}
 	override void Tick()
 	{
 		Super.Tick();

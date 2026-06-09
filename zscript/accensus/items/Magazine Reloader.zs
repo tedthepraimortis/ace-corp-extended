@@ -214,7 +214,7 @@ class HDMagazineReloader : HDWeapon
 							{
 								let am = HDAmmo(it.thing);
 								let upkp = HDUPK(it.thing);
-								if (invoker.Distance3D(it.thing) > SearchRange || it.thing.vel.length() > 0.4 || am && am.GetClass() != invoker.LoadedRoundsType || upkp && upkp.pickuptype != invoker.LoadedRoundsType || !am && !upkp)
+								if (invoker.Distance3DSquared(it.thing) > SearchRange**2 || it.thing.vel.length() > 0.4 || am && am.GetClass() != invoker.LoadedRoundsType || upkp && upkp.pickuptype != invoker.LoadedRoundsType || !am && !upkp)
 								{
 									continue;
 								}
@@ -239,10 +239,10 @@ class HDMagazineReloader : HDWeapon
 							// [Ace] Prioritize boxes.
 							if (invoker.TractoredBox)
 							{
-								double dist = invoker.Distance3D(invoker.TractoredBox);
-								if (dist <= SearchRange)
+								double dist = invoker.Distance3DSquared(invoker.TractoredBox);
+								if (dist <= SearchRange**2)
 								{
-									if (dist > MinDist)
+									if (dist > MinDist**2)
 									{
 										AceCore.Tether(invoker, invoker.TractoredBox);
 									}
@@ -274,10 +274,10 @@ class HDMagazineReloader : HDWeapon
 									continue;
 								}
 
-								double dist = invoker.Distance3D(invoker.TractoredRounds[i]);
-								if (dist <= SearchRange)
+								double dist = invoker.Distance3DSquared(invoker.TractoredRounds[i]);
+								if (dist <= SearchRange**2)
 								{
-									if (dist > MinDist)
+									if (dist > MinDist**2)
 									{
 										AceCore.Tether(invoker, invoker.TractoredRounds[i]);
 									}
@@ -320,7 +320,7 @@ class HDMagazineReloader : HDWeapon
 						while (it.Next())
 						{
 							let mag = HDMagAmmo(it.thing);
-							if (!mag || invoker.Distance3D(mag) > SearchRange || invoker.ChargeUp < 360 || mag.vel.length() > 0.4 || !mag.RoundType || invoker.FactoryAction == FAction_Reload && mag.Mags[0] == mag.MaxPerUnit || invoker.FactoryAction == FAction_Unload && mag.Mags[0] == 0)
+							if (!mag || invoker.Distance3DSquared(mag) > SearchRange**2 || invoker.ChargeUp < 360 || mag.vel.length() > 0.4 || !mag.RoundType || invoker.FactoryAction == FAction_Reload && mag.Mags[0] == mag.MaxPerUnit || invoker.FactoryAction == FAction_Unload && mag.Mags[0] == 0)
 							{
 								continue;
 							}
@@ -331,10 +331,10 @@ class HDMagazineReloader : HDWeapon
 					}
 					else
 					{
-						double dist = invoker.Distance3D(invoker.TractoredMag);
-						if (dist <= SearchRange)
+						double dist = invoker.Distance3DSquared(invoker.TractoredMag);
+						if (dist <= SearchRange**2)
 						{
-							if (dist > MinDist)
+							if (dist > MinDist**2)
 							{
 								AceCore.Tether(invoker, invoker.TractoredMag);
 							}

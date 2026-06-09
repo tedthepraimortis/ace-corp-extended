@@ -120,7 +120,7 @@ class HDDeployedBarricade : HDActor
 
 	override bool Used(Actor user)
 	{
-		if (!Deployed || Distance3D(user) > 50)
+		if (!Deployed || Distance3DSquared(user) > 50**2)
 		{
 			return false;
 		}
@@ -205,7 +205,7 @@ class HDDeployedBarricade : HDActor
 						br.A_SetSize(-1, Height);
 						br.Core = true;
 						br.Offset = i;
-						br.A_GiveInventory('ImmunityToFire');
+						HDF.give(br, 'ImmunityToFire');
 						CenterSegments.Push(br);
 					}
 					return;
@@ -233,14 +233,14 @@ class HDDeployedBarricade : HDActor
 					br = BarricadeBarricade(a);
 					br.A_SetSize(-1, Height);
 					br.Offset = off;
-					br.A_GiveInventory('ImmunityToFire');
+					HDF.give(br, 'ImmunityToFire');
 					LeftSideSegments.Push(br);
 
 					[success, a] = A_SpawnItemEx("BarricadeBarricade", 0, -off, 0, flags: SXF_SETMASTER);
 					br = BarricadeBarricade(a);
 					br.A_SetSize(-1, Height);
 					br.Offset = -off;
-					br.A_GiveInventory('ImmunityToFire');
+					HDF.give(br, 'ImmunityToFire');
 					RightSideSegments.Push(br);
 
 					Offset += 6;

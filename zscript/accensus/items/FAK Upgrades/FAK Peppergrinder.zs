@@ -163,10 +163,7 @@ class FAK_Slayer_SawnOff : FAK_Upgrade
 		int saddles = wpn.WeaponStatus[SHOTS_SIDESADDLE];
 		wpn.Destroy();
 
-		if (saddles > 0)
-		{
-			plr.A_GiveInventory('HDShellAmmo', saddles);
-		}
+		if (saddles > 0) HDF.give(plr, 'HDShellAmmo', saddles);
 
 		Name cls = 'SawedSlayer';
 		HDWeapon sawedOff;

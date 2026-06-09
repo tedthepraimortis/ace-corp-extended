@@ -76,46 +76,40 @@ class HDJackdaw : HDWeapon
 		sb.DrawImage("JDWBACK", (0, -7) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP);
 	}
 
-	private action void A_TryLoadChamber()
-	{
-		if (invoker.Storage && invoker.Storage.owner == invoker.owner && invoker.Storage.Storage)
-		{
-			if (invoker.WeaponStatus[JDProp_Chamber] == 0)
-			{
-				if (invoker.AmmoReserve && invoker.AmmoReserve.Amounts.Size() > 0 && invoker.AmmoReserve.Amounts[0] > 0)
-				{
-					invoker.Storage.Storage.RemoveItem(invoker.AmmoReserve, null, null, 1);
-					invoker.WeaponStatus[JDProp_Chamber] = 2;
-				}
-				else
-				{
-					invoker.AmmoReserve = null;
-					if (A_FindStorage())
-					{
+	private action void A_TryLoadChamber() {
+		if (invoker.Storage && invoker.Storage.owner == invoker.owner) {
+			if (invoker.WeaponStatus[JDProp_Chamber] == 0) {
+				if (invoker.Storage.count("HDPistolAmmo") > 0) {
+					// TODO: Figure out better way to silently extract ammo
+					let rnd = invoker.Storage.Extract(invoker.storage.IndexOf("HDPistolAmmo"));
+					if (rnd) {
+						invoker.WeaponStatus[JDProp_Chamber] = 2;
+
+						rnd.destroy();
+					}
+				} else {
+					// invoker.AmmoReserve = null;
+					if (A_FindStorage()) {
 						A_TryLoadChamber();
 					}
 				}
 			}
 			return;
 		}
-		if (A_FindStorage())
-		{
+
+		if (A_FindStorage()) {
 			A_TryLoadChamber();
 		}
 	}
 
-	private action bool A_FindStorage()
-	{
-		for (Inventory Next = Inv; Next; Next = Next.Inv)
-		{
-			let bp = HDBackpack(Next);
-			if (bp && bp.Storage)
-			{
-				let nma = bp.Storage.Find('HDPistolAmmo');
-				if (nma && nma.Amounts.Size() > 0 && nma.Amounts[0] > 0)
-				{
-					invoker.AmmoReserve = nma;
+	private action bool A_FindStorage() {
+		for (Inventory Next = Inv; Next; Next = Next.Inv) {
+			let bp = HDStorageItem(Next);
+			if (bp) {
+				// let nma = bp.count("HDPistolAmmo");
+				if (bp.count("HDPistolAmmo") > 0) {
 					invoker.Storage = bp;
+					// invoker.AmmoReserve = bp.;
 					return true;
 				}
 			}
@@ -123,8 +117,8 @@ class HDJackdaw : HDWeapon
 		return false;
 	}
 
-	private HDBackpack Storage;
-	private StorageItem AmmoReserve;
+	private HDStorageItem Storage;
+	// private StorageItem AmmoReserve;
 
 	Default
 	{

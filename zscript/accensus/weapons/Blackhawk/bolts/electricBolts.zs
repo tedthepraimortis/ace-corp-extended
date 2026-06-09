@@ -50,7 +50,7 @@ class HDBlackhawkProjectileElectric : HDBlackhawkProjectile
 		BlockThingsIterator it = BlockThingsIterator.Create(self, EffectRange);
 		while (it.Next() && zapsLeft > 0)
 		{
-			double distFac = it.thing.Distance3D(self) / EffectRange;
+			double distFac = it.thing.Distance3DSquared(self) / (EffectRange ** 2);
 			if (distFac > 1.0 || !it.thing.bISMONSTER && !it.thing.player)
 			{
 				continue;

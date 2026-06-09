@@ -168,7 +168,7 @@ class FAK_RL_Magazine : FAK_Upgrade
 	{
 		if (wpn.WeaponStatus[RLS_MAG] > 0)
 		{
-			wpn.owner.A_GiveInventory('HDRocketAmmo', wpn.WeaponStatus[RLS_MAG]);
+			HDF.give(wpn.owner, 'HDRocketAmmo', wpn.WeaponStatus[RLS_MAG]);
 			wpn.WeaponStatus[RLS_MAG] = 0;
 		}
 		wpn.WeaponStatus[RLS_STATUS] |= RLF_NOMAG;
@@ -321,15 +321,19 @@ class FAK_Boss_CustomChamber : FAK_Upgrade
 	override void DoDowngrade(HDWeapon wpn, HDPickup pkp) { wpn.WeaponStatus[0] &= ~BOSSF_CUSTOMCHAMBER; GiveCore(wpn.owner, 0.7); }
 }
 
-class FAK_Armor_Repair : FAK_Upgrade
+class FAK_Garrison_Armor_Repair : FAK_Upgrade
 {
-	override string GetItem() { return "HDArmour"; }
+	override string GetItem() { return "GarrisonArmour"; }
 	override string GetDisplayName() { return "Full Repair"; }
-	override void DoUpgrade(HDWeapon wpn, HDPickup pkp)
-	{
-		let arm = HDArmour(pkp);
-		arm.Mags[arm.Mags.Size() - 1] = arm.mega ? 1070 : 144;
-	}
+	override void DoUpgrade(HDWeapon wpn, HDPickup pkp) { let arm = HDArmour(pkp); arm.Mags[arm.Mags.Size() - 1] = 144; }
+	override int HasUpgrade(HDWeapon wpn, HDPickup pkp) { return HUResult_Repeatable; }
+}
+
+class FAK_Battle_Armor_Repair : FAK_Upgrade
+{
+	override string GetItem() { return "BattleArmour"; }
+	override string GetDisplayName() { return "Full Repair"; }
+	override void DoUpgrade(HDWeapon wpn, HDPickup pkp) { let arm = HDArmour(pkp); arm.Mags[arm.Mags.Size() - 1] = 70; }
 	override int HasUpgrade(HDWeapon wpn, HDPickup pkp) { return HUResult_Repeatable; }
 }
 

@@ -44,7 +44,7 @@ extend class FAK_Handler
 					continue;
 				}
 
-				if (plr.player.ReadyWeapon is 'LiberatorRifle' && LiberatorRifle(plr.player.ReadyWeapon).WeaponStatus[LIBS_FLAGS] & 16384 && e.Thing.Distance2D(plr) < plr.radius * 2)
+				if (plr.player.ReadyWeapon is 'LiberatorRifle' && LiberatorRifle(plr.player.ReadyWeapon).WeaponStatus[LIBS_FLAGS] & 16384 && e.Thing.Distance2DSquared(plr) < plr.radius * 2 ** 2)
 				{
 					let pkp = HDUPK(e.Thing);
 					pkp.picktarget = plr;

@@ -33,21 +33,15 @@ class HDArmorPatchKit : HDWeapon
 	override void InitializeWepStats(bool idfa) { WeaponStatus[KProp_Durability] = KitDurability; }
 	override void LoadoutConfigure(string input) { WeaponStatus[KProp_Durability] = KitDurability; }
 
-	protected int GetSelectedArmorDurability()
-	{
+	protected int GetSelectedArmorDurability() {
 		let Armor = HDArmour(owner.FindInventory("HDArmour"));
-		if (Armor)
-		{
-			return Armor.Mags[Armor.Mags.Size() - 1];
-		}
-
-		return -1;
+		return Armor
+			? Armor.Mags[Armor.Mags.Size() - 1]
+			: -1;
 	}
 
-	override void DropOneAmmo(int amt)
-	{
-		if (owner)
-		{
+	override void DropOneAmmo(int amt) {
+		if (owner) {
 			owner.A_DropInventory(GetPatchType(false), 1);
 			owner.Angle += 10;
 			owner.A_DropInventory(GetPatchType(true), 1);
@@ -55,13 +49,11 @@ class HDArmorPatchKit : HDWeapon
 		}
 	}
 
-	protected class<HDAPK_ArmorPatch> GetPatchType(bool isMega) const
-	{
+	protected class<HDAPK_ArmorPatch> GetPatchType(bool isMega) const {
 		return isMega ? "HDAPK_BattlePatch" : "HDAPK_GarrisonPatch";
 	}
 
-	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
-	{
+	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl) {
 		// [Ace] Durability display.
 		sb.DrawRect(-30, -16, 4, 5); // Vertical.
 		sb.DrawRect(-32, -17, 8, 3); // Horizontal.
@@ -85,12 +77,10 @@ class HDArmorPatchKit : HDWeapon
 
 		// [Ace] The Armor pointer technically refers to Armor.Mags[Mags.Size() - 1].
 		let Armor = HDArmour(hpl.FindInventory("HDArmour"));
-		if (Armor)
-		{
+		if (Armor) {
 			int ArmorCount = Armor.Mags.Size();
-			for (int i = 0; i < 3 && i < ArmorCount; ++i)
-			{
-				bool IsMega = Armor.Mags[i] > 1000 || i == ArmorCount - 1 && Armor.Mega;
+			for (int i = 0; i < 3 && i < ArmorCount; ++i) {
+				bool IsMega = HDCore.isChildClass(Armor.getClass(), 'BattleArmour');
 
 				string ArmorFullIcon = IsMega ? "ARMCA0" : "ARMSA0";
 				string ArmorEmptyIcon = IsMega ? "ARMER1" : "ARMER0";
@@ -100,24 +90,19 @@ class HDArmorPatchKit : HDWeapon
 
 				int XOffset = IsSelected ? 0 : (i == 0 ? 40 : -40);
 				sb.DrawBar(ArmorFullIcon, ArmorEmptyIcon, ArmorDurability, IsMega ? 70 : 144, (XOffset, BaseYOffset - 60) + bob, -1, 2, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_ITEM_CENTER, IsSelected ? 1.0 : 0.6);
-				if (IsSelected)
-				{
+
+				if (IsSelected) {
 					sb.DrawString(sb.pSmallFont, IsMega ? "Battle Armor" : "Garrison Armor", (0, BaseYOffset - 45) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER, IsMega ? Font.CR_BLUE : Font.CR_GREEN);
 					sb.DrawString(sb.pSmallFont, sb.FormatNumber(ArmorDurability, 1, 3), (0, BaseYOffset - 35) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER, Font.CR_WHITE);
 
-					if (IsMega)
-					{
+					if (IsMega) {
 						BlueAlpha = 1.0;
-					}
-					else
-					{
+					} else {
 						GreenAlpha = 1.0;
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			sb.DrawString(sb.pSmallFont, "No armors found.", (0, BaseYOffset - 40) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER, Font.CR_GOLD);
 		}
 
@@ -128,26 +113,23 @@ class HDArmorPatchKit : HDWeapon
 		sb.DrawString(sb.pSmallFont, sb.FormatNumber(sb.GetAmount("HDAPK_BattlePatch"), 1, 4), (60, BaseYOffset + 10) + bob, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_CENTER, Font.CR_WHITE, BlueAlpha);
 	}
 
-	protected action void A_TryKitAction(KitAction act)
-	{
+	protected action void A_TryKitAction(KitAction act) {
 		HDArmour Armor = HDArmour(FindInventory("HDArmour"));
-		if (!Armor)
-		{
-			return;
-		}
 
-		if (invoker.WeaponStatus[KProp_Durability] <= 0)
-		{
+		if (!Armor) return;
+
+		bool isMega = HDCore.isChildClass(Armor.getClass(), 'BattleArmour');
+
+		if (invoker.WeaponStatus[KProp_Durability] <= 0) {
 			A_WeaponMessage("Your patching tools have been dulled out.");
 			return;
 		}
 
-		switch (act)
-		{
+		switch (act) {
 			int ArmorDurability;
 
 			case KAction_Repair:
-				int PatchKits = CountInv(invoker.GetPatchType(Armor.Mega));
+				int PatchKits = CountInv(invoker.GetPatchType(isMega));
 				if (PatchKits <= 0)
 				{
 					A_Log("You don't have any patch kits left.", true);
@@ -155,7 +137,7 @@ class HDArmorPatchKit : HDWeapon
 				}
 
 				ArmorDurability = invoker.GetSelectedArmorDurability();
-				if (Armor.Mega && ArmorDurability < 1000 + 70 * 0.75 || !Armor.Mega && ArmorDurability < 144 * 1.0)
+				if (isMega ? (ArmorDurability < (70 * 0.75)) : (ArmorDurability < 144))
 				{
 					static const string RepairStrings[] =
 					{
@@ -170,7 +152,7 @@ class HDArmorPatchKit : HDWeapon
 					{
 						A_StartSound("APK/Patch", CHAN_WEAPON);
 						A_Log(RepairStrings[random(0, RepairStrings.Size() - 1)], true);
-						A_TakeInventory(invoker.GetPatchType(Armor.Mega), 1);
+						A_TakeInventory(invoker.GetPatchType(isMega), 1);
 						Armor.Mags[Armor.Mags.Size() - 1] += random(5, 10);
 						invoker.WeaponStatus[KProp_Durability]--;
 					}
@@ -189,15 +171,14 @@ class HDArmorPatchKit : HDWeapon
 				if (!random(0, 3))
 				{
 					A_StartSound("APK/Patch", CHAN_WEAPON);
-					A_SpawnItemEx(invoker.GetPatchType(Armor.Mega), 0, 0, height / 2 + 8, 3, angle: frandom(-5.0, 5.0));
+					A_SpawnItemEx(invoker.GetPatchType(isMega), 0, 0, height / 2 + 8, 3, angle: frandom(-5.0, 5.0));
 					Armor.Mags[Armor.Mags.Size() - 1] -= random(12, 18);
 					if (!random(0, 4))
 					{
 						invoker.WeaponStatus[KProp_Durability]--;
 					}
 
-					ArmorDurability = invoker.GetSelectedArmorDurability();
-					if (Armor.Mega && ArmorDurability <= 1000 || !Armor.Mega && ArmorDurability <= 0)
+					if (invoker.GetSelectedArmorDurability() <= 0)
 					{
 						A_Log("That armor is done for.", true);
 						invoker.StopDisassembly = true;

@@ -192,7 +192,7 @@ class FAK_DSD_ExtraCapacity : FAK_Upgrade
 	override string GetItem() { return "DSDInterface"; }
 	override string GetDisplayName() { return "+500 Capacity"; }
 	override int GetCost() { return 1; }
-	override void DoUpgrade(HDWeapon wpn, HDPickup pkp) { wpn.WeaponStatus[1]++; }
+	override void DoUpgrade(HDWeapon wpn, HDPickup pkp) { wpn.WeaponStatus[DSDPROP_EXTRAPOINTS]++; }
 	override int HasUpgrade(HDWeapon wpn, HDPickup pkp) { return HUResult_Repeatable; }
 }
 

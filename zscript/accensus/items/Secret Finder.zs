@@ -152,7 +152,7 @@ class HDSecretFinder : HDWeapon
 		int bat = hdw.WeaponStatus[SFNProp_Battery];
 		if (bat >= 0)
 		{
-			sb.DrawImage(AceCore.GetBatteryColor(bat), (0, 30) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, scale: (2.0, 2.0));
+			sb.DrawImage(HDCore.GetBatteryIcon(bat), (0, 30) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, scale: (2.0, 2.0));
 		}
 		sb.DrawString(sb.pSmallFont, "\c[White]Range:\c- "..sb.FormatNumber(WeaponStatus[SFNProp_Range], 1, 2), (20, -3) + bob, sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_SAPPHIRE);
 	}
